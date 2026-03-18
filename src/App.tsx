@@ -1,8 +1,9 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
+
 import Index from "./pages/Index";
-import Access from "./pages/Access";
-import Drop from "./pages/Drop";
-import Admin from "./pages/Admin";
+import AccessPage from "./pages/AccessPage";
+import AdminPage from "./pages/AdminPage";
+import MontserratDrop from "./pages/MontserratDrop";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -10,9 +11,9 @@ function App() {
     <HashRouter>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/access" element={<Access />} />
-        <Route path="/drop/:id" element={<Drop />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/access" element={<AccessPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/drop/montserrat" element={<MontserratDrop />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
