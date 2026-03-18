@@ -9,49 +9,38 @@ const translations = {
     nav_access: "Accés",
     nav_logout: "Sortir",
 
-    // Hero
-    hero_est: "Est. Barcelona",
+    hero_est: "Born in Barcelona",
     hero_title: "La muntanya és el patró.",
-    hero_subtitle: "Cada peça segueix un cim. Cada tall segueix un penya-segat.",
-    hero_cta: "Sol·licitar Accés Anticipat",
-
-    // Manifesto
+    hero_subtitle: "Cada drop és un territori. Cada peça en conserva la forma.",
+    hero_cta: "Entrar al drop",
+    
     manifesto_label: "Manifest",
-    manifesto_text: "pdra. és un estudi del paisatge català. No escalem per conquerir; escalem per pertànyer.",
-    manifesto_body: "Cada costura segueix una carena. Cada tall segueix un penya-segat. La muntanya no és decoració — defineix l'estructura de la peça.",
-
-    // Concept
-    concept_label: "El Concepte",
-    concept_title: "De la muntanya a la peça.",
-    concept_p1: "Cada col·lecció comença amb una serralada catalana — Montserrat, Pedraforca, Montsant. Estudiem la topografia, tracem les línies de cresta i les traduïm en l'arquitectura de cada peça.",
-    concept_p2: "El resultat és roba que pertany a un lloc. No és roba esportiva. No és moda. Quelcom entremig.",
-
-    // Drop Preview
-    drop_label: "Col·lecció 001",
-    drop_name: "MONT SERRAT",
-    drop_subtitle: "Una muntanya que portes posada.",
+    manifesto_text: "pdra. neix de la roca, de la ciutat i de tot el que passa entre les dues.",
+    manifesto_body: "No fem pantalons per semblar escaladors. Fem peces que porten territori a sobre. La muntanya no decora la roba: la construeix.",
+    
+    concept_label: "El concepte",
+    concept_title: "Del relleu a la peça.",
+    concept_p1: "Cada col·lecció parteix d’una serralada catalana. N’estudiem el perfil, les arestes, la tensió visual i la manera com el paisatge cau, talla i s’enfila.",
+    concept_p2: "Després, tot això es tradueix en patronatge, volum i costures. No és outdoor convencional. No és streetwear buit. És escalada amb cultura.",
+    
+    drop_label: "Drop 001",
+    drop_name: "MONTSERRAT",
+    drop_subtitle: "La primera muntanya. El primer gest.",
     drop_elevation: "Altitud — 1.236 m",
-    drop_units: "Unitats — {count} peces",
+    drop_units: "Edició limitada — {count} peces",
     drop_status_label: "Estat",
-    drop_coming_soon: "Pròximament",
-    drop_open: "Obert",
-    drop_sold_out: "Esgotat",
-    drop_view: "Veure Col·lecció",
-
-    // Philosophy
+    drop_view: "Veure el drop",
+    
     philosophy_label: "Filosofia",
-    philosophy_title: "Connexió, no rendiment.",
-    philosophy_body: "Creiem que escalar és un acte d'escoltar. La roca parla a través de la textura, el pes i la forma. pdra. tradueix aquesta conversa en roba que pots portar amb tu — de la paret al carrer.",
-
-    // Email Capture
-    email_label: "Mantén-te a prop",
-    email_title: "Sigues el primer en saber-ho.",
-    email_on_list: "Ets a la llista.",
-    email_placeholder: "el-teu@email.com",
-    email_cta: "Sol·licitar Accés",
-
-    // Footer
-    footer_location: "pdra. — Barcelona",
+    philosophy_title: "No parlem de rendiment. Parlem de connexió.",
+    philosophy_body: "Escalar també és una manera de pertànyer a un lloc. pdra. converteix aquesta relació en roba que pots portar de la roca al carrer sense canviar de pell.",
+    
+    email_label: "Accés anticipat",
+    email_title: "Entra abans que la resta.",
+    email_on_list: "Ja formes part de la llista.",
+    email_cta: "Sol·licitar accés",
+    
+    footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     // Drop Page
     drop_collection_label: "La Col·lecció",
@@ -108,42 +97,38 @@ const translations = {
     nav_access: "Access",
     nav_logout: "Logout",
 
-    hero_est: "Est. Barcelona",
+    hero_est: "Born in Barcelona",
     hero_title: "The mountain is the pattern.",
-    hero_subtitle: "Each garment follows a ridge. Each cut follows a cliff.",
-    hero_cta: "Request Early Access",
-
+    hero_subtitle: "Each drop is a territory. Each piece carries its shape.",
+    hero_cta: "Enter the drop",
+    
     manifesto_label: "Manifesto",
-    manifesto_text: "pdra. is a study of the Catalan landscape. We do not climb to conquer; we climb to belong.",
-    manifesto_body: "Every stitch follows a ridge. Every cut follows a cliff. The mountain is not decoration — it defines the structure of the garment.",
-
+    manifesto_text: "pdra. is born from rock, from the city, and from everything that lives between the two.",
+    manifesto_body: "We do not make climbing pants to look like climbers. We make garments that carry territory. The mountain is not decoration — it builds the piece.",
+    
     concept_label: "The Concept",
-    concept_title: "From mountain to garment.",
-    concept_p1: "Each collection begins with a Catalan mountain range — Montserrat, Pedraforca, Montsant. We study the topography, trace the ridgelines, and translate them into the architecture of each piece.",
-    concept_p2: "The result is clothing that belongs to a place. Not performance wear. Not fashion. Something in between.",
-
+    concept_title: "From landscape to garment.",
+    concept_p1: "Each collection begins with a Catalan mountain range. We study its profile, ridgelines, visual tension, and the way the land rises, cuts, and falls.",
+    concept_p2: "Then we translate it into pattern, volume, and seam construction. It is not conventional outdoor wear. It is not empty streetwear. It is climbing with culture.",
+    
     drop_label: "Drop 001",
-    drop_name: "MONT SERRAT",
-    drop_subtitle: "A mountain you wear.",
-    drop_elevation: "Elevation — 1,236m",
-    drop_units: "Units — {count} pieces",
+    drop_name: "MONTSERRAT",
+    drop_subtitle: "The first mountain. The first gesture.",
+    drop_elevation: "Elevation — 1,236 m",
+    drop_units: "Limited edition — {count} pieces",
     drop_status_label: "Status",
-    drop_coming_soon: "Coming Soon",
-    drop_open: "Open",
-    drop_sold_out: "Sold Out",
-    drop_view: "View Drop",
-
+    drop_view: "View the drop",
+    
     philosophy_label: "Philosophy",
-    philosophy_title: "Connection, not performance.",
-    philosophy_body: "We believe climbing is an act of listening. The rock speaks through texture, weight, and form. pdra. translates that conversation into clothing you can carry with you — off the wall, into the city.",
-
-    email_label: "Stay Close",
-    email_title: "Be the first to know.",
-    email_on_list: "You're on the list.",
-    email_placeholder: "your@email.com",
-    email_cta: "Request Access",
-
-    footer_location: "pdra. — Barcelona",
+    philosophy_title: "This is not about performance. It is about connection.",
+    philosophy_body: "Climbing is also a way of belonging to a place. pdra. turns that relationship into clothing you can carry from rock to city without changing your skin.",
+    
+    email_label: "Early access",
+    email_title: "Enter before everyone else.",
+    email_on_list: "You are already on the list.",
+    email_cta: "Request access",
+    
+    footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     drop_collection_label: "The Collection",
     drop_collection_desc: "Born from the serrated ridges of Montserrat, this collection translates the mountain's impossible geometry into wearable form.",
@@ -197,42 +182,38 @@ const translations = {
     nav_access: "Acceso",
     nav_logout: "Salir",
 
-    hero_est: "Est. Barcelona",
+    hero_est: "Born in Barcelona",
     hero_title: "La montaña es el patrón.",
-    hero_subtitle: "Cada prenda sigue una cresta. Cada corte sigue un acantilado.",
-    hero_cta: "Solicitar Acceso Anticipado",
-
+    hero_subtitle: "Cada drop es un territorio. Cada pieza conserva su forma.",
+    hero_cta: "Entrar al drop",
+    
     manifesto_label: "Manifiesto",
-    manifesto_text: "pdra. es un estudio del paisaje catalán. No escalamos para conquistar; escalamos para pertenecer.",
-    manifesto_body: "Cada costura sigue una cresta. Cada corte sigue un acantilado. La montaña no es decoración — define la estructura de la prenda.",
-
-    concept_label: "El Concepto",
-    concept_title: "De la montaña a la prenda.",
-    concept_p1: "Cada colección comienza con una sierra catalana — Montserrat, Pedraforca, Montsant. Estudiamos la topografía, trazamos las líneas de cresta y las traducimos en la arquitectura de cada pieza.",
-    concept_p2: "El resultado es ropa que pertenece a un lugar. No es ropa deportiva. No es moda. Algo intermedio.",
-
-    drop_label: "Colección 001",
-    drop_name: "MONT SERRAT",
-    drop_subtitle: "Una montaña que llevas puesta.",
+    manifesto_text: "pdra. nace de la roca, de la ciudad y de todo lo que ocurre entre las dos.",
+    manifesto_body: "No hacemos pantalones para parecer escaladores. Hacemos prendas que llevan territorio encima. La montaña no decora la ropa: la construye.",
+    
+    concept_label: "El concepto",
+    concept_title: "Del relieve a la prenda.",
+    concept_p1: "Cada colección parte de una sierra catalana. Estudiamos su perfil, sus aristas, su tensión visual y la forma en que el paisaje sube, corta y cae.",
+    concept_p2: "Después, todo eso se traduce en patronaje, volumen y costuras. No es outdoor convencional. No es streetwear vacío. Es escalada con cultura.",
+    
+    drop_label: "Drop 001",
+    drop_name: "MONTSERRAT",
+    drop_subtitle: "La primera montaña. El primer gesto.",
     drop_elevation: "Altitud — 1.236 m",
-    drop_units: "Unidades — {count} piezas",
+    drop_units: "Edición limitada — {count} piezas",
     drop_status_label: "Estado",
-    drop_coming_soon: "Próximamente",
-    drop_open: "Abierto",
-    drop_sold_out: "Agotado",
-    drop_view: "Ver Colección",
-
+    drop_view: "Ver el drop",
+    
     philosophy_label: "Filosofía",
-    philosophy_title: "Conexión, no rendimiento.",
-    philosophy_body: "Creemos que escalar es un acto de escuchar. La roca habla a través de la textura, el peso y la forma. pdra. traduce esa conversación en ropa que puedes llevar contigo — del muro a la ciudad.",
-
-    email_label: "Mantente cerca",
-    email_title: "Sé el primero en saberlo.",
-    email_on_list: "Estás en la lista.",
-    email_placeholder: "tu@email.com",
-    email_cta: "Solicitar Acceso",
-
-    footer_location: "pdra. — Barcelona",
+    philosophy_title: "No hablamos de rendimiento. Hablamos de conexión.",
+    philosophy_body: "Escalar también es una forma de pertenecer a un lugar. pdra. convierte esa relación en ropa que puedes llevar de la roca a la ciudad sin cambiar de piel.",
+    
+    email_label: "Acceso anticipado",
+    email_title: "Entra antes que el resto.",
+    email_on_list: "Ya formas parte de la lista.",
+    email_cta: "Solicitar acceso",
+    
+    footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     drop_collection_label: "La Colección",
     drop_collection_desc: "Nacida de las crestas serradas de Montserrat, esta colección traduce la geometría imposible de la montaña en forma vestible.",
