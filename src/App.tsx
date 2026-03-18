@@ -1,38 +1,22 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Route, Routes } from "react-router-dom";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { AppProvider } from "@/context/AppContext";
-import { LanguageProvider } from "@/context/LanguageContext";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import MontserratDrop from "./pages/MontserratDrop";
-import AccessPage from "./pages/AccessPage";
-import AdminPage from "./pages/AdminPage";
+import Access from "./pages/Access";
+import Drop from "./pages/Drop";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <LanguageProvider>
-        <AppProvider>
-          <Toaster />
-          <Sonner />
-          <HashRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/drop/montserrat" element={<MontserratDrop />} />
-              <Route path="/access" element={<AccessPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </HashRouter>
-        </AppProvider>
-      </LanguageProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/access" element={<Access />} />
+        <Route path="/drop/:id" element={<Drop />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </HashRouter>
+  );
+}
 
 export default App;
