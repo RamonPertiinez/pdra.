@@ -296,7 +296,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("ca");
 
   const t = (key: TranslationKey, params?: Record<string, string | number>): string => {
-    let text = translations[language][key] || translations.ca[key] || key;
+    let text: string = translations[language][key] || translations.ca[key] || key;
     if (params) {
       Object.entries(params).forEach(([k, v]) => {
         text = text.replace(`{${k}}`, String(v));
