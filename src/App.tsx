@@ -6,17 +6,24 @@ import AdminPage from "./pages/AdminPage";
 import MontserratDrop from "./pages/MontserratDrop";
 import NotFound from "./pages/NotFound";
 
+import { AppProvider } from "./context/AppContext";
+import { LanguageProvider } from "./context/LanguageContext";
+
 function App() {
   return (
-    <HashRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/access" element={<AccessPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/drop/montserrat" element={<MontserratDrop />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </HashRouter>
+    <LanguageProvider>
+      <AppProvider>
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/access" element={<AccessPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/drop/montserrat" element={<MontserratDrop />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </HashRouter>
+      </AppProvider>
+    </LanguageProvider>
   );
 }
 
