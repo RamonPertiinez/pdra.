@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
+import { useLanguage, languageLabels, Language } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
+
+const languages: Language[] = ["ca", "en", "es"];
 
 const Header = () => {
   const { state, logout } = useApp();
+  const { t, language, setLanguage } = useLanguage();
   const isLoggedIn = !!state.user.email;
 
   return (
@@ -19,25 +23,44 @@ const Header = () => {
       </Link>
 
       <nav className="flex items-center gap-6">
+        {/* Language Switcher */}
+        <div className="flex items-center gap-1.5">
+          {languages.map((lang) => (
+            <button
+              key={lang}
+              onClick={() => setLanguage(lang)}
+              className={`text-[10px] uppercase tracking-[0.08em] transition-pdra ${
+                language === lang
+                  ? "text-foreground"
+                  : "text-stone/40 hover:text-stone"
+              }`}
+            >
+              {languageLabels[lang]}
+            </button>
+          ))}
+        </div>
+
+        <span className="w-px h-3 bg-stone/20" />
+
         <Link
           to="/drop/montserrat"
           className="text-xs uppercase tracking-[0.1em] text-stone hover:text-foreground transition-pdra"
         >
-          Drop
+          {t("nav_drop")}
         </Link>
         {isLoggedIn ? (
           <button
             onClick={logout}
             className="text-xs uppercase tracking-[0.1em] text-stone hover:text-foreground transition-pdra"
           >
-            Logout
+            {t("nav_logout")}
           </button>
         ) : (
           <Link
             to="/access"
             className="text-xs uppercase tracking-[0.1em] text-stone hover:text-foreground transition-pdra"
           >
-            Access
+            {t("nav_access")}
           </Link>
         )}
         <Link
