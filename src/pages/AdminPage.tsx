@@ -1,16 +1,18 @@
 import { motion } from "framer-motion";
 import { useApp, DropStatus } from "@/context/AppContext";
+import { useLanguage } from "@/context/LanguageContext";
 import Header from "@/components/Header";
 
 const easing = [0.2, 0, 0, 1] as const;
 
 const AdminPage = () => {
   const { state, setDropStatus } = useApp();
+  const { t } = useLanguage();
 
-  const statuses: { value: DropStatus; label: string }[] = [
-    { value: "coming_soon", label: "Coming Soon" },
-    { value: "open", label: "Open" },
-    { value: "sold_out", label: "Sold Out" },
+  const statuses: { value: DropStatus; labelKey: "drop_coming_soon" | "drop_open" | "drop_sold_out" }[] = [
+    { value: "coming_soon", labelKey: "drop_coming_soon" },
+    { value: "open", labelKey: "drop_open" },
+    { value: "sold_out", labelKey: "drop_sold_out" },
   ];
 
   return (
@@ -25,12 +27,12 @@ const AdminPage = () => {
           className="w-full max-w-sm"
         >
           <p className="text-xs uppercase tracking-[0.15em] text-stone mb-8 font-mono-tech text-center">
-            Admin — Mock Panel
+            {t("admin_title")}
           </p>
 
           <div className="space-y-6">
             <div>
-              <p className="text-xs uppercase tracking-[0.1em] text-stone mb-3 font-mono-tech">Drop Status</p>
+              <p className="text-xs uppercase tracking-[0.1em] text-stone mb-3 font-mono-tech">{t("admin_drop_status")}</p>
               <div className="flex gap-2">
                 {statuses.map((s) => (
                   <button
@@ -42,29 +44,29 @@ const AdminPage = () => {
                         : "bg-transparent text-foreground shadow-inner-border hover:bg-surface"
                     }`}
                   >
-                    {s.label}
+                    {t(s.labelKey)}
                   </button>
                 ))}
               </div>
             </div>
 
             <div className="pt-6" style={{ borderTop: "1px solid hsl(25 10% 85% / 0.5)" }}>
-              <p className="text-xs uppercase tracking-[0.1em] text-stone mb-3 font-mono-tech">Current State</p>
+              <p className="text-xs uppercase tracking-[0.1em] text-stone mb-3 font-mono-tech">{t("admin_current_state")}</p>
               <div className="space-y-2 font-mono-tech text-xs">
                 <div className="flex justify-between">
-                  <span className="text-stone">Status</span>
+                  <span className="text-stone">{t("admin_status")}</span>
                   <span className="text-foreground">{state.dropStatus.replace("_", " ")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-stone">Units</span>
+                  <span className="text-stone">{t("admin_units")}</span>
                   <span className="text-foreground">{state.unitsRemaining}/{state.totalUnits}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-stone">User</span>
+                  <span className="text-stone">{t("admin_user")}</span>
                   <span className="text-foreground">{state.user.email || "—"}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-stone">Access</span>
+                  <span className="text-stone">{t("admin_access")}</span>
                   <span className="text-foreground">{state.user.accessStatus}</span>
                 </div>
               </div>

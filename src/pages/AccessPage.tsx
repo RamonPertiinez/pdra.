@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
+import { useLanguage } from "@/context/LanguageContext";
 import Header from "@/components/Header";
 
 const easing = [0.2, 0, 0, 1] as const;
 
 const AccessPage = () => {
   const { state, requestAccess, login, approveAccess } = useApp();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [mode, setMode] = useState<"request" | "login">(
@@ -17,16 +19,13 @@ const AccessPage = () => {
 
   const handleRequest = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      requestAccess(email);
-    }
+    if (email) requestAccess(email);
   };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
       login(email);
-      // Auto-approve for demo
       approveAccess();
       navigate("/drop/montserrat");
     }
@@ -48,23 +47,23 @@ const AccessPage = () => {
         >
           {isApproved ? (
             <div className="text-center">
-              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">Access Granted</p>
-              <p className="text-foreground text-lg">Welcome back.</p>
-              <p className="text-stone text-sm mt-2">You have early access to all drops.</p>
+              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">{t("access_granted")}</p>
+              <p className="text-foreground text-lg">{t("access_welcome")}</p>
+              <p className="text-stone text-sm mt-2">{t("access_early")}</p>
               <Button
                 variant="pdra"
                 size="lg"
                 className="mt-8 w-full"
                 onClick={() => navigate("/drop/montserrat")}
               >
-                Enter Drop
+                {t("access_enter")}
               </Button>
             </div>
           ) : isRequested ? (
             <div className="text-center">
-              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">Requested</p>
-              <p className="text-foreground text-lg text-balance">Your request is being reviewed.</p>
-              <p className="text-stone text-sm mt-2">We'll reach out when your access is ready.</p>
+              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">{t("access_requested")}</p>
+              <p className="text-foreground text-lg text-balance">{t("access_reviewing")}</p>
+              <p className="text-stone text-sm mt-2">{t("access_reach_out")}</p>
               <div className="mt-8 h-px bg-foreground/10 relative overflow-hidden">
                 <motion.div
                   className="absolute inset-y-0 left-0 bg-foreground/30"
@@ -74,17 +73,14 @@ const AccessPage = () => {
                 />
               </div>
               <button
-                onClick={() => {
-                  approveAccess();
-                }}
+                onClick={() => approveAccess()}
                 className="mt-6 text-xs text-stone/50 hover:text-stone transition-pdra"
               >
-                (Simulate approval)
+                {t("access_simulate")}
               </button>
             </div>
           ) : (
             <>
-              {/* Tabs */}
               <div className="flex gap-6 mb-10 justify-center">
                 <button
                   onClick={() => setMode("request")}
@@ -92,7 +88,7 @@ const AccessPage = () => {
                     mode === "request" ? "text-foreground" : "text-stone"
                   }`}
                 >
-                  Request Access
+                  {t("access_request")}
                 </button>
                 <button
                   onClick={() => setMode("login")}
@@ -100,7 +96,7 @@ const AccessPage = () => {
                     mode === "login" ? "text-foreground" : "text-stone"
                   }`}
                 >
-                  Login
+                  {t("access_login")}
                 </button>
               </div>
 
@@ -109,12 +105,12 @@ const AccessPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={mode === "request" ? "your@email.com" : "your@email.com"}
+                  placeholder={t("email_placeholder")}
                   required
                   className="w-full h-12 px-4 bg-transparent text-foreground text-sm rounded-[4px] shadow-inner-border placeholder:text-stone/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-pdra"
                 />
                 <Button variant="pdra" size="lg" type="submit" className="w-full">
-                  {mode === "request" ? "Request Access" : "Enter"}
+                  {mode === "request" ? t("access_request") : t("access_enter_btn")}
                 </Button>
               </form>
             </>
