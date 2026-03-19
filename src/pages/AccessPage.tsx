@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
@@ -9,113 +9,251 @@ import Header from "@/components/Header";
 const easing = [0.2, 0, 0, 1] as const;
 
 const AccessPage = () => {
-  const { state, requestAccess, login, approveAccess } = useApp();
+  const { state, requestAccess, login, unlockClue, allCluesUnlocked } = useApp();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+
   const [mode, setMode] = useState<"request" | "login">(
-    state.user.accessStatus === "none" ? "request" : "login"
+    state.user.accessStatus === "none" ? "request" : "login",
+  );
+  const [email, setEmail] = useState(state.user.email ?? "");
+  const [country, setCountry] = useState(state.user.country ?? "");
+  const [phone, setPhone] = useState(state.user.phone ?? "");
+  const [passwords, setPasswords] = useState<Record<number, string>>({ 1: "", 2: "", 3: "" });
+  const [feedback, setFeedback] = useState<Record<number, string>>({});
+
+  const clues = useMemo(
+    () => [
+      {
+        id: 1,
+        title: t("clue_1_title"),
+        teaser: t("clue_1_teaser"),
+        reveal: t("clue_1_reveal"),
+        passwordHint: t("clue_password_hint"),
+      },
+      {
+        id: 2,
+        title: t("clue_2_title"),
+        teaser: t("clue_2_teaser"),
+        reveal: t("clue_2_reveal"),
+        passwordHint: t("clue_password_hint_2"),
+      },
+      {
+        id: 3,
+        title: t("clue_3_title"),
+        teaser: t("clue_3_teaser"),
+        reveal: t("clue_3_reveal"),
+        passwordHint: t("clue_password_hint_3"),
+      },
+    ],
+    [t],
   );
 
   const handleRequest = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) requestAccess(email);
+    if (email && country && phone) {
+      requestAccess({ email, country, phone });
+      setMode("login");
+    }
   };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
       login(email);
-      approveAccess();
-      navigate("/drop/montserrat");
     }
   };
 
-  const isRequested = state.user.accessStatus === "requested";
+  const handleUnlock = (clueId: number) => {
+    const result = unlockClue(clueId, passwords[clueId] || "");
+
+    if (!result.success) {
+      setFeedback((prev) => ({ ...prev, [clueId]: t("clue_password_error") }));
+      return;
+    }
+
+    setFeedback((prev) => ({
+      ...prev,
+      [clueId]: clueId === 1 && result.rewardCode
+        ? t("clue_reward_unlocked", { code: result.rewardCode })
+        : t("clue_unlocked_success"),
+    }));
+  };
+
   const isApproved = state.user.accessStatus === "approved";
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
 
-      <main className="flex-1 flex items-center justify-center px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: easing }}
-          className="w-full max-w-sm"
-        >
-          {isApproved ? (
-            <div className="text-center">
-              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">{t("access_granted")}</p>
-              <p className="text-foreground text-lg">{t("access_welcome")}</p>
-              <p className="text-stone text-sm mt-2">{t("access_early")}</p>
-              <Button
-                variant="pdra"
-                size="lg"
-                className="mt-8 w-full"
-                onClick={() => navigate("/drop/montserrat")}
-              >
-                {t("access_enter")}
-              </Button>
-            </div>
-          ) : isRequested ? (
-            <div className="text-center">
-              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">{t("access_requested")}</p>
-              <p className="text-foreground text-lg text-balance">{t("access_reviewing")}</p>
-              <p className="text-stone text-sm mt-2">{t("access_reach_out")}</p>
-              <div className="mt-8 h-px bg-foreground/10 relative overflow-hidden">
-                <motion.div
-                  className="absolute inset-y-0 left-0 bg-foreground/30"
-                  initial={{ width: "0%" }}
-                  animate={{ width: "60%" }}
-                  transition={{ duration: 3, ease: easing }}
-                />
-              </div>
-              <button
-                onClick={() => approveAccess()}
-                className="mt-6 text-xs text-stone/50 hover:text-stone transition-pdra"
-              >
-                {t("access_simulate")}
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="flex gap-6 mb-10 justify-center">
-                <button
-                  onClick={() => setMode("request")}
-                  className={`text-xs uppercase tracking-[0.15em] transition-pdra ${
-                    mode === "request" ? "text-foreground" : "text-stone"
-                  }`}
-                >
-                  {t("access_request")}
-                </button>
-                <button
-                  onClick={() => setMode("login")}
-                  className={`text-xs uppercase tracking-[0.15em] transition-pdra ${
-                    mode === "login" ? "text-foreground" : "text-stone"
-                  }`}
-                >
-                  {t("access_login")}
-                </button>
-              </div>
+      <main className="flex-1 px-6 py-28 md:px-10">
+        <div className="mx-auto max-w-6xl grid gap-10 lg:grid-cols-[420px_minmax(0,1fr)]">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: easing }}
+            className="rounded-[28px] border border-foreground/8 bg-surface p-8 shadow-soft"
+          >
+            <p className="text-xs uppercase tracking-[0.18em] text-stone font-mono-tech">{t("access_prelabel")}</p>
+            <h1 className="mt-4 text-3xl md:text-4xl leading-[1.08] text-balance">{t("access_title_new")}</h1>
+            <p className="mt-4 text-stone leading-relaxed">{t("access_body_new")}</p>
 
-              <form onSubmit={mode === "request" ? handleRequest : handleLogin} className="space-y-4">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("email_placeholder")}
-                  required
-                  className="w-full h-12 px-4 bg-transparent text-foreground text-sm rounded-[4px] shadow-inner-border placeholder:text-stone/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-pdra"
-                />
-                <Button variant="pdra" size="lg" type="submit" className="w-full">
-                  {mode === "request" ? t("access_request") : t("access_enter_btn")}
-                </Button>
-              </form>
-            </>
-          )}
-        </motion.div>
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-[18px] bg-background p-4 shadow-inner-border">
+                <p className="text-[11px] uppercase tracking-[0.16em] text-stone font-mono-tech">{t("access_stat_1_label")}</p>
+                <p className="mt-3 text-xl">20 / 05 / 2026</p>
+              </div>
+              <div className="rounded-[18px] bg-background p-4 shadow-inner-border">
+                <p className="text-[11px] uppercase tracking-[0.16em] text-stone font-mono-tech">{t("access_stat_2_label")}</p>
+                <p className="mt-3 text-xl">3</p>
+              </div>
+              <div className="rounded-[18px] bg-background p-4 shadow-inner-border">
+                <p className="text-[11px] uppercase tracking-[0.16em] text-stone font-mono-tech">{t("access_stat_3_label")}</p>
+                <p className="mt-3 text-xl">{state.unlockedClues.length}/3</p>
+              </div>
+            </div>
+
+            {!isApproved ? (
+              <>
+                <div className="flex gap-6 mt-10 mb-8 justify-center">
+                  <button
+                    onClick={() => setMode("request")}
+                    className={`text-xs uppercase tracking-[0.15em] transition-pdra ${
+                      mode === "request" ? "text-foreground" : "text-stone"
+                    }`}
+                  >
+                    {t("access_request")}
+                  </button>
+                  <button
+                    onClick={() => setMode("login")}
+                    className={`text-xs uppercase tracking-[0.15em] transition-pdra ${
+                      mode === "login" ? "text-foreground" : "text-stone"
+                    }`}
+                  >
+                    {t("access_login")}
+                  </button>
+                </div>
+
+                <form onSubmit={mode === "request" ? handleRequest : handleLogin} className="space-y-4">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={t("email_placeholder")}
+                    required
+                    className="w-full h-12 px-4 bg-background text-foreground text-sm rounded-[8px] shadow-inner-border placeholder:text-stone/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-pdra"
+                  />
+
+                  {mode === "request" && (
+                    <>
+                      <input
+                        type="text"
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                        placeholder={t("access_country_placeholder")}
+                        required
+                        className="w-full h-12 px-4 bg-background text-foreground text-sm rounded-[8px] shadow-inner-border placeholder:text-stone/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-pdra"
+                      />
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder={t("access_phone_placeholder")}
+                        required
+                        className="w-full h-12 px-4 bg-background text-foreground text-sm rounded-[8px] shadow-inner-border placeholder:text-stone/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-pdra"
+                      />
+                    </>
+                  )}
+
+                  <p className="text-xs text-stone leading-relaxed">{t("access_form_note")}</p>
+                  <Button variant="pdra" size="lg" type="submit" className="w-full">
+                    {mode === "request" ? t("access_unlock_hub") : t("access_enter_btn")}
+                  </Button>
+                </form>
+              </>
+            ) : (
+              <div className="mt-10 rounded-[22px] bg-background p-6 shadow-inner-border">
+                <p className="text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">{t("access_granted")}</p>
+                <p className="mt-3 text-lg text-foreground">{t("access_hub_ready")}</p>
+                <p className="mt-2 text-sm text-stone">{t("access_hub_note")}</p>
+                {state.user.rewardCode && (
+                  <div className="mt-5 rounded-[18px] border border-foreground/8 bg-white/60 p-4">
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-stone font-mono-tech">{t("access_reward_label")}</p>
+                    <p className="mt-2 text-lg text-foreground">{state.user.rewardCode}</p>
+                  </div>
+                )}
+                <Button variant="pdra" size="lg" className="mt-6 w-full" onClick={() => navigate("/drop/montserrat")}>{t("access_go_to_drop")}</Button>
+              </div>
+            )}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: easing, delay: 0.08 }}
+            className="rounded-[32px] border border-foreground/8 bg-background p-8 shadow-soft"
+          >
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div>
+                <p className="text-xs uppercase tracking-[0.18em] text-stone font-mono-tech">{t("clue_hub_label")}</p>
+                <h2 className="mt-3 text-3xl leading-tight">{t("clue_hub_title")}</h2>
+              </div>
+              <div className="rounded-full border border-foreground/8 px-4 py-2 text-xs uppercase tracking-[0.16em] text-stone font-mono-tech">
+                {state.unlockedClues.length}/3 {t("clue_hub_progress")}
+              </div>
+            </div>
+
+            <p className="mt-5 max-w-3xl text-stone leading-relaxed">{t("clue_hub_body")}</p>
+
+            <div className="mt-10 grid gap-4 xl:grid-cols-3">
+              {clues.map((clue) => {
+                const unlocked = state.unlockedClues.includes(clue.id);
+
+                return (
+                  <div key={clue.id} className="rounded-[26px] border border-foreground/8 bg-surface p-6 shadow-soft">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-stone font-mono-tech">{clue.title}</p>
+                      <span className={`text-[11px] uppercase tracking-[0.16em] font-mono-tech ${unlocked ? "text-foreground" : "text-stone/60"}`}>
+                        {unlocked ? t("clue_status_unlocked") : t("clue_status_locked")}
+                      </span>
+                    </div>
+
+                    <p className="mt-6 text-sm leading-relaxed text-stone">{unlocked ? clue.reveal : clue.teaser}</p>
+                    <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-stone/70 font-mono-tech">{clue.passwordHint}</p>
+
+                    {isApproved && !unlocked && (
+                      <div className="mt-6 space-y-3">
+                        <input
+                          type="text"
+                          value={passwords[clue.id] || ""}
+                          onChange={(e) => setPasswords((prev) => ({ ...prev, [clue.id]: e.target.value }))}
+                          placeholder={t("clue_password_placeholder")}
+                          className="w-full h-11 px-4 bg-background text-foreground text-sm rounded-[8px] shadow-inner-border placeholder:text-stone/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-pdra"
+                        />
+                        <Button variant="pdra-outline" size="lg" className="w-full" onClick={() => handleUnlock(clue.id)}>
+                          {t("clue_unlock_cta")}
+                        </Button>
+                      </div>
+                    )}
+
+                    {feedback[clue.id] && (
+                      <p className="mt-4 text-xs text-foreground/80">{feedback[clue.id]}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className={`mt-8 rounded-[26px] p-6 ${allCluesUnlocked ? "bg-foreground text-background" : "border border-dashed border-foreground/12 bg-surface text-foreground"}`}>
+              <p className={`text-[11px] uppercase tracking-[0.18em] font-mono-tech ${allCluesUnlocked ? "text-background/70" : "text-stone"}`}>
+                {t("clue_final_label")}
+              </p>
+              <p className="mt-4 text-lg leading-relaxed">
+                {allCluesUnlocked ? t("clue_final_open") : t("clue_final_locked")}
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </main>
     </div>
   );

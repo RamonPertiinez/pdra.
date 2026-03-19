@@ -34,6 +34,7 @@ const FadeIn = ({
 const Index = () => {
   const { requestAccess, state } = useApp();
   const { t } = useLanguage();
+
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [revealedClues, setRevealedClues] = useState<number[]>([]);
