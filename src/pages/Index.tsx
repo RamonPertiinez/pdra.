@@ -99,6 +99,12 @@ const Index = () => {
           <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
             <div className="max-w-4xl">
               <FadeIn>
+                <div className="inline-flex rounded-full border border-white/10 bg-black/28 px-4 py-2 backdrop-blur-sm shadow-[0_8px_40px_rgba(0,0,0,0.18)]">
+                  <p className="text-xs uppercase tracking-[0.28em] text-white/80 font-mono-tech">{t("hero_est")}</p>
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.08}>
+                <h1 className="mt-5 max-w-4xl text-5xl md:text-7xl lg:text-[5.8rem] text-white leading-[0.95] text-balance [text-shadow:0_10px_40px_rgba(0,0,0,0.45)]">
                 <p className="mb-5 text-xs uppercase tracking-[0.28em] text-white/65 font-mono-tech">{t("hero_est")}</p>
               </FadeIn>
               <FadeIn delay={0.08}>
@@ -107,6 +113,15 @@ const Index = () => {
                 </h1>
               </FadeIn>
               <FadeIn delay={0.16}>
+                <div className="mt-7 max-w-2xl rounded-[24px] border border-white/10 bg-black/34 px-6 py-5 backdrop-blur-md shadow-[0_18px_60px_rgba(0,0,0,0.24)]">
+                  <p className="text-base md:text-xl text-white leading-relaxed [text-shadow:0_4px_24px_rgba(0,0,0,0.5)]">
+                    {t("hero_subtitle")}
+                  </p>
+                  <p className="mt-4 text-sm md:text-base text-white/82 leading-relaxed [text-shadow:0_4px_24px_rgba(0,0,0,0.45)]">
+                    {t("hero_mystery")}
+                  </p>
+                </div>
+              </FadeIn>
                 <p className="mt-7 max-w-2xl text-base md:text-xl text-white/72 leading-relaxed">
                   {t("hero_subtitle")}
                 </p>
