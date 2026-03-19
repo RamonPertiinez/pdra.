@@ -130,10 +130,10 @@ const Index = () => {
 
               <FadeIn delay={0.16}>
                 <div className="mt-7 max-w-2xl rounded-[24px] border border-white/10 bg-black/34 px-6 py-5 backdrop-blur-md shadow-[0_18px_60px_rgba(0,0,0,0.24)]">
-                  <p className="text-base leading-relaxed text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.5)] md:text-xl">
+                  <p className="text-base leading-relaxed !text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.5)] md:text-xl">
                     {t("hero_subtitle")}
                   </p>
-                  <p className="mt-4 text-sm leading-relaxed text-white/82 [text-shadow:0_4px_24px_rgba(0,0,0,0.45)] md:text-base">
+                  <p className="mt-4 text-sm leading-relaxed !text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.55)] md:text-base">
                     {t("hero_mystery")}
                   </p>
                 </div>
