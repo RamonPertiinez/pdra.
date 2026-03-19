@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+    import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -104,13 +104,16 @@ const Index = () => {
                 </div>
               </FadeIn>
               <FadeIn delay={0.08}>
-                <h1 className="mt-5 max-w-4xl text-5xl md:text-7xl lg:text-[5.8rem] text-white leading-[0.95] text-balance [text-shadow:0_10px_40px_rgba(0,0,0,0.45)]">
-                <p className="mb-5 text-xs uppercase tracking-[0.28em] text-white/65 font-mono-tech">{t("hero_est")}</p>
+                  <p className="mb-5 text-xs uppercase tracking-[0.28em] text-white/65 font-mono-tech">
+                  {t("hero_est")}
+                  </p>
               </FadeIn>
-              <FadeIn delay={0.08}>
+
+              <FadeIn delay={0.12}>
                 <h1 className="max-w-4xl text-5xl md:text-7xl lg:text-[5.8rem] text-white leading-[0.95] text-balance">
-                  {t("hero_title")}
+                {t("hero_title")}
                 </h1>
+              </FadeIn>
               </FadeIn>
               <FadeIn delay={0.16}>
                 <div className="mt-7 max-w-2xl rounded-[24px] border border-white/10 bg-black/34 px-6 py-5 backdrop-blur-md shadow-[0_18px_60px_rgba(0,0,0,0.24)]">
