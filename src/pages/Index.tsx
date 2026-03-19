@@ -105,6 +105,10 @@ const Index = () => {
               </FadeIn>
               <FadeIn delay={0.08}>
                 <h1 className="mt-5 max-w-4xl text-5xl md:text-7xl lg:text-[5.8rem] text-white leading-[0.95] text-balance [text-shadow:0_10px_40px_rgba(0,0,0,0.45)]">
+                <p className="mb-5 text-xs uppercase tracking-[0.28em] text-white/65 font-mono-tech">{t("hero_est")}</p>
+              </FadeIn>
+              <FadeIn delay={0.08}>
+                <h1 className="max-w-4xl text-5xl md:text-7xl lg:text-[5.8rem] text-white leading-[0.95] text-balance">
                   {t("hero_title")}
                 </h1>
               </FadeIn>
@@ -117,6 +121,15 @@ const Index = () => {
                     {t("hero_mystery")}
                   </p>
                 </div>
+              </FadeIn>
+                <p className="mt-7 max-w-2xl text-base md:text-xl text-white/72 leading-relaxed">
+                  {t("hero_subtitle")}
+                </p>
+              </FadeIn>
+              <FadeIn delay={0.24}>
+                <p className="mt-7 max-w-2xl text-sm md:text-base text-white/56 leading-relaxed">
+                  {t("hero_mystery")}
+                </p>
               </FadeIn>
               <FadeIn delay={0.32} className="flex flex-wrap items-center gap-4 mt-10">
                 <Link to="/access">
