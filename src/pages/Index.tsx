@@ -11,7 +11,15 @@ import productJacket from "@/assets/product-jacket.jpg";
 
 const easing = [0.2, 0, 0, 1] as const;
 
-const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => (
+const FadeIn = ({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 14 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -24,15 +32,27 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
 );
 
 const Index = () => {
-  const { state } = useApp();
+  const { requestAccess, state } = useApp();
   const { t } = useLanguage();
+
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [revealedClues, setRevealedClues] = useState<number[]>([]);
 
-  const statusLabel = state.dropStatus === "coming_soon"
-    ? t("drop_coming_soon")
-    : state.dropStatus === "open"
-    ? t("drop_open")
-    : t("drop_sold_out");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      requestAccess(email);
+      setSubmitted(true);
+    }
+  };
+
+  const statusLabel =
+    state.dropStatus === "coming_soon"
+      ? t("drop_coming_soon")
+      : state.dropStatus === "open"
+        ? t("drop_open")
+        : t("drop_sold_out");
 
   const clues = useMemo(
     () => [
@@ -40,13 +60,15 @@ const Index = () => {
       { id: 2, label: t("tease_clue_2_label"), body: t("tease_clue_2_body") },
       { id: 3, label: t("tease_clue_3_label"), body: t("tease_clue_3_body") },
     ],
-    [t],
+    [t]
   );
 
   const decoded = revealedClues.length === clues.length;
 
   const toggleClue = (id: number) => {
-    setRevealedClues((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
+    setRevealedClues((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
   };
 
   return (
@@ -55,7 +77,11 @@ const Index = () => {
 
       <section className="relative min-h-screen flex items-end isolate">
         <div className="absolute inset-0">
-          <img src={heroImg} alt="Montserrat mountain range at golden hour" className="w-full h-full object-cover scale-[1.03]" />
+          <img
+            src={heroImg}
+            alt="Montserrat mountain range at golden hour"
+            className="w-full h-full object-cover scale-[1.03]"
+          />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,6,0.18)_0%,rgba(6,6,6,0.46)_45%,rgba(14,11,8,0.88)_100%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_32%)]" />
         </div>
@@ -67,6 +93,7 @@ const Index = () => {
                 <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_16px_rgba(74,222,128,0.7)]" />
                 {t("hero_signal")}
               </div>
+
               <div className="grid grid-cols-3 gap-6 text-right text-[11px] uppercase tracking-[0.18em] text-white/55 font-mono-tech">
                 <div>
                   <p>{t("hero_metric_1_label")}</p>
@@ -85,36 +112,45 @@ const Index = () => {
           </FadeIn>
         </div>
 
-        <div className="relative z-10 w-full px-6 pb-16 md:px-10 md:pb-20 pt-40">
+        <div className="relative z-10 w-full px-6 pb-16 pt-40 md:px-10 md:pb-20">
           <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
             <div className="max-w-4xl">
               <FadeIn>
                 <div className="inline-flex rounded-full border border-white/10 bg-black/28 px-4 py-2 backdrop-blur-sm shadow-[0_8px_40px_rgba(0,0,0,0.18)]">
-                  <p className="text-xs uppercase tracking-[0.28em] text-white/80 font-mono-tech">{t("hero_est")}</p>
+                  <p className="text-xs uppercase tracking-[0.28em] text-white/80 font-mono-tech">
+                    {t("hero_est")}
+                  </p>
                 </div>
               </FadeIn>
-              <FadeIn delay={0.08}>
-                <h1 className="mt-5 max-w-4xl text-5xl md:text-7xl lg:text-[5.8rem] text-white leading-[0.95] text-balance [text-shadow:0_10px_40px_rgba(0,0,0,0.45)]">
+
+              <FadeIn delay={0.12}>
+                <h1 className="mt-5 max-w-4xl text-5xl leading-[0.95] text-balance text-white [text-shadow:0_10px_40px_rgba(0,0,0,0.45)] md:text-7xl lg:text-[5.8rem]">
                   {t("hero_title")}
                 </h1>
               </FadeIn>
+
               <FadeIn delay={0.16}>
                 <div className="mt-7 max-w-2xl rounded-[24px] border border-white/10 bg-black/34 px-6 py-5 backdrop-blur-md shadow-[0_18px_60px_rgba(0,0,0,0.24)]">
-                  <p className="text-base md:text-xl text-white leading-relaxed [text-shadow:0_4px_24px_rgba(0,0,0,0.5)]">
+                  <p className="text-base leading-relaxed !text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.5)] md:text-xl">
                     {t("hero_subtitle")}
                   </p>
-                  <p className="mt-4 text-sm md:text-base text-white/82 leading-relaxed [text-shadow:0_4px_24px_rgba(0,0,0,0.45)]">
+                  <p className="mt-4 text-sm leading-relaxed !text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.55)] md:text-base">
                     {t("hero_mystery")}
                   </p>
                 </div>
               </FadeIn>
-              <FadeIn delay={0.32} className="flex flex-wrap items-center gap-4 mt-10">
+
+              <FadeIn delay={0.32} className="mt-10 flex flex-wrap items-center gap-4">
                 <Link to="/access">
                   <Button variant="pdra" size="xl" className="min-w-52">
                     {t("hero_cta")}
                   </Button>
                 </Link>
-                <Link to="/drop/montserrat" className="text-sm uppercase tracking-[0.18em] text-white/70 hover:text-white transition-pdra">
+
+                <Link
+                  to="/drop/montserrat"
+                  className="text-sm uppercase tracking-[0.18em] text-white/70 transition-pdra hover:text-white"
+                >
                   {t("hero_secondary_cta")}
                 </Link>
               </FadeIn>
@@ -122,26 +158,44 @@ const Index = () => {
 
             <FadeIn delay={0.2} className="lg:justify-self-end">
               <div className="rounded-[28px] border border-white/10 bg-white/6 p-6 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.28)]">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-white/55 font-mono-tech">{t("hero_panel_label")}</p>
+                <p className="text-[11px] uppercase tracking-[0.22em] text-white/55 font-mono-tech">
+                  {t("hero_panel_label")}
+                </p>
+
                 <div className="mt-6 space-y-6">
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("hero_panel_drop")}</p>
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                      {t("hero_panel_drop")}
+                    </p>
                     <p className="mt-2 text-3xl text-white">{t("drop_name")}</p>
                     <p className="mt-2 text-sm text-white/55">{t("drop_subtitle")}</p>
                   </div>
+
                   <div className="grid grid-cols-2 gap-4 text-sm text-white/72">
                     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("hero_panel_availability")}</p>
-                      <p className="mt-3 text-xl text-white">{state.unitsRemaining}/{state.totalUnits}</p>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                        {t("hero_panel_availability")}
+                      </p>
+                      <p className="mt-3 text-xl text-white">
+                        {state.unitsRemaining}/{state.totalUnits}
+                      </p>
                     </div>
+
                     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("hero_panel_window")}</p>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                        {t("hero_panel_window")}
+                      </p>
                       <p className="mt-3 text-xl text-white">Q2 / 2026</p>
                     </div>
                   </div>
+
                   <div className="rounded-2xl border border-dashed border-white/15 p-4">
-                    <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("hero_panel_note_label")}</p>
-                    <p className="mt-3 text-sm leading-relaxed text-white/70">{t("hero_panel_note")}</p>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                      {t("hero_panel_note_label")}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-white/70">
+                      {t("hero_panel_note")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -150,27 +204,40 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="relative px-6 py-24 md:px-10 md:py-32 bg-[#0f0d0b] text-white overflow-hidden">
+      <section className="relative overflow-hidden bg-[#0f0d0b] px-6 py-24 text-white md:px-10 md:py-32">
         <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_55%)]" />
+
         <div className="relative mx-auto max-w-6xl">
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
             <div>
               <FadeIn>
-                <p className="text-xs uppercase tracking-[0.25em] text-white/45 mb-6 font-mono-tech">{t("tease_label")}</p>
+                <p className="mb-6 text-xs uppercase tracking-[0.25em] text-white/45 font-mono-tech">
+                  {t("tease_label")}
+                </p>
               </FadeIn>
+
               <FadeIn delay={0.08}>
-                <h2 className="text-3xl md:text-5xl leading-[1.05] text-balance">{t("tease_title")}</h2>
+                <h2 className="text-3xl leading-[1.05] text-balance md:text-5xl">
+                  {t("tease_title")}
+                </h2>
               </FadeIn>
+
               <FadeIn delay={0.16}>
-                <p className="mt-6 max-w-2xl text-white/68 leading-relaxed">{t("tease_body")}</p>
+                <p className="mt-6 max-w-2xl leading-relaxed text-white/68">
+                  {t("tease_body")}
+                </p>
               </FadeIn>
             </div>
+
             <FadeIn delay={0.12}>
               <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
                 <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
                   <span>{t("tease_progress_label")}</span>
-                  <span>{revealedClues.length}/{clues.length}</span>
+                  <span>
+                    {revealedClues.length}/{clues.length}
+                  </span>
                 </div>
+
                 <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
                   <motion.div
                     className="h-full rounded-full bg-white"
@@ -178,7 +245,10 @@ const Index = () => {
                     transition={{ duration: 0.45, ease: easing }}
                   />
                 </div>
-                <p className="mt-4 text-sm text-white/55">{decoded ? t("tease_decoded_helper") : t("tease_instruction")}</p>
+
+                <p className="mt-4 text-sm text-white/55">
+                  {decoded ? t("tease_decoded_helper") : t("tease_instruction")}
+                </p>
               </div>
             </FadeIn>
           </div>
@@ -186,6 +256,7 @@ const Index = () => {
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {clues.map((clue, index) => {
               const active = revealedClues.includes(clue.id);
+
               return (
                 <FadeIn key={clue.id} delay={0.16 + index * 0.08}>
                   <button
@@ -197,13 +268,29 @@ const Index = () => {
                         : "border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/8"
                     }`}
                   >
-                    <p className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${active ? "text-black/45" : "text-white/45"}`}>
+                    <p
+                      className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${
+                        active ? "text-black/45" : "text-white/45"
+                      }`}
+                    >
                       {clue.label}
                     </p>
-                    <p className={`mt-8 text-lg leading-relaxed ${active ? "text-black/85" : "text-white/78"}`}>
+
+                    <p
+                      className={`mt-8 text-lg leading-relaxed ${
+                        active ? "text-black/85" : "text-white/78"
+                      }`}
+                    >
                       {active ? clue.body : t("tease_locked")}
                     </p>
-                    <p className={`mt-10 text-[11px] uppercase tracking-[0.18em] font-mono-tech ${active ? "text-black/45" : "text-white/35 group-hover:text-white/60"}`}>
+
+                    <p
+                      className={`mt-10 text-[11px] uppercase tracking-[0.18em] font-mono-tech ${
+                        active
+                          ? "text-black/45"
+                          : "text-white/35 group-hover:text-white/60"
+                      }`}
+                    >
                       {active ? t("tease_clue_open") : t("tease_clue_cta")}
                     </p>
                   </button>
@@ -213,14 +300,34 @@ const Index = () => {
           </div>
 
           <FadeIn delay={0.36} className="mt-10">
-            <div className={`rounded-[30px] border p-8 md:p-10 transition-pdra ${decoded ? "border-white/30 bg-white text-[#111]" : "border-dashed border-white/12 bg-transparent text-white"}`}>
-              <p className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${decoded ? "text-black/45" : "text-white/40"}`}>
+            <div
+              className={`rounded-[30px] border p-8 transition-pdra md:p-10 ${
+                decoded
+                  ? "border-white/30 bg-white text-[#111]"
+                  : "border-dashed border-white/12 bg-transparent text-white"
+              }`}
+            >
+              <p
+                className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${
+                  decoded ? "text-black/45" : "text-white/40"
+                }`}
+              >
                 {t("tease_decode_label")}
               </p>
-              <h3 className={`mt-4 text-2xl md:text-4xl leading-[1.08] ${decoded ? "text-black" : "text-white/35"}`}>
+
+              <h3
+                className={`mt-4 text-2xl leading-[1.08] md:text-4xl ${
+                  decoded ? "text-black" : "text-white/35"
+                }`}
+              >
                 {decoded ? t("tease_decoded_title") : "•••••••• ••••••• •••••"}
               </h3>
-              <p className={`mt-4 max-w-3xl leading-relaxed ${decoded ? "text-black/72" : "text-white/35"}`}>
+
+              <p
+                className={`mt-4 max-w-3xl leading-relaxed ${
+                  decoded ? "text-black/72" : "text-white/35"
+                }`}
+              >
                 {decoded ? t("tease_decoded_body") : t("tease_decoded_locked")}
               </p>
             </div>
@@ -228,22 +335,36 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 px-6 md:px-10">
-        <div className="mx-auto max-w-6xl grid gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <section className="px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <FadeIn className="relative">
             <div className="absolute -inset-6 rounded-[36px] bg-[radial-gradient(circle_at_top_left,rgba(0,0,0,0.06),transparent_55%)]" />
-            <img src={climbingImg} alt="Climber on Catalan limestone" className="relative w-full rounded-[28px] object-cover shadow-soft" />
+            <img
+              src={climbingImg}
+              alt="Climber on Catalan limestone"
+              className="relative w-full rounded-[28px] object-cover shadow-soft"
+            />
           </FadeIn>
+
           <div>
             <FadeIn>
-              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-6 font-mono-tech">{t("manifesto_label")}</p>
+              <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+                {t("manifesto_label")}
+              </p>
             </FadeIn>
+
             <FadeIn delay={0.08}>
-              <p className="text-2xl md:text-4xl text-foreground leading-[1.25] text-balance">{t("manifesto_text")}</p>
+              <p className="text-2xl leading-[1.25] text-balance text-foreground md:text-4xl">
+                {t("manifesto_text")}
+              </p>
             </FadeIn>
+
             <FadeIn delay={0.16}>
-              <p className="mt-8 text-stone text-base leading-relaxed max-w-xl">{t("manifesto_body")}</p>
+              <p className="mt-8 max-w-xl text-base leading-relaxed text-stone">
+                {t("manifesto_body")}
+              </p>
             </FadeIn>
+
             <div className="mt-10 grid gap-4 sm:grid-cols-3">
               {[
                 { label: t("positioning_1_label"), body: t("positioning_1_body") },
@@ -252,8 +373,12 @@ const Index = () => {
               ].map((item, index) => (
                 <FadeIn key={item.label} delay={0.2 + index * 0.06}>
                   <div className="rounded-[22px] border border-foreground/8 bg-white/60 p-5 shadow-soft">
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-stone font-mono-tech">{item.label}</p>
-                    <p className="mt-4 text-sm leading-relaxed text-foreground/80">{item.body}</p>
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-stone font-mono-tech">
+                      {item.label}
+                    </p>
+                    <p className="mt-4 text-sm leading-relaxed text-foreground/80">
+                      {item.body}
+                    </p>
                   </div>
                 </FadeIn>
               ))}
@@ -262,21 +387,31 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 px-6 md:px-10 bg-surface">
-        <div className="mx-auto max-w-6xl grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <section className="bg-surface px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <FadeIn>
-              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-6 font-mono-tech">{t("drop_label")}</p>
+              <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+                {t("drop_label")}
+              </p>
             </FadeIn>
+
             <FadeIn delay={0.08}>
-              <h2 className="text-3xl md:text-5xl text-foreground leading-[1.05]">{t("drop_name")}</h2>
+              <h2 className="text-3xl leading-[1.05] text-foreground md:text-5xl">
+                {t("drop_name")}
+              </h2>
             </FadeIn>
+
             <FadeIn delay={0.12}>
-              <p className="mt-3 text-stone italic">{t("drop_subtitle")}</p>
+              <p className="mt-3 italic text-stone">{t("drop_subtitle")}</p>
             </FadeIn>
+
             <FadeIn delay={0.16}>
-              <p className="mt-8 max-w-xl text-foreground/82 leading-relaxed">{t("concept_p1")}</p>
+              <p className="mt-8 max-w-xl leading-relaxed text-foreground/82">
+                {t("concept_p1")}
+              </p>
             </FadeIn>
+
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {[
                 t("drop_elevation"),
@@ -291,34 +426,52 @@ const Index = () => {
                 </FadeIn>
               ))}
             </div>
-            <FadeIn delay={0.38} className="flex flex-wrap gap-4 mt-10">
+
+            <FadeIn delay={0.38} className="mt-10 flex flex-wrap gap-4">
               <Link to="/drop/montserrat">
-                <Button variant="pdra-outline" size="lg">{t("drop_view")}</Button>
+                <Button variant="pdra-outline" size="lg">
+                  {t("drop_view")}
+                </Button>
               </Link>
+
               <Link to="/access">
-                <Button variant="pdra" size="lg">{t("email_cta")}</Button>
+                <Button variant="pdra" size="lg">
+                  {t("email_cta")}
+                </Button>
               </Link>
             </FadeIn>
           </div>
+
           <FadeIn delay={0.16} className="relative">
             <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 rounded-full border border-foreground/10 bg-background/90 px-4 py-2 text-[11px] uppercase tracking-[0.18em] text-stone font-mono-tech shadow-soft">
               {t("drop_overlay")}
             </div>
-            <img src={productJacket} alt="Montserrat collection jacket" className="w-full rounded-[30px] shadow-soft" />
+
+            <img
+              src={productJacket}
+              alt="Montserrat collection jacket"
+              className="w-full rounded-[30px] shadow-soft"
+            />
           </FadeIn>
         </div>
       </section>
 
-      <section className="py-24 md:py-32 px-6 md:px-10">
+      <section className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
             <FadeIn>
-              <p className="text-xs uppercase tracking-[0.15em] text-stone mb-6 font-mono-tech">{t("timeline_label")}</p>
+              <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+                {t("timeline_label")}
+              </p>
             </FadeIn>
+
             <FadeIn delay={0.08}>
-              <h2 className="text-3xl md:text-5xl leading-[1.08] text-balance">{t("timeline_title")}</h2>
+              <h2 className="text-3xl leading-[1.08] text-balance md:text-5xl">
+                {t("timeline_title")}
+              </h2>
             </FadeIn>
           </div>
+
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {[
               { step: "01", title: t("timeline_1_title"), body: t("timeline_1_body") },
@@ -327,9 +480,13 @@ const Index = () => {
             ].map((item, index) => (
               <FadeIn key={item.step} delay={0.1 + index * 0.08}>
                 <div className="h-full rounded-[26px] border border-foreground/8 bg-white/70 p-6 shadow-soft">
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-stone font-mono-tech">{item.step}</p>
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-stone font-mono-tech">
+                    {item.step}
+                  </p>
                   <h3 className="mt-6 text-2xl leading-tight">{item.title}</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-stone">{item.body}</p>
+                  <p className="mt-4 text-sm leading-relaxed text-stone">
+                    {item.body}
+                  </p>
                 </div>
               </FadeIn>
             ))}
@@ -337,29 +494,60 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 px-6 md:px-10 bg-surface">
-        <div className="max-w-md mx-auto text-center">
+      <section className="bg-surface px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-md text-center">
           <FadeIn>
-            <p className="text-xs uppercase tracking-[0.15em] text-stone mb-6 font-mono-tech">{t("email_label")}</p>
+            <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+              {t("email_label")}
+            </p>
           </FadeIn>
+
           <FadeIn delay={0.08}>
-            <h2 className="text-3xl md:text-4xl text-foreground text-balance">{t("email_title")}</h2>
+            <h2 className="text-3xl text-balance text-foreground md:text-4xl">
+              {t("email_title")}
+            </h2>
           </FadeIn>
+
           <FadeIn delay={0.16}>
-            <p className="mt-5 text-stone leading-relaxed">{t("email_supporting")}</p>
+            <p className="mt-5 leading-relaxed text-stone">
+              {t("email_supporting")}
+            </p>
           </FadeIn>
+
           <FadeIn delay={0.24}>
-            <div className="mt-8 rounded-[24px] border border-foreground/8 bg-background p-8 shadow-soft">
-              <p className="text-stone text-sm">{t("email_new_flow")}</p>
-              <Link to="/access" className="block mt-6">
-                <Button variant="pdra" size="lg" className="w-full">{t("email_cta")}</Button>
-              </Link>
-            </div>
+            {submitted || state.user.accessStatus !== "none" ? (
+              <div className="mt-8 rounded-[24px] border border-foreground/8 bg-background p-8 shadow-soft">
+                <p className="text-sm text-stone">{t("email_on_list")}</p>
+
+                <div className="relative mt-4 h-px overflow-hidden bg-foreground/10">
+                  <motion.div
+                    className="absolute inset-y-0 left-0 bg-foreground/30"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 2, ease: easing }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={t("email_placeholder")}
+                  required
+                  className="h-12 w-full rounded-[8px] bg-background px-4 text-sm text-foreground shadow-inner-border placeholder:text-stone/50 transition-pdra focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                />
+                <Button variant="pdra" size="lg" type="submit">
+                  {t("email_cta")}
+                </Button>
+              </form>
+            )}
           </FadeIn>
         </div>
       </section>
 
-      <footer className="py-12 px-6 md:px-10 flex items-center justify-between gap-4 flex-wrap">
+      <footer className="flex flex-wrap items-center justify-between gap-4 px-6 py-12 md:px-10">
         <p className="text-xs text-stone">{t("footer_location")}</p>
         <p className="text-xs text-stone font-mono-tech">© 2026</p>
       </footer>

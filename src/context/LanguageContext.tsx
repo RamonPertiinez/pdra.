@@ -94,6 +94,17 @@ const translations = {
     drop_hint_line: "Més que un llançament: una filtració controlada.",
     drop_overlay: "Preview / classified",
     
+    timeline_label: "Road to drop",
+    timeline_title: "Una home potent no explica tot el producte: administra tensió.",
+    timeline_1_title: "Senyal",
+    timeline_1_body: "Impacte visual, posicionament clar i una promesa difícil d’ignorar.",
+    timeline_2_title: "Pistes",
+    timeline_2_body: "Fragments del producte, llenguatge codificat i petites revelacions que fan avançar la curiositat.",
+    timeline_3_title: "Drop",
+    timeline_3_body: "Quan s’obri, la percepció ja estarà construïda: no descobriran només una peça, descobriran un univers.",
+    drop_hint_line: "Més que un llançament: una filtració controlada.",
+    drop_overlay: "Preview / classified",
+    
     footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     // Drop Page
@@ -293,6 +304,17 @@ const translations = {
     drop_hint_line: "More than a launch: a controlled leak.",
     drop_overlay: "Preview / classified",
     
+    timeline_label: "Road to drop",
+    timeline_title: "A strong homepage does not explain the full product. It manages tension.",
+    timeline_1_title: "Signal",
+    timeline_1_body: "Visual impact, clear positioning, and a promise that is hard to ignore.",
+    timeline_2_title: "Clues",
+    timeline_2_body: "Product fragments, coded language, and small reveals that keep curiosity moving.",
+    timeline_3_title: "Drop",
+    timeline_3_body: "When it opens, perception is already built: visitors will not only discover a piece, they will discover a universe.",
+    drop_hint_line: "More than a launch: a controlled leak.",
+    drop_overlay: "Preview / classified",
+    
     footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     drop_collection_label: "The Collection",
@@ -477,6 +499,17 @@ const translations = {
     email_placeholder: "Tu email",
     email_cta: "Solicitar acceso",
     email_new_flow: "Antes de entrar al drop, consigue early access y entra al hub de pistas con email, país y móvil.",
+    
+    timeline_label: "Road to drop",
+    timeline_title: "Una home potente no explica todo el producto: administra tensión.",
+    timeline_1_title: "Señal",
+    timeline_1_body: "Impacto visual, posicionamiento claro y una promesa difícil de ignorar.",
+    timeline_2_title: "Pistas",
+    timeline_2_body: "Fragmentos del producto, lenguaje codificado y pequeñas revelaciones que hacen avanzar la curiosidad.",
+    timeline_3_title: "Drop",
+    timeline_3_body: "Cuando se abra, la percepción ya estará construida: no descubrirán solo una prenda, descubrirán un universo.",
+    drop_hint_line: "Más que un lanzamiento: una filtración controlada.",
+    drop_overlay: "Preview / classified",
     
     timeline_label: "Road to drop",
     timeline_title: "Una home potente no explica todo el producto: administra tensión.",
