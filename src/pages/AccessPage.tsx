@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,61 @@ const AccessPage = () => {
   const navigate = useNavigate();
 
   const [mode, setMode] = useState<"request" | "login">(
-    state.user.accessStatus === "none" ? "request" : "login"
+    state.user.accessStatus === "none" ? "request" : "login",
+  );
+  const [email, setEmail] = useState(state.user.email ?? "");
+  const [country, setCountry] = useState(state.user.country ?? "");
+  const [phone, setPhone] = useState(state.user.phone ?? "");
+  const [passwords, setPasswords] = useState<Record<number, string>>({ 1: "", 2: "", 3: "" });
+  const [feedback, setFeedback] = useState<Record<number, string>>({});
+  const [activeClueId, setActiveClueId] = useState<number | null>(1);
+
+  const clues = useMemo(
+    () => [
+      {
+        id: 1,
+        title: t("clue_1_title"),
+        category: t("clue_category_1"),
+        teaser: t("clue_1_teaser"),
+        reveal: t("clue_1_reveal"),
+        passwordHint: t("clue_password_hint"),
+        fragments: [t("clue_1_fragment_1"), t("clue_1_fragment_2"), t("clue_1_fragment_3")],
+        panelTitle: t("clue_1_panel_title"),
+        panelBody: t("clue_1_panel_body"),
+        panelSignal: '41°36\'18.9"N 1°48\'40.9"E',
+        accentGlow: "from-[#223245]/28 via-[#121a22]/0 to-transparent",
+        accentBorder: "border-[#2f4359]/60",
+      },
+      {
+        id: 2,
+        title: t("clue_2_title"),
+        category: t("clue_category_2"),
+        teaser: t("clue_2_teaser"),
+        reveal: t("clue_2_reveal"),
+        passwordHint: t("clue_password_hint_2"),
+        fragments: [t("clue_2_fragment_1"), t("clue_2_fragment_2"), t("clue_2_fragment_3")],
+        panelTitle: t("clue_2_panel_title"),
+        panelBody: t("clue_2_panel_body"),
+        panelSignal: t("clue_2_panel_signal"),
+        accentGlow: "from-[#4a2d16]/26 via-[#1a130d]/0 to-transparent",
+        accentBorder: "border-[#5a3a22]/60",
+      },
+      {
+        id: 3,
+        title: t("clue_3_title"),
+        category: t("clue_category_3"),
+        teaser: t("clue_3_teaser"),
+        reveal: t("clue_3_reveal"),
+        passwordHint: t("clue_password_hint_3"),
+        fragments: [t("clue_3_fragment_1"), t("clue_3_fragment_2"), t("clue_3_fragment_3")],
+        panelTitle: t("clue_3_panel_title"),
+        panelBody: t("clue_3_panel_body"),
+        panelSignal: t("clue_3_panel_signal"),
+        accentGlow: "from-[#3a3a3a]/22 via-[#161616]/0 to-transparent",
+        accentBorder: "border-white/10",
+      },
+    ],
+    [t],
   );
   const [email, setEmail] = useState(state.user.email ?? "");
   const [country, setCountry] = useState(state.user.country ?? "");
@@ -101,6 +155,14 @@ const AccessPage = () => {
     [t]
   );
 
+  const progressMoments = useMemo(
+    () => [t("progress_step_1"), t("progress_step_2"), t("progress_step_3")],
+    [t],
+  );
+
+  const activeClue = clues.find((clue) => clue.id === activeClueId) ?? clues[0];
+  const activeClueIndex = clues.findIndex((clue) => clue.id === activeClue.id);
+
   const handleRequest = (e: React.FormEvent) => {
     e.preventDefault();
     if (email && country && phone) {
@@ -136,10 +198,17 @@ const AccessPage = () => {
     }));
   };
 
+  const goToAdjacentClue = (direction: -1 | 1) => {
+    const nextIndex = activeClueIndex + direction;
+    if (nextIndex >= 0 && nextIndex < clues.length) {
+      setActiveClueId(clues[nextIndex].id);
+    }
+  };
+
   const isApproved = state.user.accessStatus === "approved";
 
   return (
-    <div className="min-h-screen bg-[#0c0b0a] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0908] text-white overflow-x-hidden">
       <Header />
 
       <main className="relative px-6 pb-20 pt-28 md:px-10 md:pt-32">
@@ -351,7 +420,7 @@ const AccessPage = () => {
                       <p className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-white/42">
                         {t("clue_hub_label")}
                       </p>
-                      <h2 className="mt-4 max-w-[15ch] text-4xl leading-[0.96] text-white md:text-5xl">
+                      <h2 className="mt-4 max-w-[14ch] text-4xl leading-[0.96] text-white md:text-5xl">
                         {t("clue_hub_title")}
                       </h2>
                       <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/64">
@@ -373,8 +442,9 @@ const AccessPage = () => {
                   </div>
 
                   <div className="mt-10 grid gap-4 lg:grid-cols-3">
-                    {clues.map((clue) => {
+                    {clues.map((clue, index) => {
                       const unlocked = state.unlockedClues.includes(clue.id);
+                      const active = clue.id === activeClueId;
 
                       return (
                         <article
@@ -391,7 +461,7 @@ const AccessPage = () => {
                                 <p className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/42">
                                   {clue.category}
                                 </p>
-                                <h3 className="mt-4 text-[1.95rem] leading-[1.02] text-white">
+                                <h3 className="mt-4 text-[1.7rem] leading-[1.02] text-white">
                                   {clue.title}
                                 </h3>
                               </div>
@@ -409,84 +479,168 @@ const AccessPage = () => {
                               </span>
                             </div>
 
-                            <p className="mt-8 min-h-[138px] text-base leading-relaxed text-white/82">
-                              {unlocked ? clue.reveal : clue.teaser}
+                            <p className="mt-7 min-h-[116px] text-base leading-relaxed text-white/82">
+                              {active ? clue.reveal : clue.teaser}
                             </p>
 
-                            <div className="mt-6 rounded-[20px] border border-white/10 bg-black/20 p-4">
-                              <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/42">
-                                {t("clue_reveal_list_label")}
-                              </p>
-
-                              <div className="mt-4 space-y-3">
-                                {clue.fragments.map((fragment, index) => (
-                                  <div
-                                    key={fragment}
-                                    className="flex items-start gap-3 text-sm leading-relaxed"
-                                  >
-                                    <span
-                                      className={`mt-[7px] h-1.5 w-1.5 rounded-full ${
-                                        unlocked ? "bg-white" : "bg-white/16"
-                                      }`}
-                                    />
-                                    <span
-                                      className={
-                                        unlocked
-                                          ? "text-white/84"
-                                          : index === 0
-                                          ? "text-white/64"
-                                          : "text-white/30"
-                                      }
-                                    >
-                                      {fragment}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-
-                            <p className="mt-5 font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/34">
-                              {clue.passwordHint}
-                            </p>
-
-                            {isApproved && !unlocked && (
-                              <div className="mt-5 space-y-3">
-                                <input
-                                  type="text"
-                                  value={passwords[clue.id] || ""}
-                                  onChange={(e) =>
-                                    setPasswords((prev) => ({
-                                      ...prev,
-                                      [clue.id]: e.target.value,
-                                    }))
-                                  }
-                                  placeholder={t("clue_password_placeholder")}
-                                  className="h-11 w-full rounded-[14px] border border-white/10 bg-white/[0.06] px-4 text-sm text-white placeholder:text-white/28 outline-none transition-pdra focus:border-white/18 focus:bg-white/[0.08]"
-                                />
-
-                                <Button
-                                  variant="pdra-outline"
-                                  size="lg"
-                                  className="w-full border-white/20 text-white hover:bg-white hover:text-black"
-                                  onClick={() => handleUnlock(clue.id)}
-                                >
-                                  {t("clue_unlock_cta")}
-                                </Button>
-                              </div>
-                            )}
-
-                            {feedback[clue.id] && (
-                              <div className="mt-4 rounded-[16px] border border-white/10 bg-white/[0.05] p-3">
-                                <p className="text-xs leading-relaxed text-white/82">
-                                  {feedback[clue.id]}
-                                </p>
-                              </div>
-                            )}
+                            <button
+                              type="button"
+                              onClick={() => setActiveClueId(clue.id)}
+                              className={`mt-6 inline-flex items-center rounded-full border px-4 py-2 font-mono-tech text-[11px] uppercase tracking-[0.16em] transition-pdra ${
+                                active
+                                  ? "border-white bg-white text-black"
+                                  : "border-white/12 bg-white/[0.04] text-white/64 hover:border-white/24 hover:text-white"
+                              }`}
+                            >
+                              {active ? t("clue_opened_cta") : t("clue_open_cta", { number: index + 1 })}
+                            </button>
                           </div>
                         </article>
                       );
                     })}
                   </div>
+
+                  <AnimatePresence mode="wait">
+                    <motion.section
+                      key={activeClue.id}
+                      initial={{ opacity: 0, y: 24, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.985 }}
+                      transition={{ duration: 0.5, ease: easing }}
+                      className="relative mt-8 overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 md:p-8"
+                    >
+                      <div className="pointer-events-none absolute inset-0">
+                        <motion.div
+                          className={`absolute inset-0 bg-gradient-to-br ${activeClue.accentGlow}`}
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+                        />
+                        <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/6" />
+                        <div className="absolute left-1/2 top-1/2 h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.05]" />
+                      </div>
+
+                      <div className="relative grid gap-8 xl:grid-cols-[1.15fr_0.85fr] xl:items-start">
+                        <div>
+                          <div className="flex flex-wrap items-center justify-between gap-4">
+                            <div>
+                              <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/42">
+                                {t("clue_panel_label")}
+                              </p>
+                              <h3 className="mt-4 text-4xl md:text-5xl leading-[0.94] text-white">
+                                {activeClue.panelTitle}
+                              </h3>
+                            </div>
+                            <div className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/58">
+                              {activeClue.category}
+                            </div>
+                          </div>
+
+                          <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70">
+                            {activeClue.panelBody}
+                          </p>
+
+                          <div className="mt-8 rounded-[24px] border border-white/10 bg-black/20 p-5">
+                            <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/42">
+                              {t("clue_panel_signal")}
+                            </p>
+                            <p className="mt-4 text-2xl md:text-3xl leading-tight text-white break-words">
+                              {activeClue.panelSignal}
+                            </p>
+                          </div>
+
+                          <div className="mt-8 rounded-[24px] border border-white/10 bg-black/20 p-5">
+                            <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/42">
+                              {t("clue_reveal_list_label")}
+                            </p>
+                            <div className="mt-5 space-y-4">
+                              {activeClue.fragments.map((fragment, index) => {
+                                const unlocked = state.unlockedClues.includes(activeClue.id);
+                                return (
+                                  <div key={fragment} className="flex items-start gap-4 text-sm leading-relaxed">
+                                    <span className={`mt-[7px] h-2 w-2 rounded-full ${unlocked ? "bg-white" : "bg-white/18"}`} />
+                                    <span className={unlocked ? "text-white/86" : index === 0 ? "text-white/68" : "text-white/34"}>{fragment}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
+                            <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/42">
+                              {t("clue_unlock_station")}
+                            </p>
+                            <p className="mt-4 text-sm leading-relaxed text-white/68">
+                              {activeClue.passwordHint}
+                            </p>
+
+                            {isApproved && !state.unlockedClues.includes(activeClue.id) ? (
+                              <div className="mt-6 space-y-3">
+                                <input
+                                  type="text"
+                                  value={passwords[activeClue.id] || ""}
+                                  onChange={(e) =>
+                                    setPasswords((prev) => ({
+                                      ...prev,
+                                      [activeClue.id]: e.target.value,
+                                    }))
+                                  }
+                                  placeholder={t("clue_password_placeholder")}
+                                  className="h-11 w-full rounded-[14px] border border-white/10 bg-white/[0.06] px-4 text-sm text-white placeholder:text-white/28 outline-none transition-pdra focus:border-white/18 focus:bg-white/[0.08]"
+                                />
+                                <Button
+                                  variant="pdra"
+                                  size="lg"
+                                  className="w-full"
+                                  onClick={() => handleUnlock(activeClue.id)}
+                                >
+                                  {t("clue_unlock_cta")}
+                                </Button>
+                              </div>
+                            ) : (
+                              <div className="mt-6 rounded-[18px] border border-white/10 bg-black/20 p-4">
+                                <p className="text-sm leading-relaxed text-white/78">
+                                  {state.unlockedClues.includes(activeClue.id)
+                                    ? t("clue_station_open")
+                                    : t("clue_station_locked")}
+                                </p>
+                              </div>
+                            )}
+
+                            {feedback[activeClue.id] && (
+                              <div className="mt-4 rounded-[16px] border border-white/10 bg-white/[0.05] p-3">
+                                <p className="text-xs leading-relaxed text-white/82">
+                                  {feedback[activeClue.id]}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="mt-5 flex gap-3">
+                            <Button
+                              variant="pdra-outline"
+                              size="lg"
+                              className="flex-1 border-white/20 text-white hover:bg-white hover:text-black"
+                              onClick={() => goToAdjacentClue(-1)}
+                              disabled={activeClueIndex === 0}
+                            >
+                              {t("clue_prev")}
+                            </Button>
+                            <Button
+                              variant="pdra-outline"
+                              size="lg"
+                              className="flex-1 border-white/20 text-white hover:bg-white hover:text-black"
+                              onClick={() => goToAdjacentClue(1)}
+                              disabled={activeClueIndex === clues.length - 1}
+                            >
+                              {t("clue_next")}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.section>
+                  </AnimatePresence>
 
                   <div
                     className={`mt-8 rounded-[28px] p-6 transition-pdra md:p-7 ${
