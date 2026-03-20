@@ -32,27 +32,16 @@ const FadeIn = ({
 );
 
 const Index = () => {
-  const { requestAccess, state } = useApp();
+  const { state } = useApp();
   const { t } = useLanguage();
-
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const [revealedClues, setRevealedClues] = useState<number[]>([]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      requestAccess(email);
-      setSubmitted(true);
-    }
-  };
 
   const statusLabel =
     state.dropStatus === "coming_soon"
       ? t("drop_coming_soon")
       : state.dropStatus === "open"
-        ? t("drop_open")
-        : t("drop_sold_out");
+      ? t("drop_open")
+      : t("drop_sold_out");
 
   const clues = useMemo(
     () => [
@@ -75,12 +64,12 @@ const Index = () => {
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Header />
 
-      <section className="relative min-h-screen flex items-end isolate">
+      <section className="relative isolate flex min-h-screen items-end">
         <div className="absolute inset-0">
           <img
             src={heroImg}
             alt="Montserrat mountain range at golden hour"
-            className="w-full h-full object-cover scale-[1.03]"
+            className="h-full w-full scale-[1.03] object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,6,0.18)_0%,rgba(6,6,6,0.46)_45%,rgba(14,11,8,0.88)_100%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_32%)]" />
@@ -89,12 +78,12 @@ const Index = () => {
         <div className="absolute inset-x-0 top-24 z-10 px-6 md:px-10">
           <FadeIn>
             <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 rounded-full border border-white/10 bg-black/20 px-5 py-3 backdrop-blur-md">
-              <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-white/72 font-mono-tech">
+              <div className="flex items-center gap-3 font-mono-tech text-[11px] uppercase tracking-[0.24em] text-white/72">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_16px_rgba(74,222,128,0.7)]" />
                 {t("hero_signal")}
               </div>
 
-              <div className="grid grid-cols-3 gap-6 text-right text-[11px] uppercase tracking-[0.18em] text-white/55 font-mono-tech">
+              <div className="grid grid-cols-3 gap-6 text-right font-mono-tech text-[11px] uppercase tracking-[0.18em] text-white/55">
                 <div>
                   <p>{t("hero_metric_1_label")}</p>
                   <p className="mt-1 text-white">{t("hero_metric_1_value")}</p>
@@ -117,13 +106,13 @@ const Index = () => {
             <div className="max-w-4xl">
               <FadeIn>
                 <div className="inline-flex rounded-full border border-white/10 bg-black/28 px-4 py-2 backdrop-blur-sm shadow-[0_8px_40px_rgba(0,0,0,0.18)]">
-                  <p className="text-xs uppercase tracking-[0.28em] text-white/80 font-mono-tech">
+                  <p className="font-mono-tech text-xs uppercase tracking-[0.28em] text-white/80">
                     {t("hero_est")}
                   </p>
                 </div>
               </FadeIn>
 
-              <FadeIn delay={0.12}>
+              <FadeIn delay={0.08}>
                 <h1 className="mt-5 max-w-4xl text-5xl leading-[0.95] text-balance text-white [text-shadow:0_10px_40px_rgba(0,0,0,0.45)] md:text-7xl lg:text-[5.8rem]">
                   {t("hero_title")}
                 </h1>
@@ -131,10 +120,10 @@ const Index = () => {
 
               <FadeIn delay={0.16}>
                 <div className="mt-7 max-w-2xl rounded-[24px] border border-white/10 bg-black/34 px-6 py-5 backdrop-blur-md shadow-[0_18px_60px_rgba(0,0,0,0.24)]">
-                  <p className="text-base leading-relaxed !text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.5)] md:text-xl">
+                  <p className="text-base leading-relaxed text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.5)] md:text-xl">
                     {t("hero_subtitle")}
                   </p>
-                  <p className="mt-4 text-sm leading-relaxed !text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.55)] md:text-base">
+                  <p className="mt-4 text-sm leading-relaxed text-white/82 [text-shadow:0_4px_24px_rgba(0,0,0,0.45)] md:text-base">
                     {t("hero_mystery")}
                   </p>
                 </div>
@@ -158,13 +147,13 @@ const Index = () => {
 
             <FadeIn delay={0.2} className="lg:justify-self-end">
               <div className="rounded-[28px] border border-white/10 bg-white/6 p-6 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.28)]">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-white/55 font-mono-tech">
+                <p className="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-white/55">
                   {t("hero_panel_label")}
                 </p>
 
                 <div className="mt-6 space-y-6">
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                    <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-white/45">
                       {t("hero_panel_drop")}
                     </p>
                     <p className="mt-2 text-3xl text-white">{t("drop_name")}</p>
@@ -173,7 +162,7 @@ const Index = () => {
 
                   <div className="grid grid-cols-2 gap-4 text-sm text-white/72">
                     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                      <p className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45">
                         {t("hero_panel_availability")}
                       </p>
                       <p className="mt-3 text-xl text-white">
@@ -182,7 +171,7 @@ const Index = () => {
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                      <p className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45">
                         {t("hero_panel_window")}
                       </p>
                       <p className="mt-3 text-xl text-white">Q2 / 2026</p>
@@ -190,7 +179,7 @@ const Index = () => {
                   </div>
 
                   <div className="rounded-2xl border border-dashed border-white/15 p-4">
-                    <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                    <p className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45">
                       {t("hero_panel_note_label")}
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-white/70">
@@ -211,7 +200,7 @@ const Index = () => {
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
             <div>
               <FadeIn>
-                <p className="mb-6 text-xs uppercase tracking-[0.25em] text-white/45 font-mono-tech">
+                <p className="mb-6 font-mono-tech text-xs uppercase tracking-[0.25em] text-white/45">
                   {t("tease_label")}
                 </p>
               </FadeIn>
@@ -231,7 +220,7 @@ const Index = () => {
 
             <FadeIn delay={0.12}>
               <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-                <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">
+                <div className="flex items-center justify-between font-mono-tech text-[11px] uppercase tracking-[0.18em] text-white/45">
                   <span>{t("tease_progress_label")}</span>
                   <span>
                     {revealedClues.length}/{clues.length}
@@ -269,7 +258,7 @@ const Index = () => {
                     }`}
                   >
                     <p
-                      className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${
+                      className={`font-mono-tech text-[11px] uppercase tracking-[0.22em] ${
                         active ? "text-black/45" : "text-white/45"
                       }`}
                     >
@@ -285,7 +274,7 @@ const Index = () => {
                     </p>
 
                     <p
-                      className={`mt-10 text-[11px] uppercase tracking-[0.18em] font-mono-tech ${
+                      className={`mt-10 font-mono-tech text-[11px] uppercase tracking-[0.18em] ${
                         active
                           ? "text-black/45"
                           : "text-white/35 group-hover:text-white/60"
@@ -308,7 +297,7 @@ const Index = () => {
               }`}
             >
               <p
-                className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${
+                className={`font-mono-tech text-[11px] uppercase tracking-[0.22em] ${
                   decoded ? "text-black/45" : "text-white/40"
                 }`}
               >
@@ -348,7 +337,7 @@ const Index = () => {
 
           <div>
             <FadeIn>
-              <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+              <p className="mb-6 font-mono-tech text-xs uppercase tracking-[0.15em] text-stone">
                 {t("manifesto_label")}
               </p>
             </FadeIn>
@@ -373,7 +362,7 @@ const Index = () => {
               ].map((item, index) => (
                 <FadeIn key={item.label} delay={0.2 + index * 0.06}>
                   <div className="rounded-[22px] border border-foreground/8 bg-white/60 p-5 shadow-soft">
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-stone font-mono-tech">
+                    <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-stone">
                       {item.label}
                     </p>
                     <p className="mt-4 text-sm leading-relaxed text-foreground/80">
@@ -391,7 +380,7 @@ const Index = () => {
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <FadeIn>
-              <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+              <p className="mb-6 font-mono-tech text-xs uppercase tracking-[0.15em] text-stone">
                 {t("drop_label")}
               </p>
             </FadeIn>
@@ -443,7 +432,7 @@ const Index = () => {
           </div>
 
           <FadeIn delay={0.16} className="relative">
-            <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 rounded-full border border-foreground/10 bg-background/90 px-4 py-2 text-[11px] uppercase tracking-[0.18em] text-stone font-mono-tech shadow-soft">
+            <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 rounded-full border border-foreground/10 bg-background/90 px-4 py-2 font-mono-tech text-[11px] uppercase tracking-[0.18em] text-stone shadow-soft">
               {t("drop_overlay")}
             </div>
 
@@ -460,7 +449,7 @@ const Index = () => {
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
             <FadeIn>
-              <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+              <p className="mb-6 font-mono-tech text-xs uppercase tracking-[0.15em] text-stone">
                 {t("timeline_label")}
               </p>
             </FadeIn>
@@ -480,7 +469,7 @@ const Index = () => {
             ].map((item, index) => (
               <FadeIn key={item.step} delay={0.1 + index * 0.08}>
                 <div className="h-full rounded-[26px] border border-foreground/8 bg-white/70 p-6 shadow-soft">
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-stone font-mono-tech">
+                  <p className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-stone">
                     {item.step}
                   </p>
                   <h3 className="mt-6 text-2xl leading-tight">{item.title}</h3>
@@ -497,7 +486,7 @@ const Index = () => {
       <section className="bg-surface px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-md text-center">
           <FadeIn>
-            <p className="mb-6 text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">
+            <p className="mb-6 font-mono-tech text-xs uppercase tracking-[0.15em] text-stone">
               {t("email_label")}
             </p>
           </FadeIn>
@@ -515,41 +504,21 @@ const Index = () => {
           </FadeIn>
 
           <FadeIn delay={0.24}>
-            {submitted || state.user.accessStatus !== "none" ? (
-              <div className="mt-8 rounded-[24px] border border-foreground/8 bg-background p-8 shadow-soft">
-                <p className="text-sm text-stone">{t("email_on_list")}</p>
-
-                <div className="relative mt-4 h-px overflow-hidden bg-foreground/10">
-                  <motion.div
-                    className="absolute inset-y-0 left-0 bg-foreground/30"
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 2, ease: easing }}
-                  />
-                </div>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("email_placeholder")}
-                  required
-                  className="h-12 w-full rounded-[8px] bg-background px-4 text-sm text-foreground shadow-inner-border placeholder:text-stone/50 transition-pdra focus:outline-none focus:ring-1 focus:ring-foreground/20"
-                />
-                <Button variant="pdra" size="lg" type="submit">
+            <div className="mt-8 rounded-[24px] border border-foreground/8 bg-background p-8 shadow-soft">
+              <p className="text-sm text-stone">{t("email_new_flow")}</p>
+              <Link to="/access" className="mt-6 block">
+                <Button variant="pdra" size="lg" className="w-full">
                   {t("email_cta")}
                 </Button>
-              </form>
-            )}
+              </Link>
+            </div>
           </FadeIn>
         </div>
       </section>
 
       <footer className="flex flex-wrap items-center justify-between gap-4 px-6 py-12 md:px-10">
         <p className="text-xs text-stone">{t("footer_location")}</p>
-        <p className="text-xs text-stone font-mono-tech">© 2026</p>
+        <p className="font-mono-tech text-xs text-stone">© 2026</p>
       </footer>
     </div>
   );
