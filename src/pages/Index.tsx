@@ -36,13 +36,6 @@ const Index = () => {
   const { t } = useLanguage();
   const [revealedClues, setRevealedClues] = useState<number[]>([]);
 
-  const decoded = revealedClues.length === clues.length;
-
-  const toggleClue = (id: number) => {
-    setRevealedClues((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
 
   const clues = useMemo(
     () => [
