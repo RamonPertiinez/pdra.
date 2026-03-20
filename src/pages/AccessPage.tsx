@@ -35,60 +35,7 @@ const AccessPage = () => {
   const [mode, setMode] = useState<"request" | "login">(
     state.user.accessStatus === "none" ? "request" : "login",
   );
-  const [email, setEmail] = useState(state.user.email ?? "");
-  const [country, setCountry] = useState(state.user.country ?? "");
-  const [phone, setPhone] = useState(state.user.phone ?? "");
-  const [passwords, setPasswords] = useState<Record<number, string>>({ 1: "", 2: "", 3: "" });
-  const [feedback, setFeedback] = useState<Record<number, string>>({});
-  const [activeClueId, setActiveClueId] = useState<number | null>(1);
 
-  const clues = useMemo(
-    () => [
-      {
-        id: 1,
-        title: t("clue_1_title"),
-        category: t("clue_category_1"),
-        teaser: t("clue_1_teaser"),
-        reveal: t("clue_1_reveal"),
-        passwordHint: t("clue_password_hint"),
-        fragments: [t("clue_1_fragment_1"), t("clue_1_fragment_2"), t("clue_1_fragment_3")],
-        panelTitle: t("clue_1_panel_title"),
-        panelBody: t("clue_1_panel_body"),
-        panelSignal: '41°36\'18.9"N 1°48\'40.9"E',
-        accentGlow: "from-[#223245]/28 via-[#121a22]/0 to-transparent",
-        accentBorder: "border-[#2f4359]/60",
-      },
-      {
-        id: 2,
-        title: t("clue_2_title"),
-        category: t("clue_category_2"),
-        teaser: t("clue_2_teaser"),
-        reveal: t("clue_2_reveal"),
-        passwordHint: t("clue_password_hint_2"),
-        fragments: [t("clue_2_fragment_1"), t("clue_2_fragment_2"), t("clue_2_fragment_3")],
-        panelTitle: t("clue_2_panel_title"),
-        panelBody: t("clue_2_panel_body"),
-        panelSignal: t("clue_2_panel_signal"),
-        accentGlow: "from-[#4a2d16]/26 via-[#1a130d]/0 to-transparent",
-        accentBorder: "border-[#5a3a22]/60",
-      },
-      {
-        id: 3,
-        title: t("clue_3_title"),
-        category: t("clue_category_3"),
-        teaser: t("clue_3_teaser"),
-        reveal: t("clue_3_reveal"),
-        passwordHint: t("clue_password_hint_3"),
-        fragments: [t("clue_3_fragment_1"), t("clue_3_fragment_2"), t("clue_3_fragment_3")],
-        panelTitle: t("clue_3_panel_title"),
-        panelBody: t("clue_3_panel_body"),
-        panelSignal: t("clue_3_panel_signal"),
-        accentGlow: "from-[#3a3a3a]/22 via-[#161616]/0 to-transparent",
-        accentBorder: "border-white/10",
-      },
-    ],
-    [t],
-  );
   const [email, setEmail] = useState(state.user.email ?? "");
   const [country, setCountry] = useState(state.user.country ?? "");
   const [phone, setPhone] = useState(state.user.phone ?? "");
