@@ -67,3 +67,41 @@ It is discovered.
 ---
 
 ## Project Structure
+src/
+components/ # UI components (Header, Buttons, etc.)
+pages/ # Main pages (AccessPage, Index, Drop)
+context/ # Global state (user, clues, access)
+lib/ # Utilities
+
+
+---
+
+## Design Principles
+
+- Silence over noise
+- Structure over decoration
+- Territory over graphics
+- Subtlety over obvious branding
+
+This is not a marketplace.
+This is a controlled narrative.
+
+---
+
+## Status
+
+In development.
+
+The system is being refined to align:
+design, interaction and brand identity into a single experience.
+
+---
+
+## Philosophy
+
+If the rock shapes us,
+why shouldn't clothing carry its form?
+
+---
+
+pdra.
