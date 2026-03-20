@@ -11,7 +11,15 @@ import productJacket from "@/assets/product-jacket.jpg";
 
 const easing = [0.2, 0, 0, 1] as const;
 
-const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => (
+const FadeIn = ({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 14 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -28,11 +36,13 @@ const Index = () => {
   const { t } = useLanguage();
   const [revealedClues, setRevealedClues] = useState<number[]>([]);
 
-  const statusLabel = state.dropStatus === "coming_soon"
-    ? t("drop_coming_soon")
-    : state.dropStatus === "open"
-    ? t("drop_open")
-    : t("drop_sold_out");
+  const decoded = revealedClues.length === clues.length;
+
+  const toggleClue = (id: number) => {
+    setRevealedClues((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
 
   const clues = useMemo(
     () => [
@@ -340,7 +350,9 @@ const Index = () => {
       <section className="py-24 md:py-32 px-6 md:px-10 bg-surface">
         <div className="max-w-md mx-auto text-center">
           <FadeIn>
-            <p className="text-xs uppercase tracking-[0.15em] text-stone mb-6 font-mono-tech">{t("email_label")}</p>
+            <p className="mb-6 font-mono-tech text-xs uppercase tracking-[0.15em] text-stone">
+              {t("email_label")}
+            </p>
           </FadeIn>
           <FadeIn delay={0.08}>
             <h2 className="text-3xl md:text-4xl text-foreground text-balance">{t("email_title")}</h2>
@@ -361,7 +373,7 @@ const Index = () => {
 
       <footer className="py-12 px-6 md:px-10 flex items-center justify-between gap-4 flex-wrap">
         <p className="text-xs text-stone">{t("footer_location")}</p>
-        <p className="text-xs text-stone font-mono-tech">© 2026</p>
+        <p className="font-mono-tech text-xs text-stone">© 2026</p>
       </footer>
     </div>
   );

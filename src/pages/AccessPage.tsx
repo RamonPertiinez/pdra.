@@ -89,6 +89,71 @@ const AccessPage = () => {
     ],
     [t],
   );
+  const [email, setEmail] = useState(state.user.email ?? "");
+  const [country, setCountry] = useState(state.user.country ?? "");
+  const [phone, setPhone] = useState(state.user.phone ?? "");
+  const [passwords, setPasswords] = useState<Record<number, string>>({
+    1: "",
+    2: "",
+    3: "",
+  });
+  const [feedback, setFeedback] = useState<Record<number, string>>({});
+
+  const clues = useMemo(
+    () => [
+      {
+        id: 1,
+        title: t("clue_1_title"),
+        category: t("clue_category_1"),
+        teaser: t("clue_1_teaser"),
+        reveal: t("clue_1_reveal"),
+        passwordHint: t("clue_password_hint"),
+        fragments: [
+          t("clue_1_fragment_1"),
+          t("clue_1_fragment_2"),
+          t("clue_1_fragment_3"),
+        ],
+        accentGlow: "from-[#223245]/20 via-[#121a22]/0 to-transparent",
+        accentBorder: "border-[#2f4359]/60",
+      },
+      {
+        id: 2,
+        title: t("clue_2_title"),
+        category: t("clue_category_2"),
+        teaser: t("clue_2_teaser"),
+        reveal: t("clue_2_reveal"),
+        passwordHint: t("clue_password_hint_2"),
+        fragments: [
+          t("clue_2_fragment_1"),
+          t("clue_2_fragment_2"),
+          t("clue_2_fragment_3"),
+        ],
+        accentGlow: "from-[#4a2d16]/20 via-[#1a130d]/0 to-transparent",
+        accentBorder: "border-[#5a3a22]/60",
+      },
+      {
+        id: 3,
+        title: t("clue_3_title"),
+        category: t("clue_category_3"),
+        teaser: t("clue_3_teaser"),
+        reveal: t("clue_3_reveal"),
+        passwordHint: t("clue_password_hint_3"),
+        fragments: [
+          t("clue_3_fragment_1"),
+          t("clue_3_fragment_2"),
+          t("clue_3_fragment_3"),
+        ],
+        accentGlow: "from-[#3a3a3a]/18 via-[#161616]/0 to-transparent",
+        accentBorder: "border-white/10",
+      },
+    ],
+    [t]
+  );
+
+  const progressMoments = useMemo(
+    () => [t("progress_step_1"), t("progress_step_2"), t("progress_step_3")],
+    [t]
+  );
 
   const progressMoments = useMemo(
     () => [t("progress_step_1"), t("progress_step_2"), t("progress_step_3")],

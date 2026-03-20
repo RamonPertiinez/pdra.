@@ -13,6 +13,8 @@ const translations = {
     hero_title: "La muntanya és el patró.",
     hero_subtitle: "Cada drop és un territori. Cada peça en conserva la forma.",
     hero_mystery: "La home no ho revelarà tot. Entraràs, veuràs senyals, fragments i coordenades. El producte complet només apareix quan la comunitat el sap llegir.",
+    hero_mystery:
+      "La home no ho revelarà tot. Entraràs, veuràs senyals, fragments i coordenades. El producte complet només apareix quan la comunitat el sap llegir.",
     hero_signal: "Senyal de llançament detectat",
     hero_metric_1_label: "Categoria",
     hero_metric_1_value: "Technical / Lifestyle",
@@ -31,6 +33,14 @@ const translations = {
     tease_label: "Descodificació",
     tease_title: "La intriga també pot vendre millor que una reveal plana.",
     tease_body: "Si vols que la gent entri i pensi ‘aquesta marca va seriosament’, la clau no és amagar-ho tot: és mostrar només el suficient perquè vulguin seguir estirant del fil.",
+    hero_panel_note:
+      "Els primers senyals no ensenyen la peça sencera. Només deixen clar que hi ha criteri, univers i ambició real al darrere.",
+    hero_cta: "Desbloquejar accés",
+
+    tease_label: "Descodificació",
+    tease_title: "La intriga també pot vendre millor que una reveal plana.",
+    tease_body:
+      "Si vols que la gent entri i pensi ‘aquesta marca va seriosament’, la clau no és amagar-ho tot: és mostrar només el suficient perquè vulguin seguir estirant del fil.",
     tease_progress_label: "Claus obertes",
     tease_instruction: "Obre les tres pistes per entendre què s’acosta.",
     tease_locked: "Pista bloquejada. Hi ha informació, però encara no tota.",
@@ -48,15 +58,36 @@ const translations = {
     tease_clue_3_label: "Pista 03",
     tease_clue_3_body: "El drop sortirà pròximament. Fins llavors, cada bloc de la pàgina funciona com una filtració deliberada.",
     
+    tease_decoded_locked:
+      "Quan les tres pistes estiguin obertes, apareixerà el relat complet del drop.",
+    tease_decoded_helper: "Tens prou informació per veure el relat complet.",
+    tease_decoded_title:
+      "Un drop tècnic, cultural i limitat per a una comunitat molt concreta.",
+    tease_decoded_body:
+      "pdra. no surt per agradar a tothom. Surt per conquistar un públic que detecta detall, llenguatge propi i producte amb identitat. Aquesta sensació és la que la home ha de deixar des del primer scroll.",
+    tease_clue_1_label: "Pista 01",
+    tease_clue_1_body:
+      "No és merch. És una peça construïda des del territori, amb una lectura tècnica i una direcció estètica molt controlada.",
+    tease_clue_2_label: "Pista 02",
+    tease_clue_2_body:
+      "No busquem volum massiu. Busquem una comunitat petita però obsessionada amb el detall, la roca i el context cultural.",
+    tease_clue_3_label: "Pista 03",
+    tease_clue_3_body:
+      "El drop sortirà pròximament. Fins llavors, cada bloc de la pàgina funciona com una filtració deliberada.",
+
     manifesto_label: "Manifest",
-    manifesto_text: "pdra. neix de la roca, de la ciutat i de tot el que passa entre les dues.",
-    manifesto_body: "No fem pantalons per semblar escaladors. Fem peces que porten territori a sobre. La muntanya no decora la roba: la construeix.",
-    
+    manifesto_text:
+      "pdra. neix de la roca, de la ciutat i de tot el que passa entre les dues.",
+    manifesto_body:
+      "No fem pantalons per semblar escaladors. Fem peces que porten territori a sobre. La muntanya no decora la roba: la construeix.",
+
     concept_label: "El concepte",
     concept_title: "Del relleu a la peça.",
-    concept_p1: "Cada col·lecció parteix d’una serralada catalana. N’estudiem el perfil, les arestes, la tensió visual i la manera com el paisatge cau, talla i s’enfila.",
-    concept_p2: "Després, tot això es tradueix en patronatge, volum i costures. No és outdoor convencional. No és streetwear buit. És escalada amb cultura.",
-    
+    concept_p1:
+      "Cada col·lecció parteix d’una serralada catalana. N’estudiem el perfil, les arestes, la tensió visual i la manera com el paisatge cau, talla i s’enfila.",
+    concept_p2:
+      "Després, tot això es tradueix en patronatge, volum i costures. No és outdoor convencional. No és streetwear buit. És escalada amb cultura.",
+
     drop_label: "Drop 001",
     drop_name: "MONTSERRAT",
     drop_subtitle: "La primera muntanya. El primer gest.",
@@ -64,7 +95,7 @@ const translations = {
     drop_units: "Edició limitada — {count} peces",
     drop_status_label: "Estat",
     drop_view: "Veure el drop",
-    
+
     philosophy_label: "Filosofia",
     philosophy_title: "No parlem de rendiment. Parlem de connexió.",
     philosophy_body: "Escalar també és una manera de pertànyer a un lloc. pdra. converteix aquesta relació en roba que pots portar de la roca al carrer sense canviar de pell.",
@@ -94,12 +125,51 @@ const translations = {
     drop_hint_line: "Més que un llançament: una filtració controlada.",
     drop_overlay: "Preview / classified",
     
+    philosophy_body:
+      "Escalar també és una manera de pertànyer a un lloc. pdra. converteix aquesta relació en roba que pots portar de la roca al carrer sense canviar de pell.",
+    positioning_1_label: "Producte",
+    positioning_1_body:
+      "Peça limitada, lectura premium i detall suficient per justificar desig real.",
+    positioning_2_label: "Narrativa",
+    positioning_2_body:
+      "No es comunica com un catàleg: es comunica com una investigació que s’està filtrant.",
+    positioning_3_label: "Mercat",
+    positioning_3_body:
+      "Níxol, especialitzat i atractiu: escalada, cultura visual i identitat local amb aspiració global.",
+
+    email_label: "Accés anticipat",
+    email_title: "Entra abans que la resta.",
+    email_supporting:
+      "Accés a pistes, updates i obertura del drop abans que es faci públic.",
+    email_on_list: "Ja formes part de la llista.",
+    email_placeholder: "El teu email",
+    email_cta: "Sol·licitar accés",
+    email_new_flow:
+      "Abans d’entrar al drop, recull l’accés anticipat i entra al hub de pistes amb email, país i mòbil.",
+
+    timeline_label: "Road to drop",
+    timeline_title:
+      "Una home potent no explica tot el producte: administra tensió.",
+    timeline_1_title: "Senyal",
+    timeline_1_body:
+      "Impacte visual, posicionament clar i una promesa difícil d’ignorar.",
+    timeline_2_title: "Pistes",
+    timeline_2_body:
+      "Fragments del producte, llenguatge codificat i petites revelacions que fan avançar la curiositat.",
+    timeline_3_title: "Drop",
+    timeline_3_body:
+      "Quan s’obri, la percepció ja estarà construïda: no descobriran només una peça, descobriran un univers.",
+    drop_hint_line: "Més que un llançament: una filtració controlada.",
+    drop_overlay: "Preview / classified",
+
     footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     // Drop Page
     drop_collection_label: "La Col·lecció",
-    drop_collection_desc: "Nascuda de les crestes serrades de Montserrat, aquesta col·lecció tradueix la geometria impossible de la muntanya en forma vestible.",
-    drop_back_cut: "El Tall de Muntanya Posterior — una línia de costura traçada des del perfil topogràfic del cim — defineix la silueta de cada peça.",
+    drop_collection_desc:
+      "Nascuda de les crestes serrades de Montserrat, aquesta col·lecció tradueix la geometria impossible de la muntanya en forma vestible.",
+    drop_back_cut:
+      "El Tall de Muntanya Posterior — una línia de costura traçada des del perfil topogràfic del cim — defineix la silueta de cada peça.",
     drop_technical: "Tècnic",
     drop_fit: "Tall",
     drop_fit_value: "Ample",
@@ -153,6 +223,25 @@ const translations = {
     access_hint: "Com més aviat entris, abans veuràs com es construeix la peça a través de territori, construcció i identitat.",
     access_progress_label: "Progrés del pre-access",
     access_reward_body: "Aquest codi reconeix que has arribat abans que la majoria. Guarda’l per al moment d’obertura.",
+    access_body_new:
+      "Abans del 20/05/2026 no es mostrarà la peça completa. Primer entra al hub, deixa les teves dades i ajuda a desbloquejar les 3 pistes.",
+    access_country_placeholder: "País de procedència",
+    access_phone_placeholder: "Mòbil",
+    access_form_note:
+      "Recollim aquestes dades per gestionar accés anticipat, avisos del drop i recompenses dels participants.",
+    access_unlock_hub: "Desbloquejar hub",
+    access_hub_ready: "Ja ets dins del pre-access.",
+    access_hub_note:
+      "Ara pots seguir les pistes, provar passwords i arribar al reveal final abans del drop.",
+    access_reward_label: "Reward desbloquejat",
+    access_go_to_drop: "Veure estat del drop",
+    access_intro_signal:
+      "Això no és només un formulari: és el punt d’entrada a una investigació petita, premium i pensada perquè la comunitat construeixi el reveal abans del dia del drop.",
+    access_hint:
+      "Com més aviat entris, abans veuràs com es construeix la peça a través de territori, construcció i identitat.",
+    access_progress_label: "Progrés del pre-access",
+    access_reward_body:
+      "Aquest codi reconeix que has arribat abans que la majoria. Guarda’l per al moment d’obertura.",
     access_stat_1_label: "Opening",
     access_stat_2_label: "Clues",
     access_stat_3_label: "Progrés",
@@ -287,14 +376,18 @@ const translations = {
     tease_clue_3_body: "The drop is coming soon. Until then, every homepage block works like a deliberate leak.",
     
     manifesto_label: "Manifesto",
-    manifesto_text: "pdra. is born from rock, from the city, and from everything that lives between the two.",
-    manifesto_body: "We do not make climbing pants to look like climbers. We make garments that carry territory. The mountain is not decoration — it builds the piece.",
-    
+    manifesto_text:
+      "pdra. is born from rock, from the city, and from everything that lives between the two.",
+    manifesto_body:
+      "We do not make climbing pants to look like climbers. We make garments that carry territory. The mountain is not decoration — it builds the piece.",
+
     concept_label: "The Concept",
     concept_title: "From landscape to garment.",
-    concept_p1: "Each collection begins with a Catalan mountain range. We study its profile, ridgelines, visual tension, and the way the land rises, cuts, and falls.",
-    concept_p2: "Then we translate it into pattern, volume, and seam construction. It is not conventional outdoor wear. It is not empty streetwear. It is climbing with culture.",
-    
+    concept_p1:
+      "Each collection begins with a Catalan mountain range. We study its profile, ridgelines, visual tension, and the way the land rises, cuts, and falls.",
+    concept_p2:
+      "Then we translate it into pattern, volume, and seam construction. It is not conventional outdoor wear. It is not empty streetwear. It is climbing with culture.",
+
     drop_label: "Drop 001",
     drop_name: "MONTSERRAT",
     drop_subtitle: "The first mountain. The first gesture.",
@@ -302,7 +395,7 @@ const translations = {
     drop_units: "Limited edition — {count} pieces",
     drop_status_label: "Status",
     drop_view: "View the drop",
-    
+
     philosophy_label: "Philosophy",
     philosophy_title: "This is not about performance. It is about connection.",
     philosophy_body: "Climbing is also a way of belonging to a place. pdra. turns that relationship into clothing you can carry from rock to city without changing your skin.",
@@ -335,8 +428,10 @@ const translations = {
     footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     drop_collection_label: "The Collection",
-    drop_collection_desc: "Born from the serrated ridges of Montserrat, this collection translates the mountain's impossible geometry into wearable form.",
-    drop_back_cut: "The Back Mountain Cut — a single seam line traced from the peak's topographic profile — defines the silhouette of each piece.",
+    drop_collection_desc:
+      "Born from the serrated ridges of Montserrat, this collection translates the mountain's impossible geometry into wearable form.",
+    drop_back_cut:
+      "The Back Mountain Cut — a single seam line traced from the peak's topographic profile — defines the silhouette of each piece.",
     drop_technical: "Technical",
     drop_fit: "Fit",
     drop_fit_value: "Wide",
@@ -522,14 +617,18 @@ const translations = {
     tease_clue_3_body: "El drop saldrá próximamente. Hasta entonces, cada bloque de la página funciona como una filtración deliberada.",
     
     manifesto_label: "Manifiesto",
-    manifesto_text: "pdra. nace de la roca, de la ciudad y de todo lo que ocurre entre las dos.",
-    manifesto_body: "No hacemos pantalones para parecer escaladores. Hacemos prendas que llevan territorio encima. La montaña no decora la ropa: la construye.",
-    
+    manifesto_text:
+      "pdra. nace de la roca, de la ciudad y de todo lo que ocurre entre las dos.",
+    manifesto_body:
+      "No hacemos pantalones para parecer escaladores. Hacemos prendas que llevan territorio encima. La montaña no decora la ropa: la construye.",
+
     concept_label: "El concepto",
     concept_title: "Del relieve a la prenda.",
-    concept_p1: "Cada colección parte de una sierra catalana. Estudiamos su perfil, sus aristas, su tensión visual y la forma en que el paisaje sube, corta y cae.",
-    concept_p2: "Después, todo eso se traduce en patronaje, volumen y costuras. No es outdoor convencional. No es streetwear vacío. Es escalada con cultura.",
-    
+    concept_p1:
+      "Cada colección parte de una sierra catalana. Estudiamos su perfil, sus aristas, su tensión visual y la forma en que el paisaje sube, corta y cae.",
+    concept_p2:
+      "Después, todo eso se traduce en patronaje, volumen y costuras. No es outdoor convencional. No es streetwear vacío. Es escalada con cultura.",
+
     drop_label: "Drop 001",
     drop_name: "MONTSERRAT",
     drop_subtitle: "La primera montaña. El primer gesto.",
@@ -537,7 +636,7 @@ const translations = {
     drop_units: "Edición limitada — {count} piezas",
     drop_status_label: "Estado",
     drop_view: "Ver el drop",
-    
+
     philosophy_label: "Filosofía",
     philosophy_title: "No hablamos de rendimiento. Hablamos de conexión.",
     philosophy_body: "Escalar también es una forma de pertenecer a un lugar. pdra. convierte esa relación en ropa que puedes llevar de la roca a la ciudad sin cambiar de piel.",
@@ -570,8 +669,10 @@ const translations = {
     footer_location: "pdra. — Born in BCN. Made for the mountains.",
 
     drop_collection_label: "La Colección",
-    drop_collection_desc: "Nacida de las crestas serradas de Montserrat, esta colección traduce la geometría imposible de la montaña en forma vestible.",
-    drop_back_cut: "El Corte de Montaña Posterior — una línea de costura trazada desde el perfil topográfico del pico — define la silueta de cada pieza.",
+    drop_collection_desc:
+      "Nacida de las crestas serradas de Montserrat, esta colección traduce la geometría imposible de la montaña en forma vestible.",
+    drop_back_cut:
+      "El Corte de Montaña Posterior — una línea de costura trazada desde el perfil topográfico del pico — define la silueta de cada pieza.",
     drop_technical: "Técnico",
     drop_fit: "Corte",
     drop_fit_value: "Amplio",
@@ -592,7 +693,8 @@ const translations = {
     drop_reserved: "Reservado — Talla {size}",
     drop_production_soon: "La producción comienza pronto.",
     drop_secured: "Has asegurado tu pieza.",
-    drop_access_required: "Se requiere acceso anticipado para prereservar.",
+    drop_access_required:
+      "Se requiere acceso anticipado para prereservar.",
     drop_request_access: "Solicitar Acceso",
     drop_coming_soon: "Próximamente",
     drop_open: "Abierto",
@@ -604,7 +706,8 @@ const translations = {
     access_enter: "Entrar a la Colección",
     access_requested: "Solicitado",
     access_reviewing: "Tu solicitud está siendo revisada.",
-    access_reach_out: "Te contactaremos cuando tu acceso esté listo.",
+    access_reach_out:
+      "Te contactaremos cuando tu acceso esté listo.",
     access_simulate: "(Simular aprobación)",
     access_request: "Solicitar Acceso",
     access_login: "Entrar",
@@ -726,13 +829,18 @@ const LanguageContext = createContext<LanguageContextType | null>(null);
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("ca");
 
-  const t = (key: TranslationKey, params?: Record<string, string | number>): string => {
-    let text: string = translations[language][key] || translations.ca[key] || key;
+  const t = (
+    key: TranslationKey,
+    params?: Record<string, string | number>
+  ): string => {
+    let text = translations[language][key] ?? translations.ca[key] ?? key;
+
     if (params) {
       Object.entries(params).forEach(([k, v]) => {
         text = text.replace(`{${k}}`, String(v));
       });
     }
+
     return text;
   };
 
@@ -745,7 +853,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export function useLanguage() {
   const ctx = useContext(LanguageContext);
-  if (!ctx) throw new Error("useLanguage must be used within LanguageProvider");
+  if (!ctx) {
+    throw new Error("useLanguage must be used within LanguageProvider");
+  }
   return ctx;
 }
 
