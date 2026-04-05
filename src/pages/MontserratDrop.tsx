@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
@@ -24,7 +24,7 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
 );
 
 const MontserratDrop = () => {
-  const { state, prebook } = useApp();
+  const { state, prebook, isLaunchLive, allCluesUnlocked } = useApp();
   const { t } = useLanguage();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [step, setStep] = useState<"browse" | "confirm" | "reserved">("browse");
@@ -33,6 +33,9 @@ const MontserratDrop = () => {
   const isOpen = state.dropStatus === "open";
   const isSoldOut = state.dropStatus === "sold_out";
   const alreadyBooked = !!state.user.prebookedSize;
+
+  const launchDate = useMemo(() => new Date(state.launchDate), [state.launchDate]);
+  const daysUntilLaunch = Math.max(0, Math.ceil((launchDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
 
   const handlePrebook = () => {
     if (selectedSize) setStep("confirm");
@@ -47,17 +50,92 @@ const MontserratDrop = () => {
 
   const sizes = ["S", "M", "L", "XL"];
 
-  const statusLabel = state.dropStatus === "coming_soon"
-    ? t("drop_coming_soon")
-    : state.dropStatus === "open"
-    ? t("drop_open")
-    : t("drop_sold_out");
+  const getStatusLabel = () => (
+    state.dropStatus === "coming_soon"
+      ? t("drop_coming_soon")
+      : state.dropStatus === "open"
+      ? t("drop_open")
+      : t("drop_sold_out")
+  );
+
+  if (!isLaunchLive) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+
+        <section className="relative min-h-screen flex items-end">
+          <div className="absolute inset-0">
+            <img src={heroImg} alt="Montserrat" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,7,0.32)_0%,rgba(10,8,7,0.66)_42%,rgba(17,14,11,0.96)_100%)]" />
+          </div>
+
+          <div className="relative z-10 w-full px-6 pb-16 pt-32 md:px-10 md:pb-20">
+            <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+              <div className="max-w-3xl">
+                <FadeIn>
+                  <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-mono-tech">{t("drop_locked_label")}</p>
+                </FadeIn>
+                <FadeIn delay={0.08}>
+                  <h1 className="mt-5 text-5xl md:text-7xl text-white leading-[0.95] text-balance [text-shadow:0_10px_40px_rgba(0,0,0,0.45)]">
+                    {t("drop_locked_title")}
+                  </h1>
+                </FadeIn>
+                <FadeIn delay={0.16}>
+                  <p className="mt-6 max-w-2xl text-white/76 leading-relaxed">{t("drop_locked_body")}</p>
+                </FadeIn>
+                <FadeIn delay={0.24}>
+                  <div className="mt-8 inline-flex rounded-[24px] border border-white/12 bg-black/30 px-6 py-5 backdrop-blur-md">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-white/52 font-mono-tech">{t("drop_opening_label")}</p>
+                      <p className="mt-2 text-2xl text-white">20 / 05 / 2026</p>
+                      <p className="mt-2 text-sm text-white/65">{t("drop_days_remaining", { count: daysUntilLaunch })}</p>
+                    </div>
+                  </div>
+                </FadeIn>
+                <FadeIn delay={0.32} className="mt-10 flex flex-wrap gap-4">
+                  <Link to="/access">
+                    <Button variant="pdra" size="xl">{isLoggedIn ? t("drop_return_to_clues") : t("drop_join_early_access")}</Button>
+                  </Link>
+                  {isLoggedIn && (
+                    <Link to="/access" className="text-sm uppercase tracking-[0.18em] text-white/72 hover:text-white transition-pdra">
+                      {t("drop_manage_clues")}
+                    </Link>
+                  )}
+                </FadeIn>
+              </div>
+
+              <FadeIn delay={0.2}>
+                <div className="rounded-[28px] border border-white/10 bg-white/6 p-6 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.28)]">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-white/50 font-mono-tech">{t("drop_locked_panel_label")}</p>
+                  <div className="mt-6 grid gap-4">
+                    <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">{t("drop_locked_panel_progress")}</p>
+                      <p className="mt-3 text-2xl text-white">{state.unlockedClues.length}/3</p>
+                    </div>
+                    <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">{t("drop_locked_panel_access")}</p>
+                      <p className="mt-3 text-2xl text-white">{isLoggedIn ? t("access_granted") : t("access_request")}</p>
+                    </div>
+                    <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">{t("drop_locked_panel_reveal")}</p>
+                      <p className="mt-3 text-sm leading-relaxed text-white/70">
+                        {allCluesUnlocked ? t("drop_locked_panel_reveal_open") : t("drop_locked_panel_reveal_locked")}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero */}
       <section className="relative h-[70vh] flex items-end">
         <div className="absolute inset-0">
           <img src={heroImg} alt="Montserrat" className="w-full h-full object-cover" />
@@ -76,7 +154,6 @@ const MontserratDrop = () => {
         </div>
       </section>
 
-      {/* Product Grid */}
       <section className="px-6 md:px-10 py-16 md:py-24">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16">
           <div className="space-y-6">
@@ -99,7 +176,6 @@ const MontserratDrop = () => {
               <p className="mt-4 text-stone text-base leading-relaxed">{t("drop_back_cut")}</p>
             </FadeIn>
 
-            {/* Specs */}
             <FadeIn delay={0.2}>
               <div className="mt-10 pt-8 space-y-4" style={{ borderTop: "1px solid hsl(25 10% 85% / 0.5)" }}>
                 <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">{t("drop_technical")}</p>
@@ -118,13 +194,12 @@ const MontserratDrop = () => {
               </div>
             </FadeIn>
 
-            {/* Availability */}
             <FadeIn delay={0.25}>
               <div className="mt-8 pt-8" style={{ borderTop: "1px solid hsl(25 10% 85% / 0.5)" }}>
                 <div className="flex items-center justify-between mb-4">
                   <p className="text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">{t("drop_availability")}</p>
                   <span className={`text-xs font-mono-tech ${isSoldOut ? "text-stone line-through" : "text-foreground"}`}>
-                    {statusLabel}
+                    {getStatusLabel()}
                   </span>
                 </div>
                 <p className="font-mono-tech text-xs text-stone">
@@ -139,7 +214,6 @@ const MontserratDrop = () => {
               </div>
             </FadeIn>
 
-            {/* Prebook / CTA */}
             <FadeIn delay={0.3}>
               <div className="mt-10">
                 {alreadyBooked ? (
@@ -223,7 +297,6 @@ const MontserratDrop = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="py-12 px-6 md:px-10 flex items-center justify-between">
         <p className="text-xs text-stone">{t("footer_location")}</p>
         <p className="text-xs text-stone font-mono-tech">© 2026</p>
