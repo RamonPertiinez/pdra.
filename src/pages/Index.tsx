@@ -33,6 +33,13 @@ const FadeIn = ({
 
 const Index = () => {
   const { state } = useApp();
+
+  const statusLabel =
+    state.dropStatus === "coming_soon"
+      ? t("drop_coming_soon")
+      : state.dropStatus === "open"
+      ? t("drop_open")
+      : t("drop_sold_out");
   const { t } = useLanguage();
   const [revealedClues, setRevealedClues] = useState<number[]>([]);
 
