@@ -55,7 +55,7 @@ const LockIcon = ({ unlocked }: { unlocked: boolean }) => (
 );
 
 const AccessPage = () => {
-  const { state, requestAccess, login, unlockClue, allCluesUnlocked } = useApp();
+  const { state, requestAccess, login, logout, unlockClue, allCluesUnlocked } = useApp();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -188,7 +188,10 @@ const AccessPage = () => {
     }
   };
 
-  const isApproved = state.user.accessStatus === "approved";
+  const accessStatus = state.user.accessStatus;
+  const isApproved = accessStatus === "approved";
+  const isPending = accessStatus === "pending";
+  const isDenied = accessStatus === "denied";
   const activeUnlocked = state.unlockedClues.includes(activeClue.id);
 
   const toneClass =
@@ -197,6 +200,15 @@ const AccessPage = () => {
       : activeClue.tone === "construction"
       ? "border-[#5e3c25]/50"
       : "border-white/10";
+
+  // ── Loading ────────────────────────────────────────────────────
+  if (state.loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0b0a09]">
+        <span className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-white/30 animate-pulse">pdra.</span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#0b0a09] text-white">
@@ -210,6 +222,59 @@ const AccessPage = () => {
         </div>
 
         <div className="relative mx-auto max-w-7xl">
+
+          {/* ── ESTAT PENDENT ─────────────────────────────────── */}
+          {isPending && (
+            <FadeIn>
+              <div className="mx-auto max-w-lg rounded-[32px] border border-white/10 bg-white/[0.03] p-10 text-center backdrop-blur-md">
+                <motion.div
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                  className="mx-auto mb-6 h-3 w-3 rounded-full bg-amber-400"
+                />
+                <p className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-white/38">
+                  {t("access_prelabel")}
+                </p>
+                <h1 className="mt-5 text-3xl text-white">{t("access_pending_title") ?? "Sol·licitud rebuda"}</h1>
+                <p className="mt-4 text-sm leading-relaxed text-white/56">
+                  {t("access_pending_body") ?? "La teva sol·licitud està en revisió. Rebràs accés quan sigui aprovada manualment."}
+                </p>
+                <div className="mt-8 rounded-[20px] border border-dashed border-white/10 bg-white/[0.02] p-5">
+                  <p className="text-xs text-white/36">{state.user.email}</p>
+                </div>
+                <button
+                  onClick={() => { logout(); }}
+                  className="mt-8 font-mono-tech text-[11px] uppercase tracking-[0.16em] text-white/28 transition-pdra hover:text-white/54"
+                >
+                  {t("access_logout") ?? "Tancar sessió"}
+                </button>
+              </div>
+            </FadeIn>
+          )}
+
+          {/* ── ESTAT DENEGAT ─────────────────────────────────── */}
+          {isDenied && (
+            <FadeIn>
+              <div className="mx-auto max-w-lg rounded-[32px] border border-red-500/20 bg-white/[0.02] p-10 text-center backdrop-blur-md">
+                <p className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-red-400/60">
+                  {t("access_denied_label") ?? "Accés denegat"}
+                </p>
+                <h1 className="mt-5 text-3xl text-white">{t("access_denied_title") ?? "No autoritzat"}</h1>
+                <p className="mt-4 text-sm leading-relaxed text-white/50">
+                  {t("access_denied_body") ?? "La teva sol·licitud ha estat denegada. Contacta amb nosaltres si creus que és un error."}
+                </p>
+                <button
+                  onClick={() => { logout(); }}
+                  className="mt-8 font-mono-tech text-[11px] uppercase tracking-[0.16em] text-white/28 transition-pdra hover:text-white/54"
+                >
+                  {t("access_logout") ?? "Tancar sessió"}
+                </button>
+              </div>
+            </FadeIn>
+          )}
+
+          {/* ── FORMULARI (none) + CLUE HUB (approved) ──────── */}
+          {(accessStatus === "none" || isApproved) && (
           <div className="grid gap-10 xl:grid-cols-[400px_minmax(0,1fr)] xl:gap-12">
 
             {/* ── SIDEBAR ────────────────────────────── */}
@@ -706,6 +771,7 @@ const AccessPage = () => {
               </section>
             </FadeIn>
           </div>
+          )}
         </div>
       </main>
     </div>
