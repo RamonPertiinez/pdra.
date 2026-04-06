@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
 import { useLanguage } from "@/context/LanguageContext";
 import Header from "@/components/Header";
+import Countdown from "@/components/Countdown";
 import heroImg from "@/assets/hero-montserrat.jpg";
 import climbingImg from "@/assets/climbing-editorial.jpg";
 import productJacket from "@/assets/product-jacket.jpg";
@@ -30,6 +31,9 @@ const FadeIn = ({
     {children}
   </motion.div>
 );
+
+// Nombre estàtic de "persones" com a prova social — canvia lleugerament per donar vida
+const WAITING_COUNT = 247;
 
 const Index = () => {
   const { state } = useApp();
@@ -60,6 +64,7 @@ const Index = () => {
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Header />
 
+      {/* ── HERO ─────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex items-end isolate">
         <div className="absolute inset-0">
           <img src={heroImg} alt="Montserrat mountain range at golden hour" className="w-full h-full object-cover scale-[1.03]" />
@@ -67,6 +72,7 @@ const Index = () => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_32%)]" />
         </div>
 
+        {/* Status bar superior */}
         <div className="absolute inset-x-0 top-24 z-10 px-6 md:px-10">
           <FadeIn>
             <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 rounded-full border border-white/10 bg-black/20 px-5 py-3 backdrop-blur-md">
@@ -74,6 +80,18 @@ const Index = () => {
                 <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_16px_rgba(74,222,128,0.7)]" />
                 {t("hero_signal")}
               </div>
+
+              {/* Pulse comunitat */}
+              <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-white/50 font-mono-tech">
+                <motion.span
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                  className="h-1.5 w-1.5 rounded-full bg-emerald-400"
+                />
+                <span className="text-white/70">{WAITING_COUNT}</span>
+                <span>{t("hero_waiting") ?? "esperant accés"}</span>
+              </div>
+
               <div className="grid grid-cols-3 gap-6 text-right text-[11px] uppercase tracking-[0.18em] text-white/55 font-mono-tech">
                 <div>
                   <p>{t("hero_metric_1_label")}</p>
@@ -93,7 +111,7 @@ const Index = () => {
         </div>
 
         <div className="relative z-10 w-full px-6 pb-16 md:px-10 md:pb-20 pt-40">
-          <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+          <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
             <div className="max-w-4xl">
               <FadeIn>
                 <div className="inline-flex rounded-full border border-white/10 bg-black/28 px-4 py-2 backdrop-blur-sm shadow-[0_8px_40px_rgba(0,0,0,0.18)]">
@@ -127,6 +145,7 @@ const Index = () => {
               </FadeIn>
             </div>
 
+            {/* Panel dret amb countdown live */}
             <FadeIn delay={0.2} className="lg:justify-self-end">
               <div className="rounded-[28px] border border-white/10 bg-white/6 p-6 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.28)]">
                 <p className="text-[11px] uppercase tracking-[0.22em] text-white/55 font-mono-tech">{t("hero_panel_label")}</p>
@@ -136,16 +155,31 @@ const Index = () => {
                     <p className="mt-2 text-3xl text-white">{t("drop_name")}</p>
                     <p className="mt-2 text-sm text-white/55">{t("drop_subtitle")}</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm text-white/72">
+
+                  {/* Countdown live */}
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-white/38 font-mono-tech mb-4">{t("hero_panel_window") ?? "obertura"}</p>
+                    <Countdown
+                      targetDate={state.launchDate}
+                      size="lg"
+                      labelDays={t("countdown_days") ?? "dies"}
+                      labelHours={t("countdown_hours") ?? "hores"}
+                      labelMinutes={t("countdown_min") ?? "min"}
+                      labelSeconds={t("countdown_sec") ?? "seg"}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 text-sm text-white/72">
                     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                       <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("hero_panel_availability")}</p>
                       <p className="mt-3 text-xl text-white">{state.unitsRemaining}/{state.totalUnits}</p>
                     </div>
                     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("hero_panel_window")}</p>
-                      <p className="mt-3 text-xl text-white">Q2 / 2026</p>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("drop_status_label") ?? "Estat"}</p>
+                      <p className="mt-3 text-sm text-white">{statusLabel}</p>
                     </div>
                   </div>
+
                   <div className="rounded-2xl border border-dashed border-white/15 p-4">
                     <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech">{t("hero_panel_note_label")}</p>
                     <p className="mt-3 text-sm leading-relaxed text-white/70">{t("hero_panel_note")}</p>
@@ -157,6 +191,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ── TEASE / CLUES ────────────────────────────────────────── */}
       <section className="relative px-6 py-24 md:px-10 md:py-32 bg-[#0f0d0b] text-white overflow-hidden">
         <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_55%)]" />
         <div className="relative mx-auto max-w-6xl">
@@ -180,7 +215,7 @@ const Index = () => {
                 </div>
                 <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
                   <motion.div
-                    className="h-full rounded-full bg-white"
+                    className="h-full rounded-full bg-gradient-to-r from-white/80 to-white"
                     animate={{ width: `${(revealedClues.length / clues.length) * 100}%` }}
                     transition={{ duration: 0.45, ease: easing }}
                   />
@@ -204,12 +239,29 @@ const Index = () => {
                         : "border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/8"
                     }`}
                   >
-                    <p className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${active ? "text-black/45" : "text-white/45"}`}>
-                      {clue.label}
-                    </p>
-                    <p className={`mt-8 text-lg leading-relaxed ${active ? "text-black/85" : "text-white/78"}`}>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${active ? "text-black/45" : "text-white/45"}`}>
+                        {clue.label}
+                      </p>
+                      {/* Icona candau / check */}
+                      <motion.span
+                        animate={{ rotate: active ? [0, -8, 8, 0] : 0, scale: active ? [1, 1.2, 1] : 1 }}
+                        transition={{ duration: 0.35 }}
+                        className={`text-base ${active ? "text-black/40" : "text-white/25"}`}
+                      >
+                        {active ? "✓" : "—"}
+                      </motion.span>
+                    </div>
+
+                    {/* Text amb blur animat quan no revelat */}
+                    <motion.p
+                      animate={{ filter: active ? "blur(0px)" : "blur(3px)", opacity: active ? 1 : 0.6 }}
+                      transition={{ duration: 0.4, ease: easing }}
+                      className={`mt-8 text-lg leading-relaxed ${active ? "text-black/85" : "text-white/78"}`}
+                    >
                       {active ? clue.body : t("tease_locked")}
-                    </p>
+                    </motion.p>
+
                     <p className={`mt-10 text-[11px] uppercase tracking-[0.18em] font-mono-tech ${active ? "text-black/45" : "text-white/35 group-hover:text-white/60"}`}>
                       {active ? t("tease_clue_open") : t("tease_clue_cta")}
                     </p>
@@ -219,22 +271,40 @@ const Index = () => {
             })}
           </div>
 
+          {/* Reveal final — blur animat */}
           <FadeIn delay={0.36} className="mt-10">
-            <div className={`rounded-[30px] border p-8 md:p-10 transition-pdra ${decoded ? "border-white/30 bg-white text-[#111]" : "border-dashed border-white/12 bg-transparent text-white"}`}>
+            <motion.div
+              animate={{
+                borderColor: decoded ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.08)",
+                backgroundColor: decoded ? "rgba(255,255,255,1)" : "rgba(255,255,255,0)",
+              }}
+              transition={{ duration: 0.6, ease: easing }}
+              className={`rounded-[30px] border p-8 md:p-10 ${decoded ? "text-[#111]" : "text-white"}`}
+              style={{ borderStyle: decoded ? "solid" : "dashed" }}
+            >
               <p className={`text-[11px] uppercase tracking-[0.22em] font-mono-tech ${decoded ? "text-black/45" : "text-white/40"}`}>
                 {t("tease_decode_label")}
               </p>
-              <h3 className={`mt-4 text-2xl md:text-4xl leading-[1.08] ${decoded ? "text-black" : "text-white/35"}`}>
+              <motion.h3
+                animate={{ filter: decoded ? "blur(0px)" : "blur(6px)", opacity: decoded ? 1 : 0.35 }}
+                transition={{ duration: 0.6, ease: easing }}
+                className="mt-4 text-2xl md:text-4xl leading-[1.08]"
+              >
                 {decoded ? t("tease_decoded_title") : "•••••••• ••••••• •••••"}
-              </h3>
-              <p className={`mt-4 max-w-3xl leading-relaxed ${decoded ? "text-black/72" : "text-white/35"}`}>
+              </motion.h3>
+              <motion.p
+                animate={{ filter: decoded ? "blur(0px)" : "blur(4px)", opacity: decoded ? 0.72 : 0.35 }}
+                transition={{ duration: 0.6, delay: 0.1, ease: easing }}
+                className="mt-4 max-w-3xl leading-relaxed"
+              >
                 {decoded ? t("tease_decoded_body") : t("tease_decoded_locked")}
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
           </FadeIn>
         </div>
       </section>
 
+      {/* ── MANIFESTO ────────────────────────────────────────────── */}
       <section className="py-24 md:py-32 px-6 md:px-10">
         <div className="mx-auto max-w-6xl grid gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <FadeIn className="relative">
@@ -269,6 +339,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ── DROP PREVIEW ─────────────────────────────────────────── */}
       <section className="py-24 md:py-32 px-6 md:px-10 bg-surface">
         <div className="mx-auto max-w-6xl grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
@@ -316,6 +387,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ── TIMELINE ─────────────────────────────────────────────── */}
       <section className="py-24 md:py-32 px-6 md:px-10">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
@@ -344,6 +416,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ── EMAIL CTA ────────────────────────────────────────────── */}
       <section className="py-24 md:py-32 px-6 md:px-10 bg-surface">
         <div className="max-w-md mx-auto text-center">
           <FadeIn>

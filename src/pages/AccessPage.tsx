@@ -27,6 +27,33 @@ const FadeIn = ({
   </motion.div>
 );
 
+// Icona SVG de candau (inline, sense dependències)
+const LockIcon = ({ unlocked }: { unlocked: boolean }) => (
+  <motion.svg
+    key={unlocked ? "open" : "closed"}
+    initial={{ scale: 0.7, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{ duration: 0.3, ease: easing }}
+    width="14" height="14" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+    className="shrink-0"
+  >
+    {unlocked ? (
+      // Candau obert
+      <>
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+      </>
+    ) : (
+      // Candau tancat
+      <>
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </>
+    )}
+  </motion.svg>
+);
+
 const AccessPage = () => {
   const { state, requestAccess, login, unlockClue, allCluesUnlocked } = useApp();
   const { t } = useLanguage();
@@ -44,6 +71,8 @@ const AccessPage = () => {
     3: "",
   });
   const [feedback, setFeedback] = useState<Record<number, string>>({});
+  const [shakeClue, setShakeClue] = useState<number | null>(null);
+  const [justUnlocked, setJustUnlocked] = useState<number | null>(null);
   const [activeClueId, setActiveClueId] = useState<number>(1);
 
   const clues = useMemo(
@@ -130,12 +159,16 @@ const AccessPage = () => {
     const result = unlockClue(clueId, passwords[clueId] || "");
 
     if (!result.success) {
-      setFeedback((prev) => ({
-        ...prev,
-        [clueId]: t("clue_password_error"),
-      }));
+      // Shake animation on error
+      setShakeClue(clueId);
+      setTimeout(() => setShakeClue(null), 600);
+      setFeedback((prev) => ({ ...prev, [clueId]: t("clue_password_error") }));
       return;
     }
+
+    // Unlock success celebration
+    setJustUnlocked(clueId);
+    setTimeout(() => setJustUnlocked(null), 1200);
 
     setFeedback((prev) => ({
       ...prev,
@@ -176,6 +209,8 @@ const AccessPage = () => {
 
         <div className="relative mx-auto max-w-7xl">
           <div className="grid gap-10 xl:grid-cols-[400px_minmax(0,1fr)] xl:gap-12">
+
+            {/* ── SIDEBAR ────────────────────────────── */}
             <FadeIn>
               <aside className="sticky top-28">
                 <div className="rounded-[30px] border border-white/10 bg-white/[0.03] p-7 backdrop-blur-md md:p-8">
@@ -195,6 +230,7 @@ const AccessPage = () => {
                     {t("access_intro_signal")}
                   </p>
 
+                  {/* Stats */}
                   <div className="mt-8 grid grid-cols-3 gap-3">
                     <div className="rounded-[18px] border border-white/10 bg-black/20 p-4">
                       <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/40">
@@ -227,9 +263,7 @@ const AccessPage = () => {
                         <button
                           onClick={() => setMode("request")}
                           className={`font-mono-tech text-[11px] uppercase tracking-[0.16em] transition-pdra ${
-                            mode === "request"
-                              ? "text-white"
-                              : "text-white/36 hover:text-white/70"
+                            mode === "request" ? "text-white" : "text-white/36 hover:text-white/70"
                           }`}
                         >
                           {t("access_request")}
@@ -238,9 +272,7 @@ const AccessPage = () => {
                         <button
                           onClick={() => setMode("login")}
                           className={`font-mono-tech text-[11px] uppercase tracking-[0.16em] transition-pdra ${
-                            mode === "login"
-                              ? "text-white"
-                              : "text-white/36 hover:text-white/70"
+                            mode === "login" ? "text-white" : "text-white/36 hover:text-white/70"
                           }`}
                         >
                           {t("access_login")}
@@ -291,9 +323,7 @@ const AccessPage = () => {
                         </div>
 
                         <Button variant="pdra" size="lg" type="submit" className="mt-2 w-full">
-                          {mode === "request"
-                            ? t("access_unlock_hub")
-                            : t("access_enter_btn")}
+                          {mode === "request" ? t("access_unlock_hub") : t("access_enter_btn")}
                         </Button>
                       </form>
                     </>
@@ -308,40 +338,47 @@ const AccessPage = () => {
                         {t("access_hub_note")}
                       </p>
 
+                      {/* Progrés sidebar amb dots animats */}
                       <div className="mt-5 rounded-[18px] border border-white/10 bg-black/20 p-4">
                         <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/40">
                           {t("access_progress_label")}
                         </p>
 
                         <div className="mt-4 space-y-3">
-                          {progressMoments.map((item, index) => (
-                            <div
-                              key={item}
-                              className="flex items-start gap-3 text-sm text-white/76"
-                            >
-                              <span
-                                className={`mt-[7px] h-2 w-2 rounded-full ${
-                                  state.unlockedClues.length > index
-                                    ? "bg-white"
-                                    : "bg-white/16"
-                                }`}
-                              />
-                              <span>{item}</span>
-                            </div>
-                          ))}
+                          {progressMoments.map((item, index) => {
+                            const done = state.unlockedClues.length > index;
+                            return (
+                              <div key={item} className="flex items-start gap-3 text-sm text-white/76">
+                                <motion.span
+                                  animate={{
+                                    scale: done ? [1, 1.4, 1] : 1,
+                                    backgroundColor: done ? "#ffffff" : "rgba(255,255,255,0.16)",
+                                  }}
+                                  transition={{ duration: 0.4, ease: easing }}
+                                  className="mt-[7px] h-2 w-2 shrink-0 rounded-full block"
+                                />
+                                <span>{item}</span>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
 
                       {state.user.rewardCode && (
-                        <div className="mt-5 rounded-[18px] border border-[#6f553c] bg-[linear-gradient(180deg,rgba(175,126,75,0.18),rgba(64,42,22,0.12))] p-4">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.5, ease: easing }}
+                          className="mt-5 rounded-[18px] border border-[#6f553c] bg-[linear-gradient(180deg,rgba(175,126,75,0.18),rgba(64,42,22,0.12))] p-4"
+                        >
                           <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#d7b189]">
                             {t("access_reward_label")}
                           </p>
-                          <p className="mt-2 text-lg text-white">{state.user.rewardCode}</p>
+                          <p className="mt-2 text-lg text-white font-mono-tech tracking-wider">{state.user.rewardCode}</p>
                           <p className="mt-2 text-sm leading-relaxed text-white/66">
                             {t("access_reward_body")}
                           </p>
-                        </div>
+                        </motion.div>
                       )}
 
                       <Button
@@ -358,6 +395,7 @@ const AccessPage = () => {
               </aside>
             </FadeIn>
 
+            {/* ── CLUE HUB ───────────────────────────── */}
             <FadeIn delay={0.08}>
               <section className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,#0b0b0a_0%,#100f0d_100%)] p-6 md:p-8">
                 <div className="flex flex-wrap items-start justify-between gap-5">
@@ -378,22 +416,31 @@ const AccessPage = () => {
                   </div>
                 </div>
 
+                {/* Barra de progrés amb gradient */}
                 <div className="mt-8 h-[2px] overflow-hidden rounded-full bg-white/10">
                   <motion.div
-                    className="h-full rounded-full bg-white"
+                    className="h-full rounded-full bg-gradient-to-r from-white/60 via-white to-white/80"
                     animate={{ width: `${(state.unlockedClues.length / 3) * 100}%` }}
-                    transition={{ duration: 0.45, ease: easing }}
+                    transition={{ duration: 0.55, ease: easing }}
                   />
                 </div>
 
+                {/* Clue cards */}
                 <div className="mt-10 grid gap-4 lg:grid-cols-3">
                   {clues.map((clue, index) => {
                     const unlocked = state.unlockedClues.includes(clue.id);
                     const active = clue.id === activeClueId;
+                    const isJustUnlocked = justUnlocked === clue.id;
 
                     return (
-                      <article
+                      <motion.article
                         key={clue.id}
+                        animate={
+                          isJustUnlocked
+                            ? { scale: [1, 1.03, 1], boxShadow: ["0 0 0px rgba(255,255,255,0)", "0 0 40px rgba(255,255,255,0.15)", "0 0 0px rgba(255,255,255,0)"] }
+                            : { scale: 1, boxShadow: "0 0 0px rgba(255,255,255,0)" }
+                        }
+                        transition={{ duration: 0.5, ease: easing }}
                         className={`rounded-[24px] border p-5 transition-pdra ${
                           active
                             ? "border-white/18 bg-white/[0.06]"
@@ -411,12 +458,13 @@ const AccessPage = () => {
                           </div>
 
                           <span
-                            className={`mt-1 rounded-full px-3 py-1 font-mono-tech text-[10px] uppercase tracking-[0.16em] ${
+                            className={`mt-1 flex items-center gap-1.5 rounded-full px-3 py-1 font-mono-tech text-[10px] uppercase tracking-[0.16em] ${
                               unlocked
                                 ? "bg-white text-black"
                                 : "border border-white/10 bg-white/[0.03] text-white/54"
                             }`}
                           >
+                            <LockIcon unlocked={unlocked} />
                             {unlocked ? t("clue_status_unlocked") : t("clue_status_locked")}
                           </span>
                         </div>
@@ -438,11 +486,12 @@ const AccessPage = () => {
                             ? t("clue_opened_cta")
                             : t("clue_open_cta", { number: index + 1 })}
                         </button>
-                      </article>
+                      </motion.article>
                     );
                   })}
                 </div>
 
+                {/* Panel de detall de la pista activa */}
                 <AnimatePresence mode="wait">
                   <motion.section
                     key={activeClue.id}
@@ -489,14 +538,14 @@ const AccessPage = () => {
 
                           <div className="mt-5 space-y-4">
                             {activeClue.fragments.map((fragment, index) => (
-                              <div
-                                key={fragment}
-                                className="flex items-start gap-4 text-sm leading-relaxed"
-                              >
-                                <span
-                                  className={`mt-[7px] h-2 w-2 rounded-full ${
-                                    activeUnlocked ? "bg-white" : "bg-white/16"
-                                  }`}
+                              <div key={fragment} className="flex items-start gap-4 text-sm leading-relaxed">
+                                <motion.span
+                                  animate={{
+                                    scale: activeUnlocked ? [1, 1.3, 1] : 1,
+                                    backgroundColor: activeUnlocked ? "#ffffff" : "rgba(255,255,255,0.16)",
+                                  }}
+                                  transition={{ duration: 0.3, delay: index * 0.08 }}
+                                  className="mt-[7px] h-2 w-2 shrink-0 rounded-full block"
                                 />
                                 <span
                                   className={
@@ -515,6 +564,7 @@ const AccessPage = () => {
                         </div>
                       </div>
 
+                      {/* Unlock station */}
                       <div>
                         <div className="rounded-[22px] border border-white/10 bg-black/20 p-5">
                           <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/38">
@@ -527,18 +577,32 @@ const AccessPage = () => {
 
                           {isApproved && !activeUnlocked ? (
                             <div className="mt-6 space-y-3">
-                              <input
-                                type="text"
-                                value={passwords[activeClue.id] || ""}
-                                onChange={(e) =>
-                                  setPasswords((prev) => ({
-                                    ...prev,
-                                    [activeClue.id]: e.target.value,
-                                  }))
+                              <motion.div
+                                animate={
+                                  shakeClue === activeClue.id
+                                    ? { x: [0, -8, 8, -8, 8, -4, 4, 0] }
+                                    : { x: 0 }
                                 }
-                                placeholder={t("clue_password_placeholder")}
-                                className="h-11 w-full rounded-[14px] border border-white/10 bg-white/[0.05] px-4 text-sm text-white placeholder:text-white/28 outline-none transition-pdra focus:border-white/18 focus:bg-white/[0.07]"
-                              />
+                                transition={{ duration: 0.5 }}
+                              >
+                                <input
+                                  type="text"
+                                  value={passwords[activeClue.id] || ""}
+                                  onChange={(e) =>
+                                    setPasswords((prev) => ({
+                                      ...prev,
+                                      [activeClue.id]: e.target.value,
+                                    }))
+                                  }
+                                  onKeyDown={(e) => e.key === "Enter" && handleUnlock(activeClue.id)}
+                                  placeholder={t("clue_password_placeholder")}
+                                  className={`h-11 w-full rounded-[14px] border bg-white/[0.05] px-4 text-sm text-white placeholder:text-white/28 outline-none transition-pdra focus:bg-white/[0.07] ${
+                                    shakeClue === activeClue.id
+                                      ? "border-red-500/50 focus:border-red-500/60"
+                                      : "border-white/10 focus:border-white/18"
+                                  }`}
+                                />
+                              </motion.div>
 
                               <Button
                                 variant="pdra"
@@ -559,13 +623,22 @@ const AccessPage = () => {
                             </div>
                           )}
 
-                          {feedback[activeClue.id] && (
-                            <div className="mt-4 rounded-[16px] border border-white/10 bg-white/[0.04] p-3">
-                              <p className="text-xs leading-relaxed text-white/82">
-                                {feedback[activeClue.id]}
-                              </p>
-                            </div>
-                          )}
+                          <AnimatePresence>
+                            {feedback[activeClue.id] && (
+                              <motion.div
+                                key={feedback[activeClue.id]}
+                                initial={{ opacity: 0, y: 6 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3, ease: easing }}
+                                className="mt-4 rounded-[16px] border border-white/10 bg-white/[0.04] p-3"
+                              >
+                                <p className="text-xs leading-relaxed text-white/82">
+                                  {feedback[activeClue.id]}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
 
                         <div className="mt-5 flex gap-3">
@@ -594,10 +667,15 @@ const AccessPage = () => {
                   </motion.section>
                 </AnimatePresence>
 
-                <div
+                {/* Revelació final */}
+                <motion.div
+                  animate={{
+                    borderColor: allCluesUnlocked ? "#8d6a48" : "rgba(255,255,255,0.1)",
+                  }}
+                  transition={{ duration: 0.6, ease: easing }}
                   className={`mt-8 rounded-[24px] p-6 transition-pdra md:p-7 ${
                     allCluesUnlocked
-                      ? "border border-[#8d6a48] bg-[linear-gradient(180deg,rgba(202,156,112,0.14),rgba(74,49,27,0.1))] text-white"
+                      ? "bg-[linear-gradient(180deg,rgba(202,156,112,0.14),rgba(74,49,27,0.1))] text-white border"
                       : "border border-dashed border-white/10 bg-white/[0.02] text-white"
                   }`}
                 >
@@ -605,16 +683,24 @@ const AccessPage = () => {
                     {t("clue_final_label")}
                   </p>
 
-                  <p className="mt-4 max-w-4xl text-2xl leading-[1.18] text-white">
+                  <motion.p
+                    animate={{ filter: allCluesUnlocked ? "blur(0px)" : "blur(4px)", opacity: allCluesUnlocked ? 1 : 0.5 }}
+                    transition={{ duration: 0.6, ease: easing }}
+                    className="mt-4 max-w-4xl text-2xl leading-[1.18] text-white"
+                  >
                     {allCluesUnlocked ? t("clue_final_open") : t("clue_final_locked")}
-                  </p>
+                  </motion.p>
 
-                  <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/60">
+                  <motion.p
+                    animate={{ filter: allCluesUnlocked ? "blur(0px)" : "blur(3px)", opacity: allCluesUnlocked ? 0.6 : 0.35 }}
+                    transition={{ duration: 0.6, delay: 0.1, ease: easing }}
+                    className="mt-4 max-w-3xl text-sm leading-relaxed text-white/60"
+                  >
                     {allCluesUnlocked
                       ? t("clue_final_emotional_open")
                       : t("clue_final_emotional_locked")}
-                  </p>
-                </div>
+                  </motion.p>
+                </motion.div>
               </section>
             </FadeIn>
           </div>

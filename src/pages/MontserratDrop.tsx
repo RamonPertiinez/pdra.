@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
 import { useLanguage } from "@/context/LanguageContext";
 import Header from "@/components/Header";
+import Countdown from "@/components/Countdown";
 import heroImg from "@/assets/hero-montserrat.jpg";
 import productJacket from "@/assets/product-jacket.jpg";
 import productTee from "@/assets/product-tee.jpg";
@@ -56,73 +57,148 @@ const MontserratDrop = () => {
     ? t("drop_open")
     : t("drop_sold_out");
 
+  // ── PRE-LAUNCH LOCKED STATE ──────────────────────────────────
   if (!isLaunchLive) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-[#0b0a09]">
         <Header />
 
-        <section className="relative min-h-screen flex items-end">
+        <section className="relative min-h-screen flex items-center">
           <div className="absolute inset-0">
-            <img src={heroImg} alt="Montserrat" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,7,0.32)_0%,rgba(10,8,7,0.66)_42%,rgba(17,14,11,0.96)_100%)]" />
+            <img src={heroImg} alt="Montserrat" className="w-full h-full object-cover scale-[1.02]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,7,0.45)_0%,rgba(10,8,7,0.78)_50%,rgba(17,14,11,0.97)_100%)]" />
           </div>
 
-          <div className="relative z-10 w-full px-6 pb-16 pt-32 md:px-10 md:pb-20">
-            <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
-              <div className="max-w-3xl">
-                <FadeIn>
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-mono-tech">{t("drop_locked_label")}</p>
-                </FadeIn>
-                <FadeIn delay={0.08}>
-                  <h1 className="mt-5 text-5xl md:text-7xl text-white leading-[0.95] text-balance [text-shadow:0_10px_40px_rgba(0,0,0,0.45)]">
-                    {t("drop_locked_title")}
-                  </h1>
-                </FadeIn>
-                <FadeIn delay={0.16}>
-                  <p className="mt-6 max-w-2xl text-white/76 leading-relaxed">{t("drop_locked_body")}</p>
-                </FadeIn>
-                <FadeIn delay={0.24}>
-                  <div className="mt-8 inline-flex rounded-[24px] border border-white/12 bg-black/30 px-6 py-5 backdrop-blur-md">
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-white/52 font-mono-tech">{t("drop_opening_label")}</p>
-                      <p className="mt-2 text-2xl text-white">20 / 05 / 2026</p>
-                      <p className="mt-2 text-sm text-white/65">{t("drop_days_remaining", { count: daysUntilLaunch })}</p>
-                    </div>
-                  </div>
-                </FadeIn>
-                <FadeIn delay={0.32} className="mt-10 flex flex-wrap gap-4">
-                  <Link to="/access">
-                    <Button variant="pdra" size="xl">{isLoggedIn ? t("drop_return_to_clues") : t("drop_join_early_access")}</Button>
-                  </Link>
-                  {isLoggedIn && (
-                    <Link to="/access" className="text-sm uppercase tracking-[0.18em] text-white/72 hover:text-white transition-pdra">
-                      {t("drop_manage_clues")}
-                    </Link>
-                  )}
-                </FadeIn>
-              </div>
+          <div className="relative z-10 w-full px-6 pt-28 pb-20 md:px-10">
+            <div className="mx-auto max-w-6xl">
+              <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center">
 
-              <FadeIn delay={0.2}>
-                <div className="rounded-[28px] border border-white/10 bg-white/6 p-6 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.28)]">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-white/50 font-mono-tech">{t("drop_locked_panel_label")}</p>
-                  <div className="mt-6 grid gap-4">
-                    <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">{t("drop_locked_panel_progress")}</p>
-                      <p className="mt-3 text-2xl text-white">{state.unlockedClues.length}/3</p>
+                {/* Esquerra — text */}
+                <div className="max-w-3xl">
+                  <FadeIn>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/30 px-4 py-2 backdrop-blur-md">
+                      <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.6)]" />
+                      <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-mono-tech">{t("drop_locked_label")}</p>
                     </div>
-                    <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">{t("drop_locked_panel_access")}</p>
-                      <p className="mt-3 text-2xl text-white">{isLoggedIn ? t("access_granted") : t("access_request")}</p>
-                    </div>
-                    <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">{t("drop_locked_panel_reveal")}</p>
-                      <p className="mt-3 text-sm leading-relaxed text-white/70">
-                        {allCluesUnlocked ? t("drop_locked_panel_reveal_open") : t("drop_locked_panel_reveal_locked")}
+                  </FadeIn>
+                  <FadeIn delay={0.08}>
+                    <h1 className="mt-6 text-5xl md:text-7xl text-white leading-[0.95] text-balance [text-shadow:0_10px_40px_rgba(0,0,0,0.45)]">
+                      {t("drop_locked_title")}
+                    </h1>
+                  </FadeIn>
+                  <FadeIn delay={0.16}>
+                    <p className="mt-6 max-w-2xl text-white/76 leading-relaxed text-lg">
+                      {t("drop_locked_body")}
+                    </p>
+                  </FadeIn>
+
+                  {/* Countdown prominent */}
+                  <FadeIn delay={0.24}>
+                    <div className="mt-10">
+                      <p className="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-white/40 mb-5">
+                        {t("drop_opening_label") ?? "Obertura en"}
                       </p>
+                      <Countdown
+                        targetDate={state.launchDate}
+                        size="lg"
+                        labelDays={t("countdown_days") ?? "dies"}
+                        labelHours={t("countdown_hours") ?? "hores"}
+                        labelMinutes={t("countdown_min") ?? "min"}
+                        labelSeconds={t("countdown_sec") ?? "seg"}
+                        className="max-w-sm"
+                      />
+                    </div>
+                  </FadeIn>
+
+                  {/* Data exacta */}
+                  <FadeIn delay={0.32}>
+                    <div className="mt-8 inline-flex rounded-[20px] border border-white/12 bg-black/25 px-5 py-4 backdrop-blur-md">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-mono-tech mb-1">
+                          {t("drop_date_label") ?? "Data d'obertura"}
+                        </p>
+                        <p className="text-xl text-white font-mono-tech">20 / 05 / 2026</p>
+                        <p className="mt-1 text-sm text-white/55">
+                          {t("drop_days_remaining", { count: daysUntilLaunch })}
+                        </p>
+                      </div>
+                    </div>
+                  </FadeIn>
+
+                  <FadeIn delay={0.4} className="mt-10 flex flex-wrap gap-4">
+                    <Link to="/access">
+                      <Button variant="pdra" size="xl">
+                        {isLoggedIn ? t("drop_return_to_clues") : t("drop_join_early_access")}
+                      </Button>
+                    </Link>
+                    {isLoggedIn && (
+                      <Link to="/access" className="text-sm uppercase tracking-[0.18em] text-white/72 hover:text-white transition-pdra self-center">
+                        {t("drop_manage_clues")}
+                      </Link>
+                    )}
+                  </FadeIn>
+                </div>
+
+                {/* Dreta — panel d'estat */}
+                <FadeIn delay={0.2}>
+                  <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.35)]">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/50 font-mono-tech">
+                      {t("drop_locked_panel_label")}
+                    </p>
+                    <div className="mt-6 grid gap-4">
+                      {/* Progrés pistes */}
+                      <div className="rounded-[20px] border border-white/10 bg-black/25 p-4">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">
+                          {t("drop_locked_panel_progress")}
+                        </p>
+                        <p className="mt-3 text-3xl text-white font-mono-tech">{state.unlockedClues.length}/3</p>
+                        <div className="mt-3 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                          <motion.div
+                            className="h-full rounded-full bg-white"
+                            animate={{ width: `${(state.unlockedClues.length / 3) * 100}%` }}
+                            transition={{ duration: 0.5, ease: easing }}
+                          />
+                        </div>
+                        <p className="mt-2 text-xs text-white/40 font-mono-tech">
+                          {state.unlockedClues.length < 3
+                            ? t("drop_locked_panel_reveal_locked")
+                            : t("drop_locked_panel_reveal_open")}
+                        </p>
+                      </div>
+
+                      {/* Accés */}
+                      <div className="rounded-[20px] border border-white/10 bg-black/25 p-4">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">
+                          {t("drop_locked_panel_access")}
+                        </p>
+                        <p className="mt-3 text-lg text-white">
+                          {isLoggedIn ? t("access_granted") : t("access_request")}
+                        </p>
+                      </div>
+
+                      {/* Reveal status */}
+                      <div className="rounded-[20px] border border-dashed border-white/10 bg-black/15 p-4">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-white/45 font-mono-tech">
+                          {t("drop_locked_panel_reveal")}
+                        </p>
+                        <motion.p
+                          animate={{
+                            filter: allCluesUnlocked ? "blur(0px)" : "blur(3px)",
+                            opacity: allCluesUnlocked ? 1 : 0.5,
+                          }}
+                          transition={{ duration: 0.5, ease: easing }}
+                          className="mt-3 text-sm leading-relaxed text-white/70"
+                        >
+                          {allCluesUnlocked
+                            ? t("drop_locked_panel_reveal_open")
+                            : t("drop_locked_panel_reveal_locked")}
+                        </motion.p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </FadeIn>
+                </FadeIn>
+
+              </div>
             </div>
           </div>
         </section>
@@ -130,6 +206,7 @@ const MontserratDrop = () => {
     );
   }
 
+  // ── POST-LAUNCH OPEN STATE ───────────────────────────────────
   return (
     <div className="min-h-screen bg-background">
       <Header />
