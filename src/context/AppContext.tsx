@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { supabase, isOwner, type AccessRequest, type DropConfig } from "@/lib/supabase";
+import { supabase, supabaseConfigured, isOwner, type AccessRequest, type DropConfig } from "@/lib/supabase";
 
 export type DropStatus = "coming_soon" | "open" | "sold_out";
 export type AccessStatus = "none" | "pending" | "approved" | "denied";
@@ -91,13 +91,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // ── Load drop config from Supabase on mount ─────────────────
   useEffect(() => {
+    if (!supabaseConfigured) {
+      setState((prev) => ({ ...prev, loading: false }));
+      return;
+    }
     supabase
       .from("drop_config")
       .select("*")
       .eq("id", 1)
       .single()
       .then(({ data }) => {
-        if (!data) return;
+        if (!data) { setState((prev) => ({ ...prev, loading: false })); return; }
         const cfg = data as DropConfig;
         setState((prev) => ({
           ...prev,
@@ -112,6 +116,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // ── Load pending count for admin badge ──────────────────────
   const refreshPendingCount = useCallback(async () => {
+    if (!supabaseConfigured) return;
     const { count } = await supabase
       .from("access_requests")
       .select("id", { count: "exact", head: true })
@@ -120,6 +125,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!supabaseConfigured) return;
     refreshPendingCount();
 
     // Realtime subscription — update badge on new requests
