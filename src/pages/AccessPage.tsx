@@ -140,23 +140,25 @@ const AccessPage = () => {
   const activeClue = clues.find((clue) => clue.id === activeClueId) ?? clues[0];
   const activeClueIndex = clues.findIndex((clue) => clue.id === activeClue.id);
 
-  const handleRequest = (e: React.FormEvent) => {
+  const handleRequest = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email && country && phone) {
-      requestAccess({ email, country, phone });
-      setMode("login");
+      await requestAccess({ email, country, phone });
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      login(email);
+      const found = await login(email);
+      if (!found) {
+        setFeedback((prev) => ({ ...prev, _login: t("access_not_found") ?? "No s'ha trobat cap sol·licitud amb aquest email." }));
+      }
     }
   };
 
-  const handleUnlock = (clueId: number) => {
-    const result = unlockClue(clueId, passwords[clueId] || "");
+  const handleUnlock = async (clueId: number) => {
+    const result = await unlockClue(clueId, passwords[clueId] || "");
 
     if (!result.success) {
       // Shake animation on error
