@@ -103,9 +103,18 @@ const Header = () => {
 
         <Link
           to="/admin"
-          className={`text-xs uppercase tracking-[0.1em] transition-pdra ${isDark ? "text-white/20 hover:text-white/50" : "text-muted-foreground/50 hover:text-foreground"}`}
+          className={`relative text-xs uppercase tracking-[0.1em] transition-pdra ${isDark ? "text-white/20 hover:text-white/50" : "text-muted-foreground/50 hover:text-foreground"}`}
         >
           ·
+          {state.pendingCount > 0 && (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute -top-1.5 -right-2 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-amber-400 text-[8px] font-bold text-black"
+            >
+              {state.pendingCount > 9 ? "9+" : state.pendingCount}
+            </motion.span>
+          )}
         </Link>
       </nav>
     </motion.header>
