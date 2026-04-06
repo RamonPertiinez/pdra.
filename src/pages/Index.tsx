@@ -33,16 +33,13 @@ const FadeIn = ({
 
 const Index = () => {
   const { state } = useApp();
-
-  const statusLabel =
-    state.dropStatus === "coming_soon"
-      ? t("drop_coming_soon")
-      : state.dropStatus === "open"
-      ? t("drop_open")
-      : t("drop_sold_out");
   const { t } = useLanguage();
+  const statusLabel = state.dropStatus === "coming_soon"
+    ? t("drop_coming_soon")
+    : state.dropStatus === "open"
+    ? t("drop_open")
+    : t("drop_sold_out");
   const [revealedClues, setRevealedClues] = useState<number[]>([]);
-
 
   const clues = useMemo(
     () => [
@@ -54,12 +51,6 @@ const Index = () => {
   );
 
   const decoded = revealedClues.length === clues.length;
-
-  const statusLabel = state.dropStatus === "coming_soon"
-    ? t("drop_coming_soon")
-    : state.dropStatus === "open"
-    ? t("drop_open")
-    : t("drop_sold_out");
 
   const toggleClue = (id: number) => {
     setRevealedClues((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
