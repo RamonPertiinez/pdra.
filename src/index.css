@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 20% 94%;
+    --foreground: 20 10% 10%;
+
+    --card: 30 15% 91%;
+    --card-foreground: 20 10% 10%;
+
+    --popover: 30 20% 94%;
+    --popover-foreground: 20 10% 10%;
+
+    --primary: 25 15% 25%;
+    --primary-foreground: 30 20% 94%;
+
+    --secondary: 30 15% 91%;
+    --secondary-foreground: 20 10% 10%;
+
+    --muted: 30 15% 91%;
+    --muted-foreground: 25 5% 45%;
+
+    --accent: 25 15% 25%;
+    --accent-foreground: 30 20% 94%;
+
+    --destructive: 0 40% 40%;
+    --destructive-foreground: 30 20% 94%;
+
+    --border: 25 10% 85%;
+    --input: 25 10% 85%;
+    --ring: 25 15% 25%;
+
+    --radius: 0.5rem;
+
+    --surface: 30 15% 91%;
+    --stone: 25 5% 45%;
+
+    --shadow-soft: 0 20px 40px -10px rgba(0,0,0,0.05);
+    --inner-border: 0 0 0 1px rgba(0,0,0,0.03);
+
+    --font-display: 'Instrument Sans', sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.03em;
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  .font-mono-tech {
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-inner-border {
+    box-shadow: var(--inner-border);
+  }
+
+  .transition-pdra {
+    transition: all 400ms cubic-bezier(0.2, 0, 0, 1);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(25 5% 45% / 0.3);
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background: hsl(25 15% 25% / 0.15);
+}
