@@ -43,6 +43,42 @@
     --font-display: 'Instrument Sans', sans-serif;
     --font-mono: 'Geist Mono', monospace;
   }
+
+  .dark {
+    --background: 20 6% 4%;
+    --foreground: 0 0% 96%;
+
+    --card: 20 5% 8%;
+    --card-foreground: 0 0% 96%;
+
+    --popover: 20 6% 4%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 30 15% 80%;
+    --primary-foreground: 20 6% 4%;
+
+    --secondary: 20 5% 10%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 20 5% 12%;
+    --muted-foreground: 25 5% 58%;
+
+    --accent: 30 10% 18%;
+    --accent-foreground: 0 0% 96%;
+
+    --destructive: 0 50% 45%;
+    --destructive-foreground: 0 0% 96%;
+
+    --border: 20 5% 16%;
+    --input: 20 5% 16%;
+    --ring: 30 15% 50%;
+
+    --surface: 20 4% 8%;
+    --stone: 25 5% 58%;
+
+    --shadow-soft: 0 20px 40px -10px rgba(0,0,0,0.4);
+    --inner-border: 0 0 0 1px rgba(255,255,255,0.06);
+  }
 }
 
 @layer base {
@@ -97,11 +133,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(25 5% 45% / 0.3);
+  background: hsl(var(--stone) / 0.3);
   border-radius: 2px;
 }
 
 /* Selection */
 ::selection {
-  background: hsl(25 15% 25% / 0.15);
+  background: hsl(var(--primary) / 0.15);
 }

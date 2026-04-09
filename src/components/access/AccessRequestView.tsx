@@ -34,21 +34,21 @@ const AccessRequestView = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0b0a09] text-white">
+    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <Header />
 
       {/* Ambient background */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(180,124,74,0.07),transparent_60%)]" />
-        <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+        <div className="absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,hsl(var(--primary)/0.07),transparent_60%)]" />
+        <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
         <div
-          className="absolute right-8 top-40 hidden select-none font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/10 md:block"
+          className="absolute right-8 top-40 hidden select-none font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground/30 md:block"
           style={{ writingMode: "vertical-rl" }}
         >
           41°36′18.9″N · 1°48′40.9″E
         </div>
         <div
-          className="absolute bottom-32 left-8 hidden select-none font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/10 md:block"
+          className="absolute bottom-32 left-8 hidden select-none font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground/30 md:block"
           style={{ writingMode: "vertical-rl" }}
         >
           Drop 001 · 2026 · Montserrat
@@ -63,27 +63,27 @@ const AccessRequestView = () => {
           </FadeUp>
 
           <FadeUp delay={0.08}>
-            <h1 className="mt-7 text-[3.2rem] font-normal leading-[0.93] tracking-tight text-white md:text-[4rem]">
+            <h1 className="mt-7 text-[3.2rem] font-normal leading-[0.93] tracking-tight text-foreground md:text-[4rem]">
               Entra al<br />
-              <span className="text-white/40">joc.</span>
+              <span className="text-muted-foreground">joc.</span>
             </h1>
           </FadeUp>
 
           <FadeUp delay={0.14}>
-            <p className="mt-6 text-sm leading-relaxed text-white/48">
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
               Accés anticipat per a la comunitat. Deixa les teves dades — si ets aprovat/ada, desbloqueja les 3 pistes del drop.
             </p>
           </FadeUp>
 
           {/* Mode tabs */}
           <FadeUp delay={0.2}>
-            <div className="mt-10 flex gap-6 border-b border-white/8 pb-4">
+            <div className="mt-10 flex gap-6 border-b border-border pb-4">
               {(["request", "login"] as const).map((m) => (
                 <button
                   key={m}
                   onClick={() => { setFormMode(m); setLoginError(""); }}
                   className={`font-mono-tech text-[11px] uppercase tracking-[0.18em] transition-all duration-200 ${
-                    formMode === m ? "text-white" : "text-white/28 hover:text-white/54"
+                    formMode === m ? "text-foreground" : "text-muted-foreground/50 hover:text-muted-foreground"
                   }`}
                 >
                   {m === "request" ? "Sol·licitar accés" : "Ja tinc accés"}
@@ -110,7 +110,7 @@ const AccessRequestView = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="El teu email"
                   required
-                  className="h-13 w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-sm text-white placeholder:text-white/24 outline-none transition-all focus:border-white/20 focus:bg-white/[0.06]"
+                  className="h-13 w-full rounded-2xl border border-border bg-surface/50 px-5 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-all focus:border-ring focus:bg-surface"
                   style={{ height: "52px" }}
                 />
 
@@ -122,7 +122,7 @@ const AccessRequestView = () => {
                       onChange={(e) => setCountry(e.target.value)}
                       placeholder="País de procedència"
                       required
-                      className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-sm text-white placeholder:text-white/24 outline-none transition-all focus:border-white/20 focus:bg-white/[0.06]"
+                      className="w-full rounded-2xl border border-border bg-surface/50 px-5 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-all focus:border-ring focus:bg-surface"
                       style={{ height: "52px" }}
                     />
                     <input
@@ -131,7 +131,7 @@ const AccessRequestView = () => {
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="Telèfon mòbil"
                       required
-                      className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-sm text-white placeholder:text-white/24 outline-none transition-all focus:border-white/20 focus:bg-white/[0.06]"
+                      className="w-full rounded-2xl border border-border bg-surface/50 px-5 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-all focus:border-ring focus:bg-surface"
                       style={{ height: "52px" }}
                     />
                   </>
@@ -159,7 +159,7 @@ const AccessRequestView = () => {
           </FadeUp>
 
           <FadeUp delay={0.34}>
-            <p className="mt-6 text-xs leading-relaxed text-white/22">
+            <p className="mt-6 text-xs leading-relaxed text-muted-foreground/50">
               L'accés és manual i selectiu. Rebràs confirmació si ets acceptat/ada.
             </p>
           </FadeUp>
@@ -169,18 +169,18 @@ const AccessRequestView = () => {
         <FadeUp delay={0.4} className="absolute bottom-10 left-0 right-0 px-8">
           <div className="mx-auto flex max-w-md items-center justify-between">
             <div className="text-center">
-              <p className="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-white/24">Opening</p>
-              <p className="mt-1 font-mono-tech text-xs text-white/50">20 / 05 / 2026</p>
+              <p className="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-muted-foreground/50">Opening</p>
+              <p className="mt-1 font-mono-tech text-xs text-muted-foreground">20 / 05 / 2026</p>
             </div>
-            <div className="h-px flex-1 mx-6 bg-white/8" />
+            <div className="h-px flex-1 mx-6 bg-border" />
             <div className="text-center">
-              <p className="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-white/24">Clues</p>
-              <p className="mt-1 font-mono-tech text-xs text-white/50">3</p>
+              <p className="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-muted-foreground/50">Clues</p>
+              <p className="mt-1 font-mono-tech text-xs text-muted-foreground">3</p>
             </div>
-            <div className="h-px flex-1 mx-6 bg-white/8" />
+            <div className="h-px flex-1 mx-6 bg-border" />
             <div className="text-center">
-              <p className="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-white/24">Unitats</p>
-              <p className="mt-1 font-mono-tech text-xs text-white/50">50</p>
+              <p className="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-muted-foreground/50">Unitats</p>
+              <p className="mt-1 font-mono-tech text-xs text-muted-foreground">50</p>
             </div>
           </div>
         </FadeUp>

@@ -31,7 +31,7 @@ const ClueHub = () => {
         panelTitle: t("clue_1_panel_title"),
         panelBody: t("clue_1_panel_body"),
         panelSignal: `41°36'18.9"N 1°48'40.9"E`,
-        accent: "rgba(49,68,87,0.6)",
+        accent: "hsl(var(--primary) / 0.3)",
       },
       {
         id: 2,
@@ -44,7 +44,7 @@ const ClueHub = () => {
         panelTitle: t("clue_2_panel_title"),
         panelBody: t("clue_2_panel_body"),
         panelSignal: t("clue_2_panel_signal"),
-        accent: "rgba(94,60,37,0.6)",
+        accent: "hsl(var(--primary) / 0.25)",
       },
       {
         id: 3,
@@ -57,7 +57,7 @@ const ClueHub = () => {
         panelTitle: t("clue_3_panel_title"),
         panelBody: t("clue_3_panel_body"),
         panelSignal: t("clue_3_panel_signal"),
-        accent: "rgba(255,255,255,0.04)",
+        accent: "hsl(var(--border))",
       },
     ],
     [t]
@@ -86,13 +86,13 @@ const ClueHub = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#0b0a09] text-white">
+    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <Header />
 
       {/* Ambient */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(180,124,74,0.06),transparent_60%)]" />
-        <div className="absolute inset-x-0 top-0 h-px bg-white/6" />
+        <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,hsl(var(--primary)/0.06),transparent_60%)]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-border" />
       </div>
 
       <main className="relative z-10 px-6 pb-24 pt-28 md:px-10 md:pt-32">
@@ -100,13 +100,13 @@ const ClueHub = () => {
 
           {/* ── Header del hub ─────────────────────────── */}
           <FadeUp>
-            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-white/8 pb-8">
+            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-8">
               <div>
                 <Tag>Accés concedit · Drop 001</Tag>
-                <h1 className="mt-5 text-[2.6rem] leading-[0.94] text-white md:text-[3.4rem]">
+                <h1 className="mt-5 text-[2.6rem] leading-[0.94] text-foreground md:text-[3.4rem]">
                   {t("clue_hub_title")}
                 </h1>
-                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/48">
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                   {t("clue_hub_body")}
                 </p>
               </div>
@@ -119,15 +119,15 @@ const ClueHub = () => {
                       key={c.id}
                       animate={{
                         backgroundColor: state.unlockedClues.includes(c.id)
-                          ? "#ffffff"
-                          : "rgba(255,255,255,0.12)",
+                          ? "hsl(var(--foreground))"
+                          : "hsl(var(--foreground) / 0.12)",
                       }}
                       transition={{ duration: 0.4 }}
                       className="h-2 w-2 rounded-full"
                     />
                   ))}
                 </div>
-                <span className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-white/38">
+                <span className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60">
                   {state.unlockedClues.length}/3 {t("clue_hub_progress")}
                 </span>
               </div>
@@ -135,9 +135,9 @@ const ClueHub = () => {
           </FadeUp>
 
           {/* Progress bar */}
-          <div className="mt-0 h-[2px] w-full overflow-hidden bg-white/6">
+          <div className="mt-0 h-[2px] w-full overflow-hidden bg-border">
             <motion.div
-              className="h-full bg-gradient-to-r from-white/40 via-white/70 to-white/40"
+              className="h-full bg-gradient-to-r from-foreground/40 via-foreground/70 to-foreground/40"
               animate={{ width: `${(state.unlockedClues.length / 3) * 100}%` }}
               transition={{ duration: 0.6, ease }}
             />
@@ -158,9 +158,9 @@ const ClueHub = () => {
                       ? {
                           scale: [1, 1.025, 1],
                           boxShadow: [
-                            "0 0 0 rgba(255,255,255,0)",
-                            "0 0 48px rgba(255,255,255,0.12)",
-                            "0 0 0 rgba(255,255,255,0)",
+                            "0 0 0 hsl(var(--foreground) / 0)",
+                            "0 0 48px hsl(var(--foreground) / 0.12)",
+                            "0 0 0 hsl(var(--foreground) / 0)",
                           ],
                         }
                       : { scale: 1 }
@@ -169,19 +169,19 @@ const ClueHub = () => {
                   onClick={() => setActiveClueId(clue.id)}
                   className={`group cursor-pointer rounded-[28px] border p-6 transition-all duration-300 ${
                     active
-                      ? "border-white/16 bg-white/[0.055]"
-                      : "border-white/8 bg-white/[0.025] hover:border-white/14 hover:bg-white/[0.04]"
+                      ? "border-border bg-surface"
+                      : "border-border/60 bg-surface/40 hover:border-border hover:bg-surface/70"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/34">
+                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
                       {clue.category}
                     </span>
                     <span
                       className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-mono-tech text-[9px] uppercase tracking-[0.16em] ${
                         unlocked
-                          ? "bg-white text-black"
-                          : "border border-white/10 bg-transparent text-white/40"
+                          ? "bg-foreground text-background"
+                          : "border border-border bg-transparent text-muted-foreground"
                       }`}
                     >
                       <LockIcon unlocked={unlocked} />
@@ -189,19 +189,19 @@ const ClueHub = () => {
                     </span>
                   </div>
 
-                  <h3 className="mt-5 text-2xl leading-tight text-white">
+                  <h3 className="mt-5 text-2xl leading-tight text-foreground">
                     {clue.title}
                   </h3>
 
-                  <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-white/52">
+                  <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                     {active ? clue.reveal : clue.teaser}
                   </p>
 
                   <div
                     className={`mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 font-mono-tech text-[10px] uppercase tracking-[0.16em] transition-all ${
                       active
-                        ? "border-white bg-white text-black"
-                        : "border-white/10 text-white/40 group-hover:border-white/18 group-hover:text-white/60"
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border text-muted-foreground group-hover:border-foreground/30 group-hover:text-foreground/60"
                     }`}
                   >
                     {active ? "Oberta" : `Clue ${clue.id}`}
@@ -219,39 +219,39 @@ const ClueHub = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.35, ease }}
-              className="mt-6 grid gap-6 rounded-[32px] border border-white/8 bg-white/[0.025] p-6 md:p-8 xl:grid-cols-[1fr_380px]"
+              className="mt-6 grid gap-6 rounded-[32px] border border-border bg-surface/40 p-6 md:p-8 xl:grid-cols-[1fr_380px]"
               style={{ borderColor: activeClue.accent }}
             >
               {/* Left: info */}
               <div>
                 <div className="flex flex-wrap items-center gap-3">
                   <Tag>{activeClue.category}</Tag>
-                  <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/28">
+                  <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-muted-foreground/50">
                     · {t("clue_panel_label") ?? "Senyal ampliat"}
                   </span>
                 </div>
 
-                <h2 className="mt-6 text-3xl leading-tight text-white md:text-4xl">
+                <h2 className="mt-6 text-3xl leading-tight text-foreground md:text-4xl">
                   {activeClue.panelTitle}
                 </h2>
 
-                <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/58">
+                <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
                   {activeClue.panelBody}
                 </p>
 
                 {/* Signal box */}
-                <div className="mt-7 rounded-2xl border border-white/8 bg-black/20 p-5">
-                  <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/28">
+                <div className="mt-7 rounded-2xl border border-border bg-card p-5">
+                  <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50">
                     {t("clue_panel_signal") ?? "Senyal"}
                   </p>
-                  <p className="mt-4 break-words text-2xl leading-tight text-white md:text-[1.8rem]">
+                  <p className="mt-4 break-words text-2xl leading-tight text-foreground md:text-[1.8rem]">
                     {activeClue.panelSignal}
                   </p>
                 </div>
 
                 {/* Fragments */}
-                <div className="mt-6 rounded-2xl border border-white/8 bg-black/20 p-5">
-                  <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/28">
+                <div className="mt-6 rounded-2xl border border-border bg-card p-5">
+                  <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50">
                     {t("clue_reveal_list_label") ?? "El que revela"}
                   </p>
                   <div className="mt-5 space-y-4">
@@ -261,8 +261,8 @@ const ClueHub = () => {
                           animate={{
                             scale: activeUnlocked ? [1, 1.4, 1] : 1,
                             backgroundColor: activeUnlocked
-                              ? "#ffffff"
-                              : "rgba(255,255,255,0.14)",
+                              ? "hsl(var(--foreground))"
+                              : "hsl(var(--foreground) / 0.14)",
                           }}
                           transition={{ duration: 0.35, delay: i * 0.06 }}
                           className="mt-[7px] h-2 w-2 shrink-0 rounded-full block"
@@ -270,10 +270,10 @@ const ClueHub = () => {
                         <span
                           className={
                             activeUnlocked
-                              ? "text-white/80"
+                              ? "text-foreground/80"
                               : i === 0
-                              ? "text-white/60"
-                              : "text-white/24"
+                              ? "text-foreground/60"
+                              : "text-muted-foreground/50"
                           }
                         >
                           {f}
@@ -286,11 +286,11 @@ const ClueHub = () => {
 
               {/* Right: unlock station */}
               <div className="flex flex-col gap-5">
-                <div className="rounded-2xl border border-white/8 bg-black/20 p-6">
-                  <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/28">
+                <div className="rounded-2xl border border-border bg-card p-6">
+                  <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50">
                     {t("clue_unlock_station") ?? "Unlock station"}
                   </p>
-                  <p className="mt-4 text-sm leading-relaxed text-white/54">
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                     {activeClue.hint}
                   </p>
 
@@ -312,10 +312,10 @@ const ClueHub = () => {
                           }
                           onKeyDown={(e) => e.key === "Enter" && handleUnlock(activeClue.id)}
                           placeholder={t("clue_password_placeholder")}
-                          className={`h-12 w-full rounded-[14px] border bg-white/[0.04] px-4 text-sm text-white placeholder:text-white/22 outline-none transition-all focus:bg-white/[0.06] ${
+                          className={`h-12 w-full rounded-[14px] border bg-surface/50 px-4 text-sm text-foreground placeholder:text-muted-foreground/40 outline-none transition-all focus:bg-surface ${
                             shakeClue === activeClue.id
                               ? "border-red-500/40 focus:border-red-500/60"
-                              : "border-white/8 focus:border-white/18"
+                              : "border-border focus:border-ring"
                           }`}
                         />
                       </motion.div>
@@ -333,9 +333,9 @@ const ClueHub = () => {
                       initial={{ opacity: 0, scale: 0.96 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, ease }}
-                      className="mt-6 rounded-[14px] border border-white/10 bg-white/[0.05] p-4"
+                      className="mt-6 rounded-[14px] border border-border bg-surface p-4"
                     >
-                      <p className="text-sm text-white/70">{t("clue_station_open") ?? "Pista desbloquejada."}</p>
+                      <p className="text-sm text-foreground/70">{t("clue_station_open") ?? "Pista desbloquejada."}</p>
                     </motion.div>
                   )}
 
@@ -347,9 +347,9 @@ const ClueHub = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3, ease }}
-                        className="mt-4 rounded-[14px] border border-white/8 bg-white/[0.03] p-4"
+                        className="mt-4 rounded-[14px] border border-border bg-surface/50 p-4"
                       >
-                        <p className="text-xs leading-relaxed text-white/74">
+                        <p className="text-xs leading-relaxed text-foreground/70">
                           {feedback[activeClue.id]}
                         </p>
                       </motion.div>
@@ -365,8 +365,8 @@ const ClueHub = () => {
                       onClick={() => setActiveClueId(c.id)}
                       className={`flex-1 rounded-2xl border py-3 font-mono-tech text-[10px] uppercase tracking-[0.16em] transition-all ${
                         c.id === activeClueId
-                          ? "border-white/16 bg-white/[0.06] text-white"
-                          : "border-white/8 bg-transparent text-white/28 hover:border-white/14 hover:text-white/50"
+                          ? "border-border bg-surface text-foreground"
+                          : "border-border/60 bg-transparent text-muted-foreground/50 hover:border-border hover:text-muted-foreground"
                       }`}
                     >
                       {c.id}
@@ -380,15 +380,15 @@ const ClueHub = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease }}
-                    className="rounded-2xl border border-[#6f553c] bg-[linear-gradient(180deg,rgba(175,126,75,0.16),rgba(64,42,22,0.10))] p-5"
+                    className="rounded-2xl border border-amber-600/40 bg-amber-500/10 p-5"
                   >
-                    <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[#d7b189]">
+                    <p className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
                       {t("access_reward_label")}
                     </p>
-                    <p className="mt-3 font-mono-tech text-xl tracking-widest text-white">
+                    <p className="mt-3 font-mono-tech text-xl tracking-widest text-foreground">
                       {state.user.rewardCode}
                     </p>
-                    <p className="mt-2 text-xs leading-relaxed text-white/50">
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                       {t("access_reward_body")}
                     </p>
                   </motion.div>
@@ -411,14 +411,14 @@ const ClueHub = () => {
           <motion.div
             animate={{
               borderColor: allCluesUnlocked
-                ? "rgba(141,106,72,0.7)"
-                : "rgba(255,255,255,0.06)",
+                ? "hsl(var(--primary) / 0.5)"
+                : "hsl(var(--border))",
             }}
             transition={{ duration: 0.7 }}
             className={`mt-6 rounded-[28px] border p-7 md:p-9 ${
               allCluesUnlocked
-                ? "bg-[linear-gradient(180deg,rgba(202,156,112,0.12),rgba(74,49,27,0.08))]"
-                : "border-dashed bg-white/[0.015]"
+                ? "bg-amber-500/10"
+                : "border-dashed bg-surface/30"
             }`}
           >
             <Tag>{t("clue_final_label") ?? "Reveal final"}</Tag>
@@ -429,7 +429,7 @@ const ClueHub = () => {
                 opacity: allCluesUnlocked ? 1 : 0.4,
               }}
               transition={{ duration: 0.7 }}
-              className="mt-5 max-w-4xl text-2xl leading-snug text-white md:text-3xl"
+              className="mt-5 max-w-4xl text-2xl leading-snug text-foreground md:text-3xl"
             >
               {allCluesUnlocked ? t("clue_final_open") : t("clue_final_locked")}
             </motion.p>
@@ -440,7 +440,7 @@ const ClueHub = () => {
                 opacity: allCluesUnlocked ? 0.56 : 0.28,
               }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="mt-4 max-w-3xl text-sm leading-relaxed text-white/56"
+              className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground"
             >
               {allCluesUnlocked ? t("clue_final_emotional_open") : t("clue_final_emotional_locked")}
             </motion.p>
@@ -450,7 +450,7 @@ const ClueHub = () => {
           <div className="mt-12 flex justify-center">
             <button
               onClick={logout}
-              className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/16 transition-all hover:text-white/36"
+              className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-muted-foreground/30 transition-all hover:text-muted-foreground/60"
             >
               Tancar sessió
             </button>

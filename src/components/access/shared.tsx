@@ -22,7 +22,7 @@ export const FadeUp = ({
 );
 
 export const Tag = ({ children }: { children: React.ReactNode }) => (
-  <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/44">
+  <span className="inline-flex items-center rounded-full border border-border bg-surface/50 px-4 py-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
     {children}
   </span>
 );

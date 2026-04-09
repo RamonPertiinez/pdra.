@@ -16,8 +16,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   // Mentre carrega des de Supabase, no redirigim
   if (state.loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0b0a09]">
-        <span className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-white/30 animate-pulse">
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <span className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-muted-foreground animate-pulse">
           pdra.
         </span>
       </div>

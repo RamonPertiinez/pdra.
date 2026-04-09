@@ -11,9 +11,9 @@ const easing = [0.2, 0, 0, 1] as const;
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD ?? "";
 
 const statusColors: Record<string, string> = {
-  pending: "border-amber-500/40 bg-amber-500/8 text-amber-300",
-  approved: "border-emerald-500/40 bg-emerald-500/8 text-emerald-300",
-  denied: "border-red-500/40 bg-red-500/8 text-red-400",
+  pending: "border-amber-500/40 bg-amber-500/8 text-amber-600 dark:text-amber-300",
+  approved: "border-emerald-500/40 bg-emerald-500/8 text-emerald-600 dark:text-emerald-300",
+  denied: "border-red-500/40 bg-red-500/8 text-red-500 dark:text-red-400",
 };
 
 const AdminPage = () => {
@@ -74,14 +74,14 @@ const AdminPage = () => {
   // ── Password gate ────────────────────────────────────────────
   if (!authed) {
     return (
-      <div className="min-h-screen bg-[#0b0a09] flex items-center justify-center px-6">
+      <div className="min-h-screen bg-background flex items-center justify-center px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: easing }}
           className="w-full max-w-sm"
         >
-          <p className="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-white/40 mb-8 text-center">
+          <p className="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-8 text-center">
             Pdra. · Admin
           </p>
           <form onSubmit={handlePasswordSubmit} className="space-y-3">
@@ -95,10 +95,10 @@ const AdminPage = () => {
                 onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
                 placeholder="Contrasenya"
                 autoFocus
-                className={`h-12 w-full rounded-[14px] border bg-white/[0.04] px-4 text-sm text-white placeholder:text-white/28 outline-none transition-pdra ${
+                className={`h-12 w-full rounded-[14px] border bg-surface/50 px-4 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-pdra ${
                   passwordError
                     ? "border-red-500/50"
-                    : "border-white/10 focus:border-white/20"
+                    : "border-border focus:border-ring"
                 }`}
               />
             </motion.div>
@@ -113,7 +113,7 @@ const AdminPage = () => {
 
   // ── Admin panel ──────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#0b0a09] text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
 
       <main className="px-6 pt-28 pb-20 md:px-10 md:pt-32">
@@ -122,10 +122,10 @@ const AdminPage = () => {
           {/* Capçalera */}
           <div className="flex flex-wrap items-start justify-between gap-6 mb-10">
             <div>
-              <p className="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-white/40">
+              <p className="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                 Pdra. · Panel d'administració
               </p>
-              <h1 className="mt-3 text-4xl text-white">Control del drop</h1>
+              <h1 className="mt-3 text-4xl text-foreground">Control del drop</h1>
             </div>
 
             {/* Botons d'estat del drop */}
@@ -136,8 +136,8 @@ const AdminPage = () => {
                   onClick={() => setDropStatus(s)}
                   className={`rounded-full border px-4 py-2 font-mono-tech text-[10px] uppercase tracking-[0.16em] transition-pdra ${
                     state.dropStatus === s
-                      ? "border-white bg-white text-black"
-                      : "border-white/15 text-white/50 hover:border-white/30 hover:text-white"
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                   }`}
                 >
                   {s.replace("_", " ")}
@@ -154,9 +154,9 @@ const AdminPage = () => {
               { label: "Aprovats", value: requests.filter((r) => r.status === "approved").length },
               { label: "Unitats restants", value: `${state.unitsRemaining}/${state.totalUnits}` },
             ].map((s) => (
-              <div key={s.label} className="rounded-[20px] border border-white/10 bg-white/[0.03] p-4">
-                <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/40">{s.label}</p>
-                <p className="mt-2 text-2xl text-white font-mono-tech">{s.value}</p>
+              <div key={s.label} className="rounded-[20px] border border-border bg-surface/50 p-4">
+                <p className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{s.label}</p>
+                <p className="mt-2 text-2xl text-foreground font-mono-tech">{s.value}</p>
               </div>
             ))}
           </div>
@@ -172,7 +172,7 @@ const AdminPage = () => {
                 className="mb-8"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-white/40">
+                  <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                     Pendents d'aprovació
                   </p>
                   <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-black">
@@ -192,8 +192,8 @@ const AdminPage = () => {
                       className="flex flex-wrap items-center justify-between gap-4 rounded-[20px] border border-amber-500/25 bg-amber-500/5 p-5"
                     >
                       <div>
-                        <p className="text-white font-medium">{req.email}</p>
-                        <p className="mt-1 text-xs text-white/45 font-mono-tech">
+                        <p className="text-foreground font-medium">{req.email}</p>
+                        <p className="mt-1 text-xs text-muted-foreground font-mono-tech">
                           {[req.country, req.phone, new Date(req.created_at).toLocaleString("ca-ES", { dateStyle: "short", timeStyle: "short" })]
                             .filter(Boolean).join(" · ")}
                         </p>
@@ -211,7 +211,7 @@ const AdminPage = () => {
                         <button
                           disabled={!!actionLoading}
                           onClick={() => updateStatus(req.id, "denied")}
-                          className="rounded-full border border-white/15 px-5 py-2 font-mono-tech text-[10px] uppercase tracking-[0.12em] text-white/50 hover:border-red-500/40 hover:text-red-400 transition-pdra"
+                          className="rounded-full border border-border px-5 py-2 font-mono-tech text-[10px] uppercase tracking-[0.12em] text-muted-foreground hover:border-red-500/40 hover:text-red-400 transition-pdra"
                         >
                           {actionLoading === req.id + "denied" ? "..." : "Denegar"}
                         </button>
@@ -225,23 +225,23 @@ const AdminPage = () => {
 
           {/* Taula de totes les sol·licituds */}
           <div>
-            <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-white/40 mb-4">
+            <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4">
               Totes les sol·licituds
             </p>
 
             {loadingRequests ? (
-              <div className="py-12 text-center text-white/30 text-sm">Carregant...</div>
+              <div className="py-12 text-center text-muted-foreground text-sm">Carregant...</div>
             ) : requests.length === 0 ? (
-              <div className="rounded-[20px] border border-dashed border-white/10 p-10 text-center text-white/30 text-sm">
+              <div className="rounded-[20px] border border-dashed border-border p-10 text-center text-muted-foreground text-sm">
                 Encara no hi ha sol·licituds
               </div>
             ) : (
-              <div className="rounded-[24px] border border-white/10 overflow-hidden">
+              <div className="rounded-[24px] border border-border overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/8 bg-white/[0.02]">
+                    <tr className="border-b border-border bg-surface/50">
                       {["Email", "País", "Pistes", "Reserva", "Estat", ""].map((h) => (
-                        <th key={h} className={`text-left px-5 py-3 font-mono-tech text-[10px] uppercase tracking-[0.16em] text-white/35 ${h === "" || h === "Pistes" || h === "Reserva" ? "hidden md:table-cell" : ""}`}>
+                        <th key={h} className={`text-left px-5 py-3 font-mono-tech text-[10px] uppercase tracking-[0.16em] text-muted-foreground/60 ${h === "" || h === "Pistes" || h === "Reserva" ? "hidden md:table-cell" : ""}`}>
                           {h}
                         </th>
                       ))}
@@ -249,11 +249,11 @@ const AdminPage = () => {
                   </thead>
                   <tbody>
                     {requests.map((req) => (
-                      <tr key={req.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-pdra">
-                        <td className="px-5 py-4 text-white/80">{req.email}</td>
-                        <td className="px-5 py-4 text-white/45 hidden md:table-cell">{req.country ?? "—"}</td>
-                        <td className="px-5 py-4 text-white/45 hidden md:table-cell font-mono-tech">{(req.unlocked_clues ?? []).length}/3</td>
-                        <td className="px-5 py-4 text-white/45 hidden md:table-cell font-mono-tech">{req.prebooked_size ?? "—"}</td>
+                      <tr key={req.id} className="border-b border-border/50 hover:bg-surface/30 transition-pdra">
+                        <td className="px-5 py-4 text-foreground/80">{req.email}</td>
+                        <td className="px-5 py-4 text-muted-foreground hidden md:table-cell">{req.country ?? "—"}</td>
+                        <td className="px-5 py-4 text-muted-foreground hidden md:table-cell font-mono-tech">{(req.unlocked_clues ?? []).length}/3</td>
+                        <td className="px-5 py-4 text-muted-foreground hidden md:table-cell font-mono-tech">{req.prebooked_size ?? "—"}</td>
                         <td className="px-5 py-4">
                           <span className={`rounded-full border px-3 py-1 font-mono-tech text-[10px] uppercase tracking-[0.14em] ${statusColors[req.status] ?? ""}`}>
                             {req.status}
@@ -262,8 +262,8 @@ const AdminPage = () => {
                         <td className="px-5 py-4 hidden md:table-cell">
                           {req.status === "pending" && (
                             <div className="flex gap-3 justify-end">
-                              <button onClick={() => updateStatus(req.id, "approved")} disabled={!!actionLoading} className="font-mono-tech text-[10px] uppercase tracking-[0.1em] text-emerald-400 hover:text-emerald-300 transition-pdra">Aprovar</button>
-                              <button onClick={() => updateStatus(req.id, "denied")} disabled={!!actionLoading} className="font-mono-tech text-[10px] uppercase tracking-[0.1em] text-red-400 hover:text-red-300 transition-pdra">Denegar</button>
+                              <button onClick={() => updateStatus(req.id, "approved")} disabled={!!actionLoading} className="font-mono-tech text-[10px] uppercase tracking-[0.1em] text-emerald-600 dark:text-emerald-400 hover:opacity-80 transition-pdra">Aprovar</button>
+                              <button onClick={() => updateStatus(req.id, "denied")} disabled={!!actionLoading} className="font-mono-tech text-[10px] uppercase tracking-[0.1em] text-red-500 dark:text-red-400 hover:opacity-80 transition-pdra">Denegar</button>
                             </div>
                           )}
                         </td>

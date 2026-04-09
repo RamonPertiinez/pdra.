@@ -60,7 +60,7 @@ const MontserratDrop = () => {
   // ── PRE-LAUNCH LOCKED STATE ──────────────────────────────────
   if (!isLaunchLive) {
     return (
-      <div className="min-h-screen bg-[#0b0a09]">
+      <div className="min-h-screen bg-background">
         <Header />
 
         <section className="relative min-h-screen flex items-center">
@@ -73,7 +73,7 @@ const MontserratDrop = () => {
             <div className="mx-auto max-w-6xl">
               <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center">
 
-                {/* Esquerra — text */}
+                {/* Esquerra — text (always white over the hero image) */}
                 <div className="max-w-3xl">
                   <FadeIn>
                     <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/30 px-4 py-2 backdrop-blur-md">
@@ -214,7 +214,7 @@ const MontserratDrop = () => {
       <section className="relative h-[70vh] flex items-end">
         <div className="absolute inset-0">
           <img src={heroImg} alt="Montserrat" className="w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 30%, hsl(30 20% 94% / 0.98))" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 30%, hsl(var(--background) / 0.98))" }} />
         </div>
         <div className="relative z-10 px-6 md:px-10 pb-12">
           <FadeIn>
@@ -252,7 +252,7 @@ const MontserratDrop = () => {
             </FadeIn>
 
             <FadeIn delay={0.2}>
-              <div className="mt-10 pt-8 space-y-4" style={{ borderTop: "1px solid hsl(25 10% 85% / 0.5)" }}>
+              <div className="mt-10 pt-8 border-t border-border space-y-4">
                 <p className="text-xs uppercase tracking-[0.15em] text-stone mb-4 font-mono-tech">{t("drop_technical")}</p>
                 <div className="grid grid-cols-2 gap-y-3 font-mono-tech text-xs">
                   <span className="text-stone">{t("drop_fit")}</span>
@@ -270,7 +270,7 @@ const MontserratDrop = () => {
             </FadeIn>
 
             <FadeIn delay={0.25}>
-              <div className="mt-8 pt-8" style={{ borderTop: "1px solid hsl(25 10% 85% / 0.5)" }}>
+              <div className="mt-8 pt-8 border-t border-border">
                 <div className="flex items-center justify-between mb-4">
                   <p className="text-xs uppercase tracking-[0.15em] text-stone font-mono-tech">{t("drop_availability")}</p>
                   <span className={`text-xs font-mono-tech ${isSoldOut ? "text-stone line-through" : "text-foreground"}`}>

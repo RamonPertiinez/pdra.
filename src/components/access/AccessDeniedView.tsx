@@ -6,25 +6,25 @@ const AccessDeniedView = () => {
   const { logout } = useApp();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0b0a09] text-white">
+    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <Header />
       <main className="relative flex min-h-screen flex-col items-center justify-center px-6">
         <div className="w-full max-w-sm text-center">
           <FadeUp>
             <Tag>Accés no autoritzat</Tag>
 
-            <h1 className="mt-7 text-4xl leading-[0.95] text-white">
+            <h1 className="mt-7 text-4xl leading-[0.95] text-foreground">
               Accés<br />
               <span className="text-red-400/60">denegat.</span>
             </h1>
 
-            <p className="mt-6 text-sm leading-relaxed text-white/44">
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
               La teva sol·licitud no ha estat acceptada en aquesta fase. Si creus que és un error, contacta'ns directament.
             </p>
 
             <button
               onClick={logout}
-              className="mt-10 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-white/20 transition-all hover:text-white/44"
+              className="mt-10 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-muted-foreground/40 transition-all hover:text-muted-foreground"
             >
               Tornar enrere
             </button>

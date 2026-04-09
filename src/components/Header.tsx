@@ -2,10 +2,9 @@ import { Link, useLocation } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
 import { useLanguage, languageLabels, Language } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 const languages: Language[] = ["ca", "en", "es"];
-
-const DARK_ROUTES = ["/access", "/drop/montserrat"];
 
 const Header = () => {
   const { state, logout } = useApp();
@@ -13,17 +12,10 @@ const Header = () => {
   const location = useLocation();
   const isLoggedIn = !!state.user.email;
 
-  // Determine if we're on a dark-background page
-  const isDark = DARK_ROUTES.some((route) => location.pathname === route || location.pathname.startsWith(route));
-
-  const bgStyle = isDark
-    ? "linear-gradient(to bottom, rgba(11,10,9,0.92), transparent)"
-    : "linear-gradient(to bottom, hsl(30 20% 94% / 0.9), transparent)";
-
-  const textBase = isDark ? "text-white/70 hover:text-white" : "text-stone hover:text-foreground";
-  const textActive = isDark ? "text-white" : "text-foreground";
-  const logoPrimary = isDark ? "text-white" : "text-foreground";
-  const dividerColor = isDark ? "bg-white/15" : "bg-stone/20";
+  const textBase = "text-muted-foreground hover:text-foreground";
+  const textActive = "text-foreground";
+  const logoPrimary = "text-foreground";
+  const dividerColor = "bg-border";
 
   return (
     <motion.header
@@ -31,7 +23,7 @@ const Header = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.2, 0, 0, 1] }}
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 py-5"
-      style={{ background: bgStyle }}
+      style={{ background: "linear-gradient(to bottom, hsl(var(--background) / 0.92), transparent)" }}
     >
       <Link to="/" className={`text-lg tracking-[-0.03em] transition-pdra ${logoPrimary}`}>
         pdra.
@@ -55,6 +47,11 @@ const Header = () => {
 
         <span className={`w-px h-3 ${dividerColor}`} />
 
+        {/* Theme toggle */}
+        <ThemeToggle />
+
+        <span className={`w-px h-3 ${dividerColor}`} />
+
         {/* Clue progress dots — visible when logged in */}
         {isLoggedIn && (
           <>
@@ -68,9 +65,7 @@ const Header = () => {
                     opacity: state.unlockedClues.includes(n) ? 1 : 0.25,
                   }}
                   transition={{ duration: 0.4, ease: [0.2, 0, 0, 1] }}
-                  className={`block h-1.5 w-1.5 rounded-full ${
-                    isDark ? "bg-white" : "bg-foreground"
-                  }`}
+                  className="block h-1.5 w-1.5 rounded-full bg-foreground"
                 />
               ))}
             </div>
@@ -103,7 +98,7 @@ const Header = () => {
 
         <Link
           to="/admin"
-          className={`relative text-xs uppercase tracking-[0.1em] transition-pdra ${isDark ? "text-white/20 hover:text-white/50" : "text-muted-foreground/50 hover:text-foreground"}`}
+          className="relative text-xs uppercase tracking-[0.1em] transition-pdra text-muted-foreground/50 hover:text-foreground"
         >
           ·
           {state.pendingCount > 0 && (

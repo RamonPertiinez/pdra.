@@ -12,11 +12,11 @@ const AccessPage = () => {
   // ── Loading ──────────────────────────────────────────────────────
   if (state.loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0b0a09]">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <motion.span
           animate={{ opacity: [0.2, 0.8, 0.2] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          className="font-mono-tech text-[11px] uppercase tracking-[0.3em] text-white/30"
+          className="font-mono-tech text-[11px] uppercase tracking-[0.3em] text-muted-foreground"
         >
           pdra.
         </motion.span>
